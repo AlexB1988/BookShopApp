@@ -14,7 +14,7 @@ namespace BookShopApp.Domain
         public DbSet<Book> Books { get; set; } = null;
         public DbSet<AuthorsBooks> AuthorsBooks { get; set; } = null;
         public DbSet<Publisher> Publishers { get; set; } = null;
-        public DbSet<QuantityAndCosts> QuantityAndCosts { get; set; } = null;
+        public DbSet<BookQuantity> BookQuantities { get; set; } = null;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

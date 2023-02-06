@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 
 namespace BookShopApp.Domain.Entities
 {
-    public class QuantityAndCosts
+    public class BookQuantity
     {
         public int Id { get; set; }
         public int BookId { get; set; } //т.к. устанолен внешний ключ, в таблице не будет дублей книг
         public Book Book { get; set; }
         public int Quantity { get; set; }
-        public decimal Costs { get; set; }
     }
 
 }

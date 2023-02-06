@@ -16,12 +16,14 @@ namespace BookShopApp.Domain.Entities
         public string Isbn { get; set; }
         public int PublisherId { get; set; }
         public Publisher Publisher { get; set; }
-        public QuantityAndCosts? QuantityAndCosts { get; set; }
+        public BookQuantity? BookQuantity { get; set; }
         public ICollection<Author> Authors { get; set; }
+        public ICollection<BookPrice> Prices { get; set; }
         public ICollection<AuthorsBooks> AuthorsBooks { get; set; }
 
         public Book()
         {
+            Prices=new HashSet<BookPrice>();
             Authors=new HashSet<Author>();
             AuthorsBooks=new List<AuthorsBooks>();
         }

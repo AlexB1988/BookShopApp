@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookShopApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230206184926_DataBaseProject")]
+    [Migration("20230206213006_DataBaseProject")]
     partial class DataBaseProject
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
