@@ -11,7 +11,7 @@ namespace BookShopApp.Domain.Entities
     public class Sales
     {
         public int Id { get; set; }
-        public decimal PriceId { get; set; }
+        public int PriceId { get; set; }
         public BookPrice Prices{ get; set; }
     }
 

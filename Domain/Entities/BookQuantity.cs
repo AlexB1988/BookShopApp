@@ -16,4 +16,12 @@ namespace BookShopApp.Domain.Entities
         public int Quantity { get; set; }
     }
 
+    public class BookQuantityConfiguration : IEntityTypeConfiguration<BookQuantity>
+    {
+        public void Configure(EntityTypeBuilder<BookQuantity> builder)
+        {
+            builder.HasKey(x => x.Id);
+        }
+    }
+
 }
