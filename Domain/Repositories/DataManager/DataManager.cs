@@ -19,9 +19,12 @@ namespace BookShopApp.Domain.Repositories.DataManager
             _dataContext=dataContext;
         }
         
-        public IQueryable<Book> GetBooks()
+        public IEnumerable<Book> GetBooks()
         {
-            var books = _dataContext.Books;
+            var books = _dataContext.Books.Include(x => x.Publisher)
+                                          .Include(x => x.BookQuantity)
+                                          .Include(x=>x.CurrentPrice)
+                                          .ToList();
             return books;
         }
 
@@ -31,7 +34,7 @@ namespace BookShopApp.Domain.Repositories.DataManager
             return book;
         }
 
-        public IQueryable<Book> GetBooksByAuthor(string name)
+        public IEnumerable<Book> GetBooksByAuthor(string name)
         {
             var books = from bookList in _dataContext.Books
                         join authorsBooks in _dataContext.AuthorsBooks on bookList.Id equals authorsBooks.BookId
@@ -40,7 +43,7 @@ namespace BookShopApp.Domain.Repositories.DataManager
                         select(bookList);
             return books;
         }
-        public IQueryable<Author> GetAuthorsOfBooks(Book book)
+        public IEnumerable<Author> GetAuthorsOfBooks(Book book)
         {
             var authorsList = from authors in _dataContext.Authors
                         join authorsBooks in _dataContext.AuthorsBooks on authors.Id equals authorsBooks.AuthorId
@@ -49,12 +52,12 @@ namespace BookShopApp.Domain.Repositories.DataManager
                         select (authors);
             return authorsList;
         }
-        public IQueryable<Book> GetBooksByPublisher(string name)
+        public IEnumerable<Book> GetBooksByPublisher(string name)
         {
             var books = _dataContext.Books.Include(x => x.Publisher).Where(x => x.Publisher.Name.Contains(name));
             return books;
         }
-       public IQueryable<Book> GetBookByName(string name)
+       public IEnumerable<Book> GetBookByName(string name)
         {
             var books = _dataContext.Books.Where(x => x.Name.Contains(name));
             return books;
@@ -68,6 +71,79 @@ namespace BookShopApp.Domain.Repositories.DataManager
                 return true;
             }
             return false;
+        }
+        public bool AddPublisher(Publisher publisher)
+        {
+            var existsPublisher = _dataContext.Publishers.FirstOrDefault(x => x.Name == publisher.Name);
+            if (existsPublisher == null && publisher is not null)
+            {
+
+
+                if (publisher.Name != "" && publisher.Name is not null)
+                {
+                    _dataContext.Add(publisher);
+                    _dataContext.SaveChanges();
+                    return true;
+                }
+                MessageBox.Show(
+                $"Некорректные данные\n" +
+                $"Введите наименование издатнльства",
+                "Ошибка",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error,
+                MessageBoxDefaultButton.Button1,
+                MessageBoxOptions.DefaultDesktopOnly);
+                return false;
+            }
+            else
+            {
+                MessageBox.Show(
+                $"Данный издатель уже есть в базе\n",
+                "Ошибка",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error,
+                MessageBoxDefaultButton.Button1,
+                MessageBoxOptions.DefaultDesktopOnly);
+                return false;
+
+            }
+        }
+
+        public bool AddAuthor(Author author)
+        {
+            var existsAuthor = _dataContext.Authors.FirstOrDefault(x => x.Name == author.Name);
+            if (existsAuthor != null)
+            {
+                MessageBox.Show(
+                $"Данный автор уже есть в базе\n",
+                "Ошибка",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error,
+                MessageBoxDefaultButton.Button1,
+                MessageBoxOptions.DefaultDesktopOnly);
+                return false;
+
+            }
+
+            else if (author.Name == "" || author.Name is null)
+            {
+                MessageBox.Show(
+                $"Некорректные данные\n" +
+                $"Введите имя автора",
+                "Ошибка",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error,
+                MessageBoxDefaultButton.Button1,
+                MessageBoxOptions.DefaultDesktopOnly);
+                return false;
+            }
+            else
+            {
+                _dataContext.Add(author);
+                _dataContext.SaveChanges();
+                return true;
+            }
+
         }
 
         public bool ChangeBookPrice(Book book, decimal price)
@@ -97,6 +173,10 @@ namespace BookShopApp.Domain.Repositories.DataManager
         {
             if (book is not null)
             {
+                //Прописать проверку на наличие продаж по книге 
+                //а также на удаление из BookPrice
+                var quantityBook = _dataContext.BookQuantities.Where(x => x.BookId == book.Id);
+                _dataContext.RemoveRange(quantityBook);
                 _dataContext.Books.Remove(book);
                 _dataContext.SaveChanges();
                 return true;

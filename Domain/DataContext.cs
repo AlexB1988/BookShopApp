@@ -16,7 +16,12 @@ namespace BookShopApp.Domain
         public DbSet<Publisher> Publishers { get; set; } = null;
         public DbSet<BookQuantity> BookQuantities { get; set; } = null;
         public DbSet<Sales> Sales { get; set; }=null;
+        public DbSet<CurrentPrice> CurrentPrice { get; set; } = null;
         public DbSet<BookPrice> BookPrice { get; set; } = null;
+        public DataContext()
+        {
+
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("DataSource=BookShopDb");

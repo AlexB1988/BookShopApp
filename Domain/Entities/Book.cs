@@ -17,6 +17,7 @@ namespace BookShopApp.Domain.Entities
         public int PublisherId { get; set; }
         public Publisher Publisher { get; set; }
         public BookQuantity? BookQuantity { get; set; }
+        public CurrentPrice? CurrentPrice { get; set; }
         public ICollection<Author> Authors { get; set; }
         public ICollection<BookPrice> Prices { get; set; }
         public ICollection<AuthorsBooks> AuthorsBooks { get; set; }

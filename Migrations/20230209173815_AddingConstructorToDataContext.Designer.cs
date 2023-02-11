@@ -3,6 +3,7 @@ using System;
 using BookShopApp.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookShopApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230209173815_AddingConstructorToDataContext")]
+    partial class AddingConstructorToDataContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.13");
@@ -140,26 +142,6 @@ namespace BookShopApp.Migrations
                     b.ToTable("BookQuantities");
                 });
 
-            modelBuilder.Entity("BookShopApp.Domain.Entities.CurrentPrice", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookId")
-                        .IsUnique();
-
-                    b.ToTable("CurrentPrice");
-                });
-
             modelBuilder.Entity("BookShopApp.Domain.Entities.Publisher", b =>
                 {
                     b.Property<int>("Id")
@@ -261,17 +243,6 @@ namespace BookShopApp.Migrations
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("BookShopApp.Domain.Entities.CurrentPrice", b =>
-                {
-                    b.HasOne("BookShopApp.Domain.Entities.Book", "Books")
-                        .WithOne("CurrentPrice")
-                        .HasForeignKey("BookShopApp.Domain.Entities.CurrentPrice", "BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Books");
-                });
-
             modelBuilder.Entity("BookShopApp.Domain.Entities.Sales", b =>
                 {
                     b.HasOne("BookShopApp.Domain.Entities.BookPrice", "Prices")
@@ -293,8 +264,6 @@ namespace BookShopApp.Migrations
                     b.Navigation("AuthorsBooks");
 
                     b.Navigation("BookQuantity");
-
-                    b.Navigation("CurrentPrice");
 
                     b.Navigation("Prices");
                 });
