@@ -12,6 +12,13 @@ using System.Windows.Forms;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using DevExpress.XtraEditors.Repository;
+using DevExpress.Utils.Extensions;
+using DevExpress.XtraGrid.Views.Base;
+using System.Collections;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraGrid.Columns;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookShopApp
 {
@@ -26,12 +33,25 @@ namespace BookShopApp
 
         private void BookShop_Load(object sender, EventArgs e)
         {
-            gridGetBookList.DataSource = _dataManager.GetBooks();
+            gridControlGetBookList.DataSource = _dataManager.GetBooks();
+        }
+        private void btnCreatePurchase_Click(object sender, EventArgs e)
+        {
+            GridView gridViewGetBooks = gridControlGetBookList.MainView as GridView;
+            var selectedRows=gridViewGetBooks.GetSelectedRows();
+            List<object> listOfPuchaseBooks= new List<object>();
+            foreach(var row in selectedRows )
+            {
+                var bookToPurchase = gridViewGetBooks.GetRow(row);
+                listOfPuchaseBooks.Add(bookToPurchase);
+            }
+            CreatePurchaseForm createPurchaseForm=new CreatePurchaseForm(_dataManager,listOfPuchaseBooks);
+            createPurchaseForm.Show();
         }
 
         private void btnBookList_Click(object sender, EventArgs e)
         {
-            gridGetBookList.DataSource = _dataManager.GetBooks();
+            gridControlGetBookList.DataSource = _dataManager.GetBooks();
         }
 
         private void btnAddPublisher_Click(object sender, EventArgs e)
@@ -44,6 +64,12 @@ namespace BookShopApp
         {
             AddAuthorForm addAuthorForm = new AddAuthorForm(_dataManager);
             addAuthorForm.Show();
+        }
+
+        private void btnAddBook_Click(object sender, EventArgs e)
+        {
+            AddBookForm addBookForm = new AddBookForm(_dataManager);
+            addBookForm.Show();
         }
     }
 }

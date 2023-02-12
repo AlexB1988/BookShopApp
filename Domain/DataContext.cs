@@ -18,6 +18,7 @@ namespace BookShopApp.Domain
         public DbSet<Sales> Sales { get; set; }=null;
         public DbSet<CurrentPrice> CurrentPrice { get; set; } = null;
         public DbSet<BookPrice> BookPrice { get; set; } = null;
+        public DbSet<CheckList> CheckList { get; set; } = null;
         public DataContext()
         {
 

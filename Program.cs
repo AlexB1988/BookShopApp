@@ -29,7 +29,6 @@ namespace BookShopApp
             builder.RegisterType<DataManager>();
             builder.RegisterType<DataContext>();
             builder.RegisterType<BookShopForm>();
-            builder.RegisterType<AddPublisherForm>();
             return builder.Build();
         }
     }

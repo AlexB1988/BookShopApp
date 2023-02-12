@@ -42,7 +42,7 @@ namespace BookShopApp.Domain.Entities
                 .HasForeignKey(z => z.AuthorId),
                 d =>
                 {
-                    d.HasKey(x => new { x.Id });
+                    d.HasKey(x => new { x.BookId,x.AuthorId });
                     d.ToTable("AuthorsBooks");
                 });
         }

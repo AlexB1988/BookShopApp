@@ -57,11 +57,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="authorBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btnOkAddAuthor.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnOkPuchaseBook.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vwAADr8BOAVTJAAAAUpJREFUOE+lk8FKAlEUht34DL2SGjkLg4p6gRaChe2KeoXWEWZQ40aRcDk2Gx+g
+        vAAADrwBlbxySQAAAUpJREFUOE+lk8FKAlEUht34DL2SGjkLg4p6gRaChe2KeoXWEWZQ40aRcDk2Gx+g
         QmrrgCC6KILcKHI8/+He41VnJGrgg5lzz//PPeeem9pueC5pJsPUmD4zNeAdMawhRzWueIu5Zj4ZSgBr
         yEHukgECTSZOFAdyxQRibAmucYlKrpFXTAyaNAxQ15cJxpKt79BF54ruuve0+7RvTVBOBgZojiY7fxAg
         Pu9c0nA8Ijw3b7eUq2uODwN0WAJY2GsdktcsiNFCPBRx7zui0/DMNejDAMckguOgSC+jV3p498VkWdyj
@@ -70,10 +73,10 @@
         rkJggg==
 </value>
   </data>
-  <data name="btnCancelAddAuthor.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnCancelPurchaseBook.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vwAADr8BOAVTJAAAAQFJREFUOE+lk0EOgjAQRdlwBqNcQRO2nEAOxgW8hG6VBQdCdKkrXMiizptSUrRN
+        vAAADrwBlbxySQAAAQFJREFUOE+lk0EOgjAQRdlwBqNcQRO2nEAOxgW8hG6VBQdCdKkrXMiizptSUrRN
         NDZ5sfkz8ztTS9JmmU8qbIW9cBaeI+zRiJEz1fjFC2En3AQTgRg55M4MEI5CqCgEuWpCMS3haoOrlWmX
         S/vraw6n2ZoUg1KwbUvCtSjMvarMJc+tkcAejZhnQk2JwWEUNJlEVl/XpttsFPYsYmrq8qUWg24SxJ3T
         +tNJCx5No7DQtKv5GB0GgyfoCd16PRWy2KO9nQ5D2EDa/jAQLWbwOcI4M4XOCC02QvgSZWbaBncnsUv8

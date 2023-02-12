@@ -12,7 +12,9 @@ namespace BookShopApp.Domain.Entities
     {
         public int Id { get; set; }
         public int PriceId { get; set; }
-        public BookPrice Prices{ get; set; }
+        public BookPrice Price{ get; set; }
+        public int CheckListId { get; set; }
+        public CheckList CheckList { get; set; }
     }
 
     public class SalesConfiguration : IEntityTypeConfiguration<Sales>
@@ -21,9 +23,12 @@ namespace BookShopApp.Domain.Entities
         {
             builder.HasKey(x => x.Id);
             builder.ToTable("Sales");
-            builder.HasOne(x => x.Prices)
+            builder.HasOne(x => x.Price)
                 .WithMany(x => x.Sales)
                 .HasForeignKey(x=>x.PriceId);
+            builder.HasOne(x => x.CheckList)
+                .WithMany(x => x.Sales)
+                .HasForeignKey(x => x.CheckListId);
         }
     }
 }
