@@ -83,6 +83,7 @@
             // colName
             // 
             this.colName.AccessibleName = "";
+            this.colName.Caption = "Наименование книги";
             this.colName.FieldName = "Name";
             this.colName.Name = "colName";
             this.colName.OptionsColumn.AllowEdit = false;
@@ -91,6 +92,7 @@
             // 
             // colPublisher
             // 
+            this.colPublisher.Caption = "Издательство";
             this.colPublisher.FieldName = "Publisher.Name";
             this.colPublisher.Name = "colPublisher";
             this.colPublisher.OptionsColumn.AllowEdit = false;
@@ -99,6 +101,7 @@
             // 
             // colYear
             // 
+            this.colYear.Caption = "Год издания";
             this.colYear.FieldName = "Year";
             this.colYear.Name = "colYear";
             this.colYear.OptionsColumn.AllowEdit = false;
@@ -107,6 +110,7 @@
             // 
             // colCurrentPrice
             // 
+            this.colCurrentPrice.Caption = "Цена";
             this.colCurrentPrice.FieldName = "CurrentPrice.Price";
             this.colCurrentPrice.Name = "colCurrentPrice";
             this.colCurrentPrice.OptionsColumn.AllowEdit = false;
@@ -115,6 +119,7 @@
             // 
             // colBookQuantity
             // 
+            this.colBookQuantity.Caption = "Кол-во на складе";
             this.colBookQuantity.FieldName = "BookQuantity.Quantity";
             this.colBookQuantity.Name = "colBookQuantity";
             this.colBookQuantity.OptionsColumn.AllowEdit = false;
@@ -123,6 +128,7 @@
             // 
             // colIsbn
             // 
+            this.colIsbn.Caption = "ISBN";
             this.colIsbn.FieldName = "Isbn";
             this.colIsbn.Name = "colIsbn";
             this.colIsbn.OptionsColumn.AllowEdit = false;

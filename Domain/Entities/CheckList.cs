@@ -10,7 +10,7 @@ namespace BookShopApp.Domain.Entities
     {
         public int Id { get; set; }
         public decimal Sum { get; set; }
-        public DateTime DateOfCheck { get; set; }
+        public DateTime DateOfCheck { get; set; } = DateTime.UtcNow;
         public ICollection<Sales> Sales { get; set; }
     }
 }

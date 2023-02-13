@@ -18,16 +18,6 @@ namespace BookShopApp.Domain.Repositories.DataManager
         {
             _dataContext=dataContext;
         }
-        public List<Book> GetPurchasedBooks(List<object> list)
-        {
-            List<Book> selectedBooks = new List<Book>();
-            foreach (var book in list)
-            {
-                selectedBooks.Add((Book)book);
-            }
-            //return selectedBooks;
-            return selectedBooks;
-        }
         public IEnumerable<Book> GetBooks()
         {
             var books = _dataContext.Books.Include(x => x.Publisher)
@@ -62,12 +52,12 @@ namespace BookShopApp.Domain.Repositories.DataManager
                         select(bookList);
             return books;
         }
-        public IEnumerable<Author> GetAuthorsOfBooks(Book book)
+        public IEnumerable<Author> GetAuthorsOfBooks(int bookId)
         {
             var authorsList = from authors in _dataContext.Authors
                         join authorsBooks in _dataContext.AuthorsBooks on authors.Id equals authorsBooks.AuthorId
                         join books in _dataContext.Books on authorsBooks.BookId equals books.Id
-                        where books.Id==book.Id
+                        where books.Id==bookId
                         select (authors);
             return authorsList;
         }
@@ -261,31 +251,75 @@ namespace BookShopApp.Domain.Repositories.DataManager
             return false;
         }
 
-        public bool SaleBook(Book book)
+        public bool SaleBook(List<object> list)
         {
-            if (book is not null)
+            try
             {
-                var bookQuantity = _dataContext.BookQuantities.FirstOrDefault(x => x.BookId == book.Id);
-                if (bookQuantity.Quantity==0)
-                {
-                    return false;
-                }
-                bookQuantity.Quantity -= 1;
+                var bookList = GetPurchasedBooks(list);
 
-                var bookPrice = _dataContext.BookPrice.FirstOrDefault(x => x.BookId == book.Id && x.DateEnd == null);
-                if(bookPrice is null)
+                var checkList = new CheckList
                 {
-                    return false;
-                }
-                var newSale = new Sales
-                {
-                    PriceId = bookPrice.Id
+                    Sum = 0
                 };
-                _dataContext.Add(newSale);
+
+                _dataContext.CheckList.Add(checkList);
+
+                foreach (var book in bookList)
+                {
+                    
+                    var bookQuantity = _dataContext.Books.FirstOrDefault(x => x.Id == book.Id);
+
+                    //int quantityToPurchase = book.BookQuantity.Quantity;
+
+                    //    if (bookQuantity.Quantity >= quantityToPurchase)
+                    //    {
+                    //        bookQuantity.Quantity -= quantityToPurchase;
+
+                    //        var currentPrice = _dataContext.CurrentPrice.FirstOrDefault(x => x.BookId == book.Id);
+
+                    //        checkList.Sum += (currentPrice.Price * quantityToPurchase);
+
+                    //        for (int i = 0; i < quantityToPurchase; i++)
+                    //        {
+                    //            var sales = new Sales
+                    //            {
+                    //                PriceId = currentPrice.Id,
+                    //                CheckList = checkList
+                    //            };
+                    //            _dataContext.Sales.Add(sales);
+                    //        }
+                    //    }
+                    //    else
+                    //    {
+                    //        continue;
+                    //    }
+                    int x = 0;
+                }
                 _dataContext.SaveChanges();
                 return true;
             }
-            return false;
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                $"{ex.Message}",
+                "Ошибка",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error,
+                MessageBoxDefaultButton.Button1,
+                MessageBoxOptions.DefaultDesktopOnly);
+                return false;
+            }
+        }
+
+        public List<Book> GetPurchasedBooks(List<object> list)
+        {
+            List<Book> selectedBooks = new List<Book>();
+            foreach (var book in list)
+            {
+                selectedBooks.Add(book as Book);
+            }
+            //return selectedBooks;
+            return selectedBooks;
         }
     }
 }
