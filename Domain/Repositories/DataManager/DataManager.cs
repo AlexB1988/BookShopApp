@@ -267,41 +267,61 @@ namespace BookShopApp.Domain.Repositories.DataManager
                 foreach (var book in bookList)
                 {
                     
-                    var bookQuantity = _dataContext.Books.FirstOrDefault(x => x.Id == book.Id);
+                    var bookQuantity = _dataContext.BookQuantities.FirstOrDefault(x => x.BookId == book.Id);
 
-                    //int quantityToPurchase = book.BookQuantity.Quantity;
+                    int quantityToPurchase = book.CountToPurchase;
 
-                    //    if (bookQuantity.Quantity >= quantityToPurchase)
-                    //    {
-                    //        bookQuantity.Quantity -= quantityToPurchase;
+                    if (bookQuantity.Quantity >= quantityToPurchase)
+                    {
+                        bookQuantity.Quantity -= quantityToPurchase;
 
-                    //        var currentPrice = _dataContext.CurrentPrice.FirstOrDefault(x => x.BookId == book.Id);
+                        var currentPrice = _dataContext.CurrentPrice.FirstOrDefault(x => x.BookId == book.Id);
 
-                    //        checkList.Sum += (currentPrice.Price * quantityToPurchase);
+                        checkList.Sum += (currentPrice.Price * quantityToPurchase);
 
-                    //        for (int i = 0; i < quantityToPurchase; i++)
-                    //        {
-                    //            var sales = new Sales
-                    //            {
-                    //                PriceId = currentPrice.Id,
-                    //                CheckList = checkList
-                    //            };
-                    //            _dataContext.Sales.Add(sales);
-                    //        }
-                    //    }
-                    //    else
-                    //    {
-                    //        continue;
-                    //    }
-                    int x = 0;
+                        for (int i = 0; i < quantityToPurchase; i++)
+                        {
+                            var sales = new Sales
+                            {
+                                PriceId = currentPrice.Id,
+                                CheckList = checkList
+                            };
+                            _dataContext.Sales.Add(sales);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                        $"{book.Name}\n" +
+                        $"Кол-ва экземпляров данной \n" +
+                        $"книги меньше, чем Вы запросили в чеке.\n" +
+                        $"Вернитесь в чек и измените данные.",
+                        "Ошибка",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error,
+                        MessageBoxDefaultButton.Button1,
+                        MessageBoxOptions.DefaultDesktopOnly);
+                        return false;
+                    }
+
+                    book.CountToPurchase = 1;
                 }
                 _dataContext.SaveChanges();
+                MessageBox.Show(
+                $"Покупка ена сумму:{checkList.Sum}\n" +
+                $"успешно совершена!",
+                "Уведомление",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1,
+                MessageBoxOptions.DefaultDesktopOnly);
                 return true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                $"{ex.Message}",
+                $"{ex.Message}\n" +
+                $"{ex.InnerException}",
                 "Ошибка",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error,
@@ -318,7 +338,6 @@ namespace BookShopApp.Domain.Repositories.DataManager
             {
                 selectedBooks.Add(book as Book);
             }
-            //return selectedBooks;
             return selectedBooks;
         }
     }

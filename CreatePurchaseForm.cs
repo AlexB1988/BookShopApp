@@ -30,17 +30,8 @@ namespace BookShopApp
         private void CreatePurchaseForm_Load(object sender, EventArgs e)
         {
             var selectedBooks=_dataManager.GetPurchasedBooks(_selectedBooksList);
-            foreach(var book in selectedBooks)
-            {
-                book.BookQuantity.Quantity = 1;
-            }
+
             gridControlPurchaseBook.DataSource = selectedBooks;
-            gridView1.Columns.Add(new GridColumn()
-                                  {
-                                        Caption="Сумма",
-                                        FieldName="TotalSum",
-                                        Visible=true,
-                                  });
         }
         private void btnOkPuchaseBook_Click(object sender, EventArgs e)
         {
@@ -57,14 +48,6 @@ namespace BookShopApp
                 bool result = _dataManager.SaleBook(purchaseBook);
                 if (result)
                 {
-                    MessageBox.Show(
-                    $"Покупка совершена",
-                    "Уведомление",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information,
-                    MessageBoxDefaultButton.Button1,
-                    MessageBoxOptions.DefaultDesktopOnly);
-
                     this.Close();
                 }
             }
