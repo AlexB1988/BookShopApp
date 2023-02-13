@@ -25,8 +25,8 @@ namespace BookShopApp.Domain
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("DataSource=BookShopDb");
+            optionsBuilder.UseSqlite("DataSource=C:\\Users\\bochi\\source\\repos\\BookShopApp\\BookShopDb");
         }
-
+        //"DataSource=bin\\Debug\\net6.0-windows\\BookShopDb"
     }
 }

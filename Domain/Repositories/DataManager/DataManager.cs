@@ -1,5 +1,7 @@
 ﻿using BookShopApp.Domain.Entities;
 using BookShopApp.Domain.Repositories.Interfaces;
+using DevExpress.XtraReports.Templates;
+using DevExpress.XtraSpreadsheet.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,13 +22,33 @@ namespace BookShopApp.Domain.Repositories.DataManager
         }
         public IEnumerable<Book> GetBooks()
         {
+            var booksTemp = _dataContext.Books.ToList();
+            foreach(var book in booksTemp)
+            {
+                if (book.AuthorsList is null || book.AuthorsList == "")
+                {
+                    var authorByBookId = GetAuthorsOfBooks(book.Id);
+
+                    string[] authors = new string[authorByBookId.Count()];
+                    int i = 0;
+                    foreach (var author in authorByBookId)
+                    {
+                        authors[i] = author.Name;
+                        i++;
+                    }
+                    string stringAuthors = string.Join(", ", authors);
+                    book.AuthorsList = stringAuthors;
+
+                }
+            }
+            _dataContext.SaveChanges();
             var books = _dataContext.Books.Include(x => x.Publisher)
-                                          .Include(x => x.BookQuantity)
-                                          .Include(x=>x.CurrentPrice)
-                                          .ToList();
+                              .Include(x => x.BookQuantity)
+                              .Include(x => x.CurrentPrice)
+                              .ToList();
             return books;
         }
-        public IEnumerable<Author> GetAuthors()
+        public IEnumerable<Entities.Author> GetAuthors()
         {
             var authors = _dataContext.Authors.ToList();
             return authors;
@@ -52,7 +74,7 @@ namespace BookShopApp.Domain.Repositories.DataManager
                         select(bookList);
             return books;
         }
-        public IEnumerable<Author> GetAuthorsOfBooks(int bookId)
+        public IEnumerable<Entities.Author> GetAuthorsOfBooks(int bookId)
         {
             var authorsList = from authors in _dataContext.Authors
                         join authorsBooks in _dataContext.AuthorsBooks on authors.Id equals authorsBooks.AuthorId
@@ -176,7 +198,7 @@ namespace BookShopApp.Domain.Repositories.DataManager
             }
         }
 
-        public bool AddAuthor(Author author)
+        public bool AddAuthor(Entities.Author author)
         {
             var existsAuthor = _dataContext.Authors.FirstOrDefault(x => x.Name == author.Name);
             if (existsAuthor != null)
@@ -303,9 +325,8 @@ namespace BookShopApp.Domain.Repositories.DataManager
                         MessageBoxOptions.DefaultDesktopOnly);
                         return false;
                     }
-
-                    book.CountToPurchase = 1;
                 }
+                
                 _dataContext.SaveChanges();
                 MessageBox.Show(
                 $"Покупка ена сумму:{checkList.Sum}\n" +

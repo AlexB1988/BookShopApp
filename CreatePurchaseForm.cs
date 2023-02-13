@@ -30,8 +30,13 @@ namespace BookShopApp
         private void CreatePurchaseForm_Load(object sender, EventArgs e)
         {
             var selectedBooks=_dataManager.GetPurchasedBooks(_selectedBooksList);
-
+            foreach(var book in selectedBooks)
+            {
+                book.CountToPurchase = 1;
+            }
             gridControlPurchaseBook.DataSource = selectedBooks;
+            //BookShopForm form = new BookShopForm(_dataManager);
+            //form.Enabled = false;
         }
         private void btnOkPuchaseBook_Click(object sender, EventArgs e)
         {

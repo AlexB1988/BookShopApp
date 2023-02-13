@@ -34,6 +34,7 @@
             this.gridControlGetBookList = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.colName = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colAuthorsList = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPublisher = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colYear = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colCurrentPrice = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -51,8 +52,9 @@
             // 
             // gridControlGetBookList
             // 
-            this.gridControlGetBookList.DataSource = typeof(BookShopApp.Domain.Entities.Book);
-            this.gridControlGetBookList.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.gridControlGetBookList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             gridLevelNode1.RelationName = "Level1";
             gridLevelNode2.RelationName = "Level2";
             this.gridControlGetBookList.LevelTree.Nodes.AddRange(new DevExpress.XtraGrid.GridLevelNode[] {
@@ -60,8 +62,9 @@
             gridLevelNode2});
             this.gridControlGetBookList.Location = new System.Drawing.Point(0, 125);
             this.gridControlGetBookList.MainView = this.gridView1;
+            this.gridControlGetBookList.MinimumSize = new System.Drawing.Size(1007, 387);
             this.gridControlGetBookList.Name = "gridControlGetBookList";
-            this.gridControlGetBookList.Size = new System.Drawing.Size(884, 387);
+            this.gridControlGetBookList.Size = new System.Drawing.Size(1007, 387);
             this.gridControlGetBookList.TabIndex = 0;
             this.gridControlGetBookList.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -70,6 +73,7 @@
             // 
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.colName,
+            this.colAuthorsList,
             this.colPublisher,
             this.colYear,
             this.colCurrentPrice,
@@ -89,6 +93,14 @@
             this.colName.OptionsColumn.AllowEdit = false;
             this.colName.Visible = true;
             this.colName.VisibleIndex = 1;
+            // 
+            // colAuthorsList
+            // 
+            this.colAuthorsList.Caption = "Авторы";
+            this.colAuthorsList.FieldName = "AuthorsList";
+            this.colAuthorsList.Name = "colAuthorsList";
+            this.colAuthorsList.Visible = true;
+            this.colAuthorsList.VisibleIndex = 6;
             // 
             // colPublisher
             // 
@@ -133,7 +145,7 @@
             this.colIsbn.Name = "colIsbn";
             this.colIsbn.OptionsColumn.AllowEdit = false;
             this.colIsbn.Visible = true;
-            this.colIsbn.VisibleIndex = 6;
+            this.colIsbn.VisibleIndex = 7;
             // 
             // windowsuiButtonPanel1
             // 
@@ -151,9 +163,10 @@
             this.btnBookList.FlatAppearance.BorderSize = 0;
             this.btnBookList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBookList.Image = global::BookShopApp.Properties.Resources._301699_1_;
-            this.btnBookList.Location = new System.Drawing.Point(12, -2);
+            this.btnBookList.Location = new System.Drawing.Point(0, 0);
+            this.btnBookList.MinimumSize = new System.Drawing.Size(119, 125);
             this.btnBookList.Name = "btnBookList";
-            this.btnBookList.Size = new System.Drawing.Size(104, 99);
+            this.btnBookList.Size = new System.Drawing.Size(119, 125);
             this.btnBookList.TabIndex = 2;
             this.btnBookList.Text = "Список книг";
             this.btnBookList.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -165,13 +178,13 @@
             this.btnAddPublisher.FlatAppearance.BorderSize = 0;
             this.btnAddPublisher.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddPublisher.Image = ((System.Drawing.Image)(resources.GetObject("btnAddPublisher.Image")));
-            this.btnAddPublisher.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddPublisher.Location = new System.Drawing.Point(122, 2);
+            this.btnAddPublisher.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.btnAddPublisher.Location = new System.Drawing.Point(125, 20);
             this.btnAddPublisher.Name = "btnAddPublisher";
             this.btnAddPublisher.Size = new System.Drawing.Size(133, 31);
             this.btnAddPublisher.TabIndex = 3;
             this.btnAddPublisher.Text = "Добавить издателя";
-            this.btnAddPublisher.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnAddPublisher.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             this.btnAddPublisher.UseVisualStyleBackColor = true;
             this.btnAddPublisher.Click += new System.EventHandler(this.btnAddPublisher_Click);
             // 
@@ -180,13 +193,13 @@
             this.btnAddAuthor.FlatAppearance.BorderSize = 0;
             this.btnAddAuthor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddAuthor.Image = ((System.Drawing.Image)(resources.GetObject("btnAddAuthor.Image")));
-            this.btnAddAuthor.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddAuthor.Location = new System.Drawing.Point(122, 36);
+            this.btnAddAuthor.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.btnAddAuthor.Location = new System.Drawing.Point(125, 57);
             this.btnAddAuthor.Name = "btnAddAuthor";
             this.btnAddAuthor.Size = new System.Drawing.Size(133, 31);
             this.btnAddAuthor.TabIndex = 4;
             this.btnAddAuthor.Text = "Добавить автора";
-            this.btnAddAuthor.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnAddAuthor.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             this.btnAddAuthor.UseVisualStyleBackColor = true;
             this.btnAddAuthor.Click += new System.EventHandler(this.btnAddAuthor_Click);
             // 
@@ -195,24 +208,26 @@
             this.btnAddBook.FlatAppearance.BorderSize = 0;
             this.btnAddBook.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddBook.Image = ((System.Drawing.Image)(resources.GetObject("btnAddBook.Image")));
-            this.btnAddBook.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddBook.Location = new System.Drawing.Point(122, 70);
+            this.btnAddBook.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.btnAddBook.Location = new System.Drawing.Point(125, 94);
             this.btnAddBook.Name = "btnAddBook";
             this.btnAddBook.Size = new System.Drawing.Size(133, 31);
             this.btnAddBook.TabIndex = 5;
             this.btnAddBook.Text = "Добавить книгу";
-            this.btnAddBook.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnAddBook.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             this.btnAddBook.UseVisualStyleBackColor = true;
             this.btnAddBook.Click += new System.EventHandler(this.btnAddBook_Click);
             // 
             // btnCreatePurchase
             // 
+            this.btnCreatePurchase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCreatePurchase.FlatAppearance.BorderSize = 0;
             this.btnCreatePurchase.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCreatePurchase.Image = ((System.Drawing.Image)(resources.GetObject("btnCreatePurchase.Image")));
-            this.btnCreatePurchase.Location = new System.Drawing.Point(285, -2);
+            this.btnCreatePurchase.Location = new System.Drawing.Point(888, 0);
+            this.btnCreatePurchase.MinimumSize = new System.Drawing.Size(119, 125);
             this.btnCreatePurchase.Name = "btnCreatePurchase";
-            this.btnCreatePurchase.Size = new System.Drawing.Size(119, 99);
+            this.btnCreatePurchase.Size = new System.Drawing.Size(119, 125);
             this.btnCreatePurchase.TabIndex = 6;
             this.btnCreatePurchase.Text = "Оформить покупку";
             this.btnCreatePurchase.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -223,7 +238,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(884, 512);
+            this.ClientSize = new System.Drawing.Size(1007, 512);
             this.Controls.Add(this.btnCreatePurchase);
             this.Controls.Add(this.btnAddBook);
             this.Controls.Add(this.btnAddAuthor);
@@ -231,6 +246,7 @@
             this.Controls.Add(this.btnBookList);
             this.Controls.Add(this.windowsuiButtonPanel1);
             this.Controls.Add(this.gridControlGetBookList);
+            this.MinimumSize = new System.Drawing.Size(1009, 544);
             this.Name = "BookShopForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
             this.Text = "Книжный склад";
@@ -258,5 +274,6 @@
         private Button btnAddAuthor;
         private Button btnAddBook;
         private Button btnCreatePurchase;
+        private DevExpress.XtraGrid.Columns.GridColumn colAuthorsList;
     }
 }
