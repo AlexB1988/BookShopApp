@@ -18,10 +18,12 @@ namespace BookShopApp
     public partial class AddBookForm : DevExpress.XtraEditors.XtraForm
     {
         IDataManager _dataManager;
-        public AddBookForm(IDataManager dataManager)
+        BookShopForm _bookShopForm;
+        public AddBookForm(IDataManager dataManager, BookShopForm bookShopForm)
         {
             _dataManager = dataManager;
             InitializeComponent();
+            _bookShopForm = bookShopForm;
         }
 
         private void btnOkAddBook_Click(object sender, EventArgs e)
@@ -36,6 +38,7 @@ namespace BookShopApp
             var authorList = authorListString.ToString().Split(",").ToList();
             _dataManager.AddBook(bookName,bookYear,bookIsbn,bookQuantity,bookPrice,selectedPublisher,authorList);
             this.Close();
+            _bookShopForm.Enabled = true;
         }
 
         private void AddBookForm_Load(object sender, EventArgs e)
@@ -53,19 +56,25 @@ namespace BookShopApp
 
         private void btnAddPublisherInBookForm_Click(object sender, EventArgs e)
         {
-            AddPublisherForm addPublisherForm = new AddPublisherForm(_dataManager);
+            AddPublisherForm addPublisherForm = new AddPublisherForm(_dataManager,_bookShopForm);
             addPublisherForm.Show();
         }
 
         private void btnAddAuthorInBookForm_Click(object sender, EventArgs e)
         {
-            AddAuthorForm addAuthorForm = new AddAuthorForm(_dataManager);
+            AddAuthorForm addAuthorForm = new AddAuthorForm(_dataManager,_bookShopForm);
             addAuthorForm.Show();
         }
 
         private void btnCancelAddBook_Click(object sender, EventArgs e)
         {
             this.Close();
+            _bookShopForm.Enabled = true;
+        }
+
+        private void AddBookForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _bookShopForm.Enabled = true;
         }
     }
 }

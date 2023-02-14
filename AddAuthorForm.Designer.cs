@@ -94,6 +94,8 @@
             this.Name = "AddAuthorForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Добавление автора";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AddAuthorForm_FormClosed);
+            this.Load += new System.EventHandler(this.AddAuthorForm_Load);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.AddAuthorForm_KeyUp);
             this.ResumeLayout(false);
             this.PerformLayout();

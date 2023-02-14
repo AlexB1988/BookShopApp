@@ -15,10 +15,12 @@ namespace BookShopApp
     public partial class AddAuthorForm : Form
     {
         IDataManager _dataManager;
-        public AddAuthorForm(IDataManager dataManager)
+        public BookShopForm _bookShopForm;
+        public AddAuthorForm(IDataManager dataManager, BookShopForm bookShopForm)
         {
-            _dataManager= dataManager;
+            _dataManager = dataManager;
             InitializeComponent();
+            _bookShopForm = bookShopForm;
         }
 
         private void btnOkAddAuthor_Click(object sender, EventArgs e)
@@ -30,16 +32,28 @@ namespace BookShopApp
             };
             bool result = _dataManager.AddAuthor(author);
             this.Close();
+            _bookShopForm.Enabled = true;
         }
 
         private void btnCancelAddAuthor_Click(object sender, EventArgs e)
         {
             this.Close();
+            _bookShopForm.Enabled = true;
         }
 
         private void AddAuthorForm_KeyUp(object sender, KeyEventArgs e)
         {
 
+        }
+
+        private void AddAuthorForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AddAuthorForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _bookShopForm.Enabled = true;
         }
     }
 }

@@ -21,11 +21,13 @@ namespace BookShopApp
     {
         IDataManager _dataManager;
         List<object> _selectedBooksList;
-        public CreatePurchaseForm(IDataManager dataManager,List<object> list)
+        BookShopForm _bookShopForm;
+        public CreatePurchaseForm(IDataManager dataManager,List<object> list,BookShopForm bookShopForm)
         {
-            _dataManager= dataManager;
-            _selectedBooksList = list;
             InitializeComponent();
+            _bookShopForm= bookShopForm;
+            _dataManager = dataManager;
+            _selectedBooksList = list;
         }
         private void CreatePurchaseForm_Load(object sender, EventArgs e)
         {
@@ -42,6 +44,9 @@ namespace BookShopApp
         {
             if (gridView1.RowCount > 0)
             {
+                this.Enabled = false;
+
+
                 int rowIndex = 0;
                 List<object> purchaseBook = new List<object>();
                 while (gridView1.IsValidRowHandle(rowIndex))
@@ -49,27 +54,46 @@ namespace BookShopApp
                     purchaseBook.Add(gridView1.GetRow(rowIndex));
                     rowIndex++;
                 }
-
                 bool result = _dataManager.SaleBook(purchaseBook);
-                if (result)
-                {
-                    this.Close();
-                }
             }
+            _bookShopForm.Enabled = true;
+
+            this.Close();
         }
 
         private void btnCancelPurchaseBook_Click(object sender, EventArgs e)
         {
             this.Close();
+            _bookShopForm.Enabled = true;
         }
 
-        private void gridView1_CellValueChanged(object sender,CellValueChangedEventArgs e)
+        private void CreatePurchaseForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            var gridView=sender as DevExpress.XtraGrid.Views.Grid.GridView;
-            if (gridView == null) return;
-            if (e.Column.Caption != "TotalSum") return;
-            string cellValue = (int.Parse(e.Value.ToString())*decimal.Parse(gridView.GetRowCellValue(e.RowHandle, gridView.Columns["Price"]).ToString())).ToString();
-            gridView.SetRowCellValue(e.RowHandle, gridView.Columns["TotalSum"], cellValue);
+            _bookShopForm.Enabled = true;
+        }
+
+        private void gridView1_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
+        {
+            if (gridView1.FocusedColumn.FieldName== "CountToPurchase")
+            {
+                int count = 0;
+                if(int.TryParse(e.Value as String,out count))
+                {
+                    e.Valid = false;
+                    e.ErrorText = "Значение колонки должно иметь целое положительное значение";
+                }
+                else if (count <= 0)
+                {
+                    e.Valid = false;
+                    e.ErrorText = "Значение колонки должно иметь целое положительное значение";
+                }
+            }
+        }
+
+        private void gridView1_InvalidValueException(object sender, DevExpress.XtraEditors.Controls.InvalidValueExceptionEventArgs e)
+        {
+            MessageBox.Show(this,e.ErrorText,"Неверное значение",MessageBoxButtons.OK, MessageBoxIcon.Error);
+            this.Close();
         }
     }
 }

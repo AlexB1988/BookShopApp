@@ -15,10 +15,12 @@ namespace BookShopApp
     public partial class AddPublisherForm : Form
     {
         public IDataManager _dataManager;
-        public AddPublisherForm(IDataManager dataManager)
+        public BookShopForm _bookShopForm;
+        public AddPublisherForm(IDataManager dataManager,BookShopForm bookShopForm)
         {
             _dataManager = dataManager;
             InitializeComponent();
+            _bookShopForm= bookShopForm;
         }
 
         private void btnOkAddPublisher_Click(object sender, EventArgs e)
@@ -30,6 +32,7 @@ namespace BookShopApp
             };
             bool result =_dataManager.AddPublisher(publisher);
             this.Close();
+            _bookShopForm.Enabled=true;
         }
 
         private void AddPublisherForm_Load(object sender, EventArgs e)
@@ -40,11 +43,17 @@ namespace BookShopApp
         private void btnCancelAddPublisher_Click(object sender, EventArgs e)
         {
             this.Close();
+            _bookShopForm.Enabled = true;
         }
 
         private void AddPublisherForm_KeyUp(object sender, KeyEventArgs e)
         {
 
+        }
+
+        private void AddPublisherForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _bookShopForm.Enabled = true;
         }
     }
 }

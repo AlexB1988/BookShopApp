@@ -235,11 +235,11 @@ namespace BookShopApp.Domain.Repositories.DataManager
 
         }
 
-        public bool ChangeBookPrice(Book book, decimal price)
+        public bool ChangeBookPrice(int Id, decimal price)
         {
-            if (book is not null)
+            if (decimal.TryParse(price.ToString(),out var result))
             {
-                var oldBookPrice = _dataContext.BookPrice.FirstOrDefault(x => x.BookId == book.Id && x.DateEnd == null);
+                var oldBookPrice = _dataContext.BookPrice.FirstOrDefault(x => x.BookId == Id && x.DateEnd == null);
                 if (oldBookPrice is null)
                 {
                     return false;
@@ -247,7 +247,7 @@ namespace BookShopApp.Domain.Repositories.DataManager
                 oldBookPrice.DateEnd = DateTime.UtcNow;
                 var newBookPrice = new BookPrice
                 {
-                    BookId=book.Id,
+                    BookId=Id,
                     Price = price,
                     DateBegin=DateTime.UtcNow
                 };
@@ -258,14 +258,16 @@ namespace BookShopApp.Domain.Repositories.DataManager
             return false;
         }
 
-        public bool DeleteBook(Book book)
+        public bool DeleteBook(int Id)
         {
-            if (book is not null)
+            var sales = _dataContext.Sales.Include(x => x.Price).Where(x=>x.Price.BookId==Id);
+            if (sales is null)
             {
                 //Прописать проверку на наличие продаж по книге 
                 //а также на удаление из BookPrice
-                var quantityBook = _dataContext.BookQuantities.Where(x => x.BookId == book.Id);
+                var quantityBook = _dataContext.BookQuantities.Where(x => x.BookId == Id);
                 _dataContext.RemoveRange(quantityBook);
+                var book = _dataContext.Books.FirstOrDefault(x => x.Id == Id);
                 _dataContext.Books.Remove(book);
                 _dataContext.SaveChanges();
                 return true;
@@ -326,17 +328,30 @@ namespace BookShopApp.Domain.Repositories.DataManager
                         return false;
                     }
                 }
-                
-                _dataContext.SaveChanges();
-                MessageBox.Show(
-                $"Покупка ена сумму:{checkList.Sum}\n" +
-                $"успешно совершена!",
-                "Уведомление",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly);
-                return true;
+                if (MessageBox.Show(
+                    $"Сумма покупки:{checkList.Sum} руб.\n" +
+                    $"Продолжить?",
+                    "Уведомление",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1,
+                    MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
+                {
+                    _dataContext.SaveChanges();
+                    MessageBox.Show(
+                    $"Покупка ена сумму:{checkList.Sum} руб.\n" +
+                    $"успешно совершена!",
+                    "Уведомление",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1,
+                    MessageBoxOptions.DefaultDesktopOnly);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception ex)
             {

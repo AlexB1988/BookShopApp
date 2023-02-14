@@ -22,7 +22,7 @@ namespace BookShopApp.Domain.Repositories.Interfaces
         public bool AddPublisher(Publisher publisher);
         public bool AddAuthor(Author author);
         public bool SaleBook(List<object> list);
-        public bool DeleteBook(Book book);
-        public bool ChangeBookPrice(Book book, decimal price);
+        public bool DeleteBook(int ID);
+        public bool ChangeBookPrice(int Id, decimal price);
     }
 }

@@ -46,6 +46,7 @@
             this.btnAddAuthor = new System.Windows.Forms.Button();
             this.btnAddBook = new System.Windows.Forms.Button();
             this.btnCreatePurchase = new System.Windows.Forms.Button();
+            this.btnGetReports = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlGetBookList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.SuspendLayout();
@@ -234,11 +235,27 @@
             this.btnCreatePurchase.UseVisualStyleBackColor = true;
             this.btnCreatePurchase.Click += new System.EventHandler(this.btnCreatePurchase_Click);
             // 
+            // btnGetReports
+            // 
+            this.btnGetReports.FlatAppearance.BorderSize = 0;
+            this.btnGetReports.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGetReports.Image = ((System.Drawing.Image)(resources.GetObject("btnGetReports.Image")));
+            this.btnGetReports.Location = new System.Drawing.Point(264, 0);
+            this.btnGetReports.MinimumSize = new System.Drawing.Size(119, 125);
+            this.btnGetReports.Name = "btnGetReports";
+            this.btnGetReports.Size = new System.Drawing.Size(119, 125);
+            this.btnGetReports.TabIndex = 7;
+            this.btnGetReports.Text = "Отчёты";
+            this.btnGetReports.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnGetReports.UseVisualStyleBackColor = true;
+            this.btnGetReports.Click += new System.EventHandler(this.btnGetReports_Click);
+            // 
             // BookShopForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1007, 512);
+            this.Controls.Add(this.btnGetReports);
             this.Controls.Add(this.btnCreatePurchase);
             this.Controls.Add(this.btnAddBook);
             this.Controls.Add(this.btnAddAuthor);
@@ -248,7 +265,7 @@
             this.Controls.Add(this.gridControlGetBookList);
             this.MinimumSize = new System.Drawing.Size(1009, 544);
             this.Name = "BookShopForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Книжный склад";
             this.Load += new System.EventHandler(this.BookShop_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlGetBookList)).EndInit();
@@ -275,5 +292,6 @@
         private Button btnAddBook;
         private Button btnCreatePurchase;
         private DevExpress.XtraGrid.Columns.GridColumn colAuthorsList;
+        private Button btnGetReports;
     }
 }

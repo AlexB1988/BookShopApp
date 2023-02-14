@@ -71,6 +71,8 @@
             this.colCountToPurchase});
             this.gridView1.GridControl = this.gridControlPurchaseBook;
             this.gridView1.Name = "gridView1";
+            this.gridView1.ValidatingEditor += new DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventHandler(this.gridView1_ValidatingEditor);
+            this.gridView1.InvalidValueException += new DevExpress.XtraEditors.Controls.InvalidValueExceptionEventHandler(this.gridView1_InvalidValueException);
             // 
             // colName
             // 
@@ -180,7 +182,9 @@
             this.Controls.Add(this.btnOkPuchaseBook);
             this.Controls.Add(this.gridControlPurchaseBook);
             this.Name = "CreatePurchaseForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Оформить покупку";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CreatePurchaseForm_FormClosed);
             this.Load += new System.EventHandler(this.CreatePurchaseForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlPurchaseBook)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();

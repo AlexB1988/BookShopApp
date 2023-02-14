@@ -250,6 +250,7 @@
             this.Name = "AddBookForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Добавление книги";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AddBookForm_FormClosed);
             this.Load += new System.EventHandler(this.AddBookForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxAddBookPublisher.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxAddBookAuthors.Properties)).EndInit();
