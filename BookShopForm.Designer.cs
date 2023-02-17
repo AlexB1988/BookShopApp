@@ -47,6 +47,7 @@
             this.btnAddBook = new System.Windows.Forms.Button();
             this.btnCreatePurchase = new System.Windows.Forms.Button();
             this.btnGetReports = new System.Windows.Forms.Button();
+            this.btnChangePrice = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlGetBookList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.SuspendLayout();
@@ -221,26 +222,27 @@
             // 
             // btnCreatePurchase
             // 
-            this.btnCreatePurchase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCreatePurchase.FlatAppearance.BorderSize = 0;
             this.btnCreatePurchase.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCreatePurchase.Image = ((System.Drawing.Image)(resources.GetObject("btnCreatePurchase.Image")));
-            this.btnCreatePurchase.Location = new System.Drawing.Point(888, 0);
-            this.btnCreatePurchase.MinimumSize = new System.Drawing.Size(119, 125);
+            this.btnCreatePurchase.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.btnCreatePurchase.Location = new System.Drawing.Point(291, 20);
+            this.btnCreatePurchase.MinimumSize = new System.Drawing.Size(133, 31);
             this.btnCreatePurchase.Name = "btnCreatePurchase";
-            this.btnCreatePurchase.Size = new System.Drawing.Size(119, 125);
+            this.btnCreatePurchase.Size = new System.Drawing.Size(133, 31);
             this.btnCreatePurchase.TabIndex = 6;
             this.btnCreatePurchase.Text = "Оформить покупку";
-            this.btnCreatePurchase.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnCreatePurchase.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             this.btnCreatePurchase.UseVisualStyleBackColor = true;
             this.btnCreatePurchase.Click += new System.EventHandler(this.btnCreatePurchase_Click);
             // 
             // btnGetReports
             // 
+            this.btnGetReports.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnGetReports.FlatAppearance.BorderSize = 0;
             this.btnGetReports.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGetReports.Image = ((System.Drawing.Image)(resources.GetObject("btnGetReports.Image")));
-            this.btnGetReports.Location = new System.Drawing.Point(264, 0);
+            this.btnGetReports.Location = new System.Drawing.Point(888, 0);
             this.btnGetReports.MinimumSize = new System.Drawing.Size(119, 125);
             this.btnGetReports.Name = "btnGetReports";
             this.btnGetReports.Size = new System.Drawing.Size(119, 125);
@@ -250,11 +252,26 @@
             this.btnGetReports.UseVisualStyleBackColor = true;
             this.btnGetReports.Click += new System.EventHandler(this.btnGetReports_Click);
             // 
+            // btnChangePrice
+            // 
+            this.btnChangePrice.FlatAppearance.BorderSize = 0;
+            this.btnChangePrice.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnChangePrice.Image = ((System.Drawing.Image)(resources.GetObject("btnChangePrice.Image")));
+            this.btnChangePrice.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.btnChangePrice.Location = new System.Drawing.Point(291, 57);
+            this.btnChangePrice.Name = "btnChangePrice";
+            this.btnChangePrice.Size = new System.Drawing.Size(133, 31);
+            this.btnChangePrice.TabIndex = 8;
+            this.btnChangePrice.Text = "Изменить цену";
+            this.btnChangePrice.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.btnChangePrice.UseVisualStyleBackColor = true;
+            // 
             // BookShopForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1007, 512);
+            this.Controls.Add(this.btnChangePrice);
             this.Controls.Add(this.btnGetReports);
             this.Controls.Add(this.btnCreatePurchase);
             this.Controls.Add(this.btnAddBook);
@@ -293,5 +310,6 @@
         private Button btnCreatePurchase;
         private DevExpress.XtraGrid.Columns.GridColumn colAuthorsList;
         private Button btnGetReports;
+        private Button btnChangePrice;
     }
 }

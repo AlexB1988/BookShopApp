@@ -6,9 +6,9 @@ using System.Drawing;
 
 namespace BookShopApp
 {
-    public partial class BooksOfAuthor : DevExpress.XtraReports.UI.XtraReport
+    public partial class PurchaseBooksReport : DevExpress.XtraReports.UI.XtraReport
     {
-        public BooksOfAuthor()
+        public PurchaseBooksReport()
         {
             InitializeComponent();
         }

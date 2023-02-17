@@ -22,13 +22,19 @@ namespace BookShopApp
 
         private void btnAuthorBooks_Click(object sender, EventArgs e)
         {
-            BooksOfAuthor booksOfAuthor = new BooksOfAuthor();
+            BooksOfAuthorReport booksOfAuthor = new BooksOfAuthorReport();
             booksOfAuthor.ShowPreview();
         }
 
         private void ReportsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             _bookShopForm.Enabled=true;
+        }
+
+        private void btnPurchasesReport_Click(object sender, EventArgs e)
+        {
+            PurchaseBooksReport purchaseBooksReport = new PurchaseBooksReport();
+            purchaseBooksReport.ShowPreview();
         }
     }
 }

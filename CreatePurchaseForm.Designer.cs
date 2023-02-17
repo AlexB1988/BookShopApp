@@ -35,7 +35,6 @@
             this.colName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colBookQuantity = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colCurrentPrice = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colCountToPurchase = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -43,6 +42,7 @@
             this.authorBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnOkPuchaseBook = new System.Windows.Forms.Button();
             this.btnCancelPurchaseBook = new System.Windows.Forms.Button();
+            this.colCountOrPrice = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlPurchaseBook)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
@@ -68,7 +68,7 @@
             this.colName,
             this.colBookQuantity,
             this.colCurrentPrice,
-            this.colCountToPurchase});
+            this.colCountOrPrice});
             this.gridView1.GridControl = this.gridControlPurchaseBook;
             this.gridView1.Name = "gridView1";
             this.gridView1.ValidatingEditor += new DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventHandler(this.gridView1_ValidatingEditor);
@@ -100,14 +100,6 @@
             this.colCurrentPrice.OptionsColumn.AllowEdit = false;
             this.colCurrentPrice.Visible = true;
             this.colCurrentPrice.VisibleIndex = 2;
-            // 
-            // colCountToPurchase
-            // 
-            this.colCountToPurchase.Caption = "Покупаемое кол-во";
-            this.colCountToPurchase.FieldName = "CountToPurchase";
-            this.colCountToPurchase.Name = "colCountToPurchase";
-            this.colCountToPurchase.Visible = true;
-            this.colCountToPurchase.VisibleIndex = 3;
             // 
             // gridView2
             // 
@@ -173,6 +165,13 @@
             this.btnCancelPurchaseBook.UseVisualStyleBackColor = true;
             this.btnCancelPurchaseBook.Click += new System.EventHandler(this.btnCancelPurchaseBook_Click);
             // 
+            // colCountOrPrice
+            // 
+            this.colCountOrPrice.FieldName = "CountOrPrice";
+            this.colCountOrPrice.Name = "colCountOrPrice";
+            this.colCountOrPrice.Visible = true;
+            this.colCountOrPrice.VisibleIndex = 3;
+            // 
             // CreatePurchaseForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -208,6 +207,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
-        private DevExpress.XtraGrid.Columns.GridColumn colCountToPurchase;
+        private DevExpress.XtraGrid.Columns.GridColumn colCountOrPrice;
     }
 }

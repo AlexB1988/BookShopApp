@@ -21,12 +21,15 @@ using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Columns;
 using Microsoft.EntityFrameworkCore;
 using DevExpress.XtraReports.UI;
+using BookShopApp.Services;
+using BookShopApp.Interfaces;
 
 namespace BookShopApp
 {
     public partial class BookShopForm : DevExpress.XtraEditors.XtraForm
     {
         IDataManager _dataManager;
+        IAdBookInterface _addBookService;
         public BookShopForm(IDataManager dataManager)
         {
             InitializeComponent();
@@ -75,7 +78,7 @@ namespace BookShopApp
         private void btnAddBook_Click(object sender, EventArgs e)
         {
             this.Enabled = false;
-            AddBookForm addBookForm = new AddBookForm(_dataManager,this);
+            AddBookForm addBookForm = new AddBookForm(_dataManager,_addBookService, this);
             addBookForm.Show();
         }
 

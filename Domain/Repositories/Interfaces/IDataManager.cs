@@ -18,7 +18,6 @@ namespace BookShopApp.Domain.Repositories.Interfaces
         public IEnumerable<Author> GetAuthorsOfBooks(int bookId);
         public IEnumerable<Book> GetBooksByPublisher(string name);
         public IEnumerable<Book> GetBookByName(string name);
-        public bool AddBook(string Name, string year, string isbn, string quantity, string price, string publisherId,List<string> authorList);
         public bool AddPublisher(Publisher publisher);
         public bool AddAuthor(Author author);
         public bool SaleBook(List<object> list);

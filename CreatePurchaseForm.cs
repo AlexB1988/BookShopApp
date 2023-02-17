@@ -34,7 +34,7 @@ namespace BookShopApp
             var selectedBooks=_dataManager.GetPurchasedBooks(_selectedBooksList);
             foreach(var book in selectedBooks)
             {
-                book.CountToPurchase = 1;
+                book.CountOrPrice = 1;
             }
             gridControlPurchaseBook.DataSource = selectedBooks;
             //BookShopForm form = new BookShopForm(_dataManager);
@@ -74,10 +74,10 @@ namespace BookShopApp
 
         private void gridView1_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
         {
-            if (gridView1.FocusedColumn.FieldName== "CountToPurchase")
+            if (gridView1.FocusedColumn.FieldName== "CountOrPrice")
             {
                 int count = 0;
-                if(int.TryParse(e.Value as String,out count))
+                if(!int.TryParse(e.Value as String,out count))
                 {
                     e.Valid = false;
                     e.ErrorText = "Значение колонки должно иметь целое положительное значение";

@@ -2,6 +2,8 @@ using Autofac;
 using BookShopApp.Domain;
 using BookShopApp.Domain.Repositories.DataManager;
 using BookShopApp.Domain.Repositories.Interfaces;
+using BookShopApp.Interfaces;
+using BookShopApp.Services;
 using DevExpress.XtraSpreadsheet.Model;
 
 namespace BookShopApp
@@ -25,7 +27,8 @@ namespace BookShopApp
         static IContainer Configure()
         {
             var builder =new ContainerBuilder();
-            builder.RegisterType<DataManager>().As<IDataManager>();
+            //builder.RegisterType<DataManager>().As<IDataManager>();
+            //builder.RegisterType<AddBookService>().As<IAdBookInterface>();
             builder.RegisterType<DataManager>();
             builder.RegisterType<DataContext>();
             builder.RegisterType<BookShopForm>();

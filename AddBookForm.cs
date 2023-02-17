@@ -1,4 +1,5 @@
 ﻿using BookShopApp.Domain.Repositories.Interfaces;
+using BookShopApp.Interfaces;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
@@ -19,24 +20,39 @@ namespace BookShopApp
     {
         IDataManager _dataManager;
         BookShopForm _bookShopForm;
-        public AddBookForm(IDataManager dataManager, BookShopForm bookShopForm)
+        IAdBookInterface _addBookInterface;
+        public AddBookForm(IDataManager dataManager, IAdBookInterface adBookInterface, BookShopForm bookShopForm)
         {
             _dataManager = dataManager;
             InitializeComponent();
             _bookShopForm = bookShopForm;
+            _addBookInterface= adBookInterface;
         }
 
         private void btnOkAddBook_Click(object sender, EventArgs e)
         {
-            string bookName=textBoxAddBookName.Text;
-            string bookYear = textBoxAddBookYear.Text;
-            string bookIsbn = textBoxAddBookIsbn.Text;
-            string bookQuantity=textBoxAddBookQuantity.Text;
-            string bookPrice = textBoxAddBookPrice.Text;
-            var selectedPublisher = comboBoxAddBookPublisher.SelectedItem.ToString();
-            var authorListString=checkedComboBoxAddBookAuthors.Properties.GetCheckedItems();
-            var authorList = authorListString.ToString().Split(",").ToList();
-            _dataManager.AddBook(bookName,bookYear,bookIsbn,bookQuantity,bookPrice,selectedPublisher,authorList);
+            if (comboBoxAddBookPublisher.SelectedItem is not null)
+            {
+                string bookName = textBoxAddBookName.Text;
+                string bookYear = textBoxAddBookYear.Text;
+                string bookIsbn = textBoxAddBookIsbn.Text;
+                string bookQuantity = textBoxAddBookQuantity.Text;
+                string bookPrice = textBoxAddBookPrice.Text;
+                var selectedPublisher = comboBoxAddBookPublisher.SelectedItem.ToString();
+                var authorListString = checkedComboBoxAddBookAuthors.Properties.GetCheckedItems();
+                var authorList = authorListString.ToString().Split(",").ToList();
+                _addBookInterface.AddBook(bookName, bookYear, bookIsbn, bookQuantity, bookPrice, selectedPublisher, authorList);
+            }
+            else
+            {
+                MessageBox.Show(
+                $"Некорректные данные\n",
+                "Ошибка",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error,
+                MessageBoxDefaultButton.Button1,
+                MessageBoxOptions.DefaultDesktopOnly);
+            }
             this.Close();
             _bookShopForm.Enabled = true;
         }
