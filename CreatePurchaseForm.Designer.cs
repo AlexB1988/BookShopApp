@@ -42,7 +42,7 @@
             this.authorBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnOkPuchaseBook = new System.Windows.Forms.Button();
             this.btnCancelPurchaseBook = new System.Windows.Forms.Button();
-            this.colCountOrPrice = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colCountBooksToSell = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlPurchaseBook)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
@@ -51,8 +51,10 @@
             // 
             // gridControlPurchaseBook
             // 
+            this.gridControlPurchaseBook.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gridControlPurchaseBook.DataSource = typeof(BookShopApp.Domain.Entities.Book);
-            this.gridControlPurchaseBook.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.gridControlPurchaseBook.Location = new System.Drawing.Point(0, 56);
             this.gridControlPurchaseBook.MainView = this.gridView1;
             this.gridControlPurchaseBook.Name = "gridControlPurchaseBook";
@@ -68,11 +70,11 @@
             this.colName,
             this.colBookQuantity,
             this.colCurrentPrice,
-            this.colCountOrPrice});
+            this.colCountBooksToSell});
             this.gridView1.GridControl = this.gridControlPurchaseBook;
             this.gridView1.Name = "gridView1";
-            this.gridView1.ValidatingEditor += new DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventHandler(this.gridView1_ValidatingEditor);
-            this.gridView1.InvalidValueException += new DevExpress.XtraEditors.Controls.InvalidValueExceptionEventHandler(this.gridView1_InvalidValueException);
+            //this.gridView1.ValidatingEditor += new DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventHandler(this.gridView1_ValidatingEditor);
+            //this.gridView1.InvalidValueException += new DevExpress.XtraEditors.Controls.InvalidValueExceptionEventHandler(this.gridView1_InvalidValueException);
             // 
             // colName
             // 
@@ -137,6 +139,7 @@
             // 
             // btnOkPuchaseBook
             // 
+            this.btnOkPuchaseBook.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOkPuchaseBook.FlatAppearance.BorderSize = 0;
             this.btnOkPuchaseBook.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOkPuchaseBook.Image = ((System.Drawing.Image)(resources.GetObject("btnOkPuchaseBook.Image")));
@@ -152,6 +155,7 @@
             // 
             // btnCancelPurchaseBook
             // 
+            this.btnCancelPurchaseBook.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancelPurchaseBook.FlatAppearance.BorderSize = 0;
             this.btnCancelPurchaseBook.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelPurchaseBook.Image = ((System.Drawing.Image)(resources.GetObject("btnCancelPurchaseBook.Image")));
@@ -165,12 +169,13 @@
             this.btnCancelPurchaseBook.UseVisualStyleBackColor = true;
             this.btnCancelPurchaseBook.Click += new System.EventHandler(this.btnCancelPurchaseBook_Click);
             // 
-            // colCountOrPrice
+            // colCountBooksToSell
             // 
-            this.colCountOrPrice.FieldName = "CountOrPrice";
-            this.colCountOrPrice.Name = "colCountOrPrice";
-            this.colCountOrPrice.Visible = true;
-            this.colCountOrPrice.VisibleIndex = 3;
+            this.colCountBooksToSell.Caption = "Кол-во книг для покупки";
+            this.colCountBooksToSell.FieldName = "CountBooksToSell";
+            this.colCountBooksToSell.Name = "colCountBooksToSell";
+            this.colCountBooksToSell.Visible = true;
+            this.colCountBooksToSell.VisibleIndex = 3;
             // 
             // CreatePurchaseForm
             // 
@@ -207,6 +212,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
-        private DevExpress.XtraGrid.Columns.GridColumn colCountOrPrice;
+        private DevExpress.XtraGrid.Columns.GridColumn colCountBooksToSell;
     }
 }

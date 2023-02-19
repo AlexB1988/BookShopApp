@@ -14,27 +14,30 @@ using BookShopApp.Domain.Repositories.Interfaces;
 using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
+using BookShopApp.Interfaces;
 
 namespace BookShopApp
 {
     public partial class CreatePurchaseForm : DevExpress.XtraEditors.XtraForm
     {
-        IDataManager _dataManager;
         List<object> _selectedBooksList;
+        IGetSelectedBooksService _getSelectedBooksService;
+        ISaleBookService _saleBookService;
         BookShopForm _bookShopForm;
-        public CreatePurchaseForm(IDataManager dataManager,List<object> list,BookShopForm bookShopForm)
+        public CreatePurchaseForm(List<object> list,IGetSelectedBooksService getSelectedBooksService,ISaleBookService saleBookService,BookShopForm bookShopForm)
         {
             InitializeComponent();
             _bookShopForm= bookShopForm;
-            _dataManager = dataManager;
             _selectedBooksList = list;
+            _getSelectedBooksService= getSelectedBooksService;
+            _saleBookService= saleBookService;
         }
         private void CreatePurchaseForm_Load(object sender, EventArgs e)
         {
-            var selectedBooks=_dataManager.GetPurchasedBooks(_selectedBooksList);
+            var selectedBooks=_getSelectedBooksService.GetSelectedBooks(_selectedBooksList);
             foreach(var book in selectedBooks)
             {
-                book.CountOrPrice = 1;
+                book.CountBooksToSell = 1;
             }
             gridControlPurchaseBook.DataSource = selectedBooks;
             //BookShopForm form = new BookShopForm(_dataManager);
@@ -54,7 +57,7 @@ namespace BookShopApp
                     purchaseBook.Add(gridView1.GetRow(rowIndex));
                     rowIndex++;
                 }
-                bool result = _dataManager.SaleBook(purchaseBook);
+                bool result = _saleBookService.SaleBook(purchaseBook);
             }
             _bookShopForm.Enabled = true;
 
@@ -72,28 +75,30 @@ namespace BookShopApp
             _bookShopForm.Enabled = true;
         }
 
-        private void gridView1_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
-        {
-            if (gridView1.FocusedColumn.FieldName== "CountOrPrice")
-            {
-                int count = 0;
-                if(!int.TryParse(e.Value as String,out count))
-                {
-                    e.Valid = false;
-                    e.ErrorText = "Значение колонки должно иметь целое положительное значение";
-                }
-                else if (count <= 0)
-                {
-                    e.Valid = false;
-                    e.ErrorText = "Значение колонки должно иметь целое положительное значение";
-                }
-            }
-        }
+        //private void gridView1_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
+        //{
+        //    if (gridView1.FocusedColumn.FieldName== "CountBooksToSell")
+        //    {
+        //        int count = 0;
+        //        if(!int.TryParse(e.Value as String,out count))
+        //        {
+        //            e.Valid = false;
+        //            e.ErrorText = "Значение колонки должно иметь целое положительное значение";
+        //            this.Close();
+        //        }
+        //        else if (count <= 0)
+        //        {
+        //            e.Valid = false;
+        //            e.ErrorText = "Значение колонки должно иметь целое положительное значение";
+        //            this.Close();
+        //        }
+        //    }
+        //}
 
-        private void gridView1_InvalidValueException(object sender, DevExpress.XtraEditors.Controls.InvalidValueExceptionEventArgs e)
-        {
-            MessageBox.Show(this,e.ErrorText,"Неверное значение",MessageBoxButtons.OK, MessageBoxIcon.Error);
-            this.Close();
-        }
+        //private void gridView1_InvalidValueException(object sender, DevExpress.XtraEditors.Controls.InvalidValueExceptionEventArgs e)
+        //{
+        //    MessageBox.Show(this,e.ErrorText,"Неверное значение",MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    this.Close();
+        //}
     }
 }

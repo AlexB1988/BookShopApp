@@ -91,6 +91,8 @@
             this.Controls.Add(this.btnOkAddAuthor);
             this.Controls.Add(this.labelAddAuthor);
             this.Controls.Add(this.textBoxAddAuthor);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AddAuthorForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Добавление автора";

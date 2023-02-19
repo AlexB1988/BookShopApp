@@ -18,15 +18,26 @@ namespace BookShopApp
 {
     public partial class AddBookForm : DevExpress.XtraEditors.XtraForm
     {
-        IDataManager _dataManager;
         BookShopForm _bookShopForm;
-        IAdBookInterface _addBookInterface;
-        public AddBookForm(IDataManager dataManager, IAdBookInterface adBookInterface, BookShopForm bookShopForm)
+        IGetAuthorsService _getAuthorsService;
+        IGetPublishersService _getPublishersService;
+        IAddPublisherService _addPublisherService;
+        IAddAuthorService _addAuthorService;
+        IAddBookService _addBookService;
+        public AddBookForm(IAddPublisherService addPublisherService, 
+                            IAddAuthorService addAuthorService, 
+                            IGetPublishersService getPublishersService,
+                            IGetAuthorsService getAuthorsService,
+                            IAddBookService addBookService,
+                            BookShopForm bookShopForm)
         {
-            _dataManager = dataManager;
             InitializeComponent();
+            _addPublisherService = addPublisherService;
+            _addAuthorService = addAuthorService;
+            _getPublishersService = getPublishersService;
+            _getAuthorsService= getAuthorsService;
+            _addBookService= addBookService;
             _bookShopForm = bookShopForm;
-            _addBookInterface= adBookInterface;
         }
 
         private void btnOkAddBook_Click(object sender, EventArgs e)
@@ -41,7 +52,13 @@ namespace BookShopApp
                 var selectedPublisher = comboBoxAddBookPublisher.SelectedItem.ToString();
                 var authorListString = checkedComboBoxAddBookAuthors.Properties.GetCheckedItems();
                 var authorList = authorListString.ToString().Split(",").ToList();
-                _addBookInterface.AddBook(bookName, bookYear, bookIsbn, bookQuantity, bookPrice, selectedPublisher, authorList);
+                var result = _addBookService.AddBook(bookName, bookYear, bookIsbn, bookQuantity, bookPrice, selectedPublisher, authorList);
+                if (result)
+                {
+                    this.Close();
+                    _bookShopForm.Enabled = true;
+                }
+            
             }
             else
             {
@@ -53,32 +70,30 @@ namespace BookShopApp
                 MessageBoxDefaultButton.Button1,
                 MessageBoxOptions.DefaultDesktopOnly);
             }
-            this.Close();
-            _bookShopForm.Enabled = true;
         }
 
         private void AddBookForm_Load(object sender, EventArgs e)
         {
-            var publishers = _dataManager.GetPublishers();
+            var publishers = _getPublishersService.GetPublishers();
             foreach (var publisher in publishers)
             {
                 comboBoxAddBookPublisher.Properties.Items.Add(publisher.Name);
             }
 
-            checkedComboBoxAddBookAuthors.Properties.DataSource = _dataManager.GetAuthors();
+            checkedComboBoxAddBookAuthors.Properties.DataSource = _getAuthorsService.GetAuthors();
             checkedComboBoxAddBookAuthors.Properties.ValueMember = "Id";
             checkedComboBoxAddBookAuthors.Properties.DisplayMember = "Name";
         }
 
         private void btnAddPublisherInBookForm_Click(object sender, EventArgs e)
         {
-            AddPublisherForm addPublisherForm = new AddPublisherForm(_dataManager,_bookShopForm);
+            AddPublisherForm addPublisherForm = new AddPublisherForm(_addPublisherService,_bookShopForm);
             addPublisherForm.Show();
         }
 
         private void btnAddAuthorInBookForm_Click(object sender, EventArgs e)
         {
-            AddAuthorForm addAuthorForm = new AddAuthorForm(_dataManager,_bookShopForm);
+            AddAuthorForm addAuthorForm = new AddAuthorForm(_addAuthorService,_bookShopForm);
             addAuthorForm.Show();
         }
 

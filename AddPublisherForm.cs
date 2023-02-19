@@ -1,5 +1,6 @@
 ﻿using BookShopApp.Domain.Entities;
 using BookShopApp.Domain.Repositories.Interfaces;
+using BookShopApp.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,25 +15,24 @@ namespace BookShopApp
 {
     public partial class AddPublisherForm : Form
     {
-        public IDataManager _dataManager;
         public BookShopForm _bookShopForm;
-        public AddPublisherForm(IDataManager dataManager,BookShopForm bookShopForm)
+        IAddPublisherService _addPublisherService;
+        public AddPublisherForm(IAddPublisherService addPublisherService,BookShopForm bookShopForm)
         {
-            _dataManager = dataManager;
             InitializeComponent();
             _bookShopForm= bookShopForm;
+            _addPublisherService= addPublisherService;
         }
 
         private void btnOkAddPublisher_Click(object sender, EventArgs e)
         {
             string name=textBoxAddPublisher.Text;
-            var publisher = new Publisher
+            bool result =_addPublisherService.AddPublisher(name);
+            if (result)
             {
-                Name = name,
-            };
-            bool result =_dataManager.AddPublisher(publisher);
-            this.Close();
-            _bookShopForm.Enabled=true;
+                this.Close();
+                _bookShopForm.Enabled = true;
+            }
         }
 
         private void AddPublisherForm_Load(object sender, EventArgs e)

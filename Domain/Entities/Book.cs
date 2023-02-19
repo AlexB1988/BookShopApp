@@ -15,7 +15,8 @@ namespace BookShopApp.Domain.Entities
         public int Year { get; set; }
         public string Isbn { get; set; }
         public int PublisherId { get; set; }
-        public int CountOrPrice { get; set; } = 1;
+        public int? CountBooksToSell { get; set; } = 1;
+        public decimal? PriceOfBooksToChange { get; set; } = 0;
         public string? AuthorsList { get; set; }
         public Publisher Publisher { get; set; }
         public BookQuantity? BookQuantity { get; set; }

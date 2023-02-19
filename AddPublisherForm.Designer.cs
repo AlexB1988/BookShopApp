@@ -91,6 +91,8 @@
             this.Controls.Add(this.labelAddPublisher);
             this.Controls.Add(this.textBoxAddPublisher);
             this.KeyPreview = true;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AddPublisherForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Добавление издательства";

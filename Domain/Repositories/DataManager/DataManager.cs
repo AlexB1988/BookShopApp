@@ -20,45 +20,6 @@ namespace BookShopApp.Domain.Repositories.DataManager
         {
             _dataContext=dataContext;
         }
-        public IEnumerable<Book> GetBooks()
-        {
-            var booksTemp = _dataContext.Books.ToList();
-            foreach(var book in booksTemp)
-            {
-                if (book.AuthorsList is null || book.AuthorsList == "")
-                {
-                    var authorByBookId = GetAuthorsOfBooks(book.Id);
-
-                    string[] authors = new string[authorByBookId.Count()];
-                    int i = 0;
-                    foreach (var author in authorByBookId)
-                    {
-                        authors[i] = author.Name;
-                        i++;
-                    }
-                    string stringAuthors = string.Join(", ", authors);
-                    book.AuthorsList = stringAuthors;
-
-                }
-            }
-            _dataContext.SaveChanges();
-            var books = _dataContext.Books.Include(x => x.Publisher)
-                              .Include(x => x.BookQuantity)
-                              .Include(x => x.CurrentPrice)
-                              .ToList();
-            return books;
-        }
-        public IEnumerable<Entities.Author> GetAuthors()
-        {
-            var authors = _dataContext.Authors.ToList();
-            return authors;
-        }
-
-        public IEnumerable<Publisher> GetPublishers()
-        {
-            var publishers=_dataContext.Publishers.ToList();
-            return publishers;
-        }
         public Book GetBookById(int id)
         {
             var book = _dataContext.Books.FirstOrDefault(x=>x.Id==id);
@@ -74,15 +35,6 @@ namespace BookShopApp.Domain.Repositories.DataManager
                         select(bookList);
             return books;
         }
-        public IEnumerable<Entities.Author> GetAuthorsOfBooks(int bookId)
-        {
-            var authorsList = from authors in _dataContext.Authors
-                        join authorsBooks in _dataContext.AuthorsBooks on authors.Id equals authorsBooks.AuthorId
-                        join books in _dataContext.Books on authorsBooks.BookId equals books.Id
-                        where books.Id==bookId
-                        select (authors);
-            return authorsList;
-        }
         public IEnumerable<Book> GetBooksByPublisher(string name)
         {
             var books = _dataContext.Books.Include(x => x.Publisher).Where(x => x.Publisher.Name.Contains(name));
@@ -93,79 +45,9 @@ namespace BookShopApp.Domain.Repositories.DataManager
             var books = _dataContext.Books.Where(x => x.Name.Contains(name));
             return books;
         }
-        public bool AddPublisher(Publisher publisher)
-        {
-            var existsPublisher = _dataContext.Publishers.FirstOrDefault(x => x.Name == publisher.Name);
-            if (existsPublisher == null && publisher is not null)
-            {
 
 
-                if (publisher.Name != "" && publisher.Name is not null)
-                {
-                    _dataContext.Add(publisher);
-                    _dataContext.SaveChanges();
-                    return true;
-                }
-                MessageBox.Show(
-                $"Некорректные данные\n" +
-                $"Введите наименование издатнльства",
-                "Ошибка",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly);
-                return false;
-            }
-            else
-            {
-                MessageBox.Show(
-                $"Данный издатель уже есть в базе\n",
-                "Ошибка",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly);
-                return false;
 
-            }
-        }
-
-        public bool AddAuthor(Entities.Author author)
-        {
-            var existsAuthor = _dataContext.Authors.FirstOrDefault(x => x.Name == author.Name);
-            if (existsAuthor != null)
-            {
-                MessageBox.Show(
-                $"Данный автор уже есть в базе\n",
-                "Ошибка",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly);
-                return false;
-
-            }
-
-            else if (author.Name == "" || author.Name is null)
-            {
-                MessageBox.Show(
-                $"Некорректные данные\n" +
-                $"Введите имя автора",
-                "Ошибка",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly);
-                return false;
-            }
-            else
-            {
-                _dataContext.Add(author);
-                _dataContext.SaveChanges();
-                return true;
-            }
-
-        }
 
         public bool ChangeBookPrice(int Id, decimal price)
         {
@@ -205,108 +87,6 @@ namespace BookShopApp.Domain.Repositories.DataManager
                 return true;
             }
             return false;
-        }
-
-        public bool SaleBook(List<object> list)
-        {
-            try
-            {
-                var bookList = GetPurchasedBooks(list);
-
-                var checkList = new CheckList
-                {
-                    Sum = 0
-                };
-
-                _dataContext.CheckList.Add(checkList);
-
-                foreach (var book in bookList)
-                {
-                    
-                    var bookQuantity = _dataContext.BookQuantities.FirstOrDefault(x => x.BookId == book.Id);
-
-                    int quantityToPurchase = book.CountOrPrice;
-
-                    if (bookQuantity.Quantity >= quantityToPurchase)
-                    {
-                        bookQuantity.Quantity -= quantityToPurchase;
-
-                        var currentPrice = _dataContext.CurrentPrice.FirstOrDefault(x => x.BookId == book.Id);
-
-                        checkList.Sum += (currentPrice.Price * quantityToPurchase);
-
-                        for (int i = 0; i < quantityToPurchase; i++)
-                        {
-                            var sales = new Sales
-                            {
-                                PriceId = currentPrice.Id,
-                                CheckList = checkList
-                            };
-                            _dataContext.Sales.Add(sales);
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show(
-                        $"{book.Name}\n" +
-                        $"Кол-ва экземпляров данной \n" +
-                        $"книги меньше, чем Вы запросили в чеке.\n" +
-                        $"Вернитесь в чек и измените данные.",
-                        "Ошибка",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error,
-                        MessageBoxDefaultButton.Button1,
-                        MessageBoxOptions.DefaultDesktopOnly);
-                        return false;
-                    }
-                }
-                if (MessageBox.Show(
-                    $"Сумма покупки:{checkList.Sum} руб.\n" +
-                    $"Продолжить?",
-                    "Уведомление",
-                    MessageBoxButtons.OKCancel,
-                    MessageBoxIcon.Information,
-                    MessageBoxDefaultButton.Button1,
-                    MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
-                {
-                    _dataContext.SaveChanges();
-                    MessageBox.Show(
-                    $"Покупка ена сумму:{checkList.Sum} руб.\n" +
-                    $"успешно совершена!",
-                    "Уведомление",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information,
-                    MessageBoxDefaultButton.Button1,
-                    MessageBoxOptions.DefaultDesktopOnly);
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                $"{ex.Message}\n" +
-                $"{ex.InnerException}",
-                "Ошибка",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly);
-                return false;
-            }
-        }
-
-        public List<Book> GetPurchasedBooks(List<object> list)
-        {
-            List<Book> selectedBooks = new List<Book>();
-            foreach (var book in list)
-            {
-                selectedBooks.Add(book as Book);
-            }
-            return selectedBooks;
         }
     }
 }

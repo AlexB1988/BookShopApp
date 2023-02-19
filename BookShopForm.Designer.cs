@@ -265,6 +265,7 @@
             this.btnChangePrice.Text = "Изменить цену";
             this.btnChangePrice.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             this.btnChangePrice.UseVisualStyleBackColor = true;
+            this.btnChangePrice.Click += new System.EventHandler(this.btnChangePrice_Click);
             // 
             // BookShopForm
             // 

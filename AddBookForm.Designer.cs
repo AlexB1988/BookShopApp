@@ -247,6 +247,8 @@
             this.Controls.Add(this.labelAddBookIsbn);
             this.Controls.Add(this.labelAddBookYear);
             this.Controls.Add(this.labelAddBookName);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AddBookForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Добавление книги";

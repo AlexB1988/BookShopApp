@@ -1,5 +1,6 @@
 ﻿using BookShopApp.Domain.Entities;
 using BookShopApp.Domain.Repositories.Interfaces;
+using BookShopApp.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,25 +15,23 @@ namespace BookShopApp
 {
     public partial class AddAuthorForm : Form
     {
-        IDataManager _dataManager;
         public BookShopForm _bookShopForm;
-        public AddAuthorForm(IDataManager dataManager, BookShopForm bookShopForm)
+        IAddAuthorService _addAuthorService;
+        public AddAuthorForm(IAddAuthorService addAuthorService, BookShopForm bookShopForm)
         {
-            _dataManager = dataManager;
             InitializeComponent();
             _bookShopForm = bookShopForm;
+            _addAuthorService= addAuthorService;
         }
 
         private void btnOkAddAuthor_Click(object sender, EventArgs e)
         {
-            string name = textBoxAddAuthor.Text;
-            var author = new Author
+            bool result = _addAuthorService.AddAuthor(textBoxAddAuthor.Text);
+            if (result)
             {
-                Name = name,
-            };
-            bool result = _dataManager.AddAuthor(author);
-            this.Close();
-            _bookShopForm.Enabled = true;
+                this.Close();
+                _bookShopForm.Enabled = true;
+            }
         }
 
         private void btnCancelAddAuthor_Click(object sender, EventArgs e)

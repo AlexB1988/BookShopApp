@@ -129,7 +129,7 @@ from BookPrice bp
 	inner join Books b on b.Id = bp.BookId 
 	inner join CheckList cl on cl.Id =s.CheckListId 
 group by b.Name,bp.Price,cl.DateOfCheck,cl.Id 
-order by cl.Id</value>
+order by cl.Id desc</value>
   </data>
   <data name="sqlDataSource1.ResultSchemaSerializable" xml:space="preserve">
     <value>PERhdGFTZXQgTmFtZT0ic3FsRGF0YVNvdXJjZTEiPjxWaWV3IE5hbWU9IlF1ZXJ5Ij48RmllbGQgTmFtZT0iQ2hlY2tOdW1iZXIiIFR5cGU9IkludDY0IiAvPjxGaWVsZCBOYW1lPSJCb29rTmFtZSIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJDb3VudE9mQm9va3MiIFR5cGU9IlVua25vd24iIC8+PEZpZWxkIE5hbWU9IlByaWNlIiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9IkRhdGVPZkNoZWNrIiBUeXBlPSJTdHJpbmciIC8+PC9WaWV3PjwvRGF0YVNldD4=</value>

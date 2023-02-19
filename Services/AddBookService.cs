@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BookShopApp.Services
 {
-    public class AddBookService : IAdBookInterface
+    public class AddBookService : IAddBookService
     {
         DataContext _dataContext;
         public AddBookService(DataContext dataContext)
@@ -24,6 +24,7 @@ namespace BookShopApp.Services
             }
             if (name is null || name == "" || name == " " || int.TryParse(year, out var yearResult) == false
                             || int.TryParse(quantity, out var quantityResult) == false
+                            || isbn =="" ||isbn ==" "
                             || decimal.TryParse(price, out var priceResult) == false
                             || selectedPublisher is null || authorList is null)
             {
@@ -49,6 +50,17 @@ namespace BookShopApp.Services
             List<AuthorsBooks> authorsBooksList = new List<AuthorsBooks>();
             foreach (var author in authorList)
             {
+                if(author=="")
+                {
+                    MessageBox.Show(
+                    $"Некорректные данные\n",
+                    "Ошибка",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error,
+                    MessageBoxDefaultButton.Button1,
+                    MessageBoxOptions.DefaultDesktopOnly);
+                    return false;
+                }
                 var authorToAdd = _dataContext.Authors.FirstOrDefault(x => x.Id == int.Parse(author));
                 var authorsBooks = new AuthorsBooks
                 {

@@ -3,6 +3,7 @@ using System;
 using BookShopApp.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookShopApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230219100425_ChangeColomnTypeCountOrPriceToString")]
+    partial class ChangeColomnTypeCountOrPriceToString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.13");
@@ -77,8 +79,9 @@ namespace BookShopApp.Migrations
                     b.Property<string>("AuthorsList")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("CountBooksToSell")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("CountOrPrice")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Isbn")
                         .IsRequired()
@@ -86,9 +89,6 @@ namespace BookShopApp.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal>("PriceOfBooksToChange")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("PublisherId")

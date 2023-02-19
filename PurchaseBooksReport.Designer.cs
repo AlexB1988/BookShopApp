@@ -343,7 +343,7 @@
             this.PageHeader.HeightF = 109.3751F;
             this.PageHeader.Name = "PageHeader";
             // 
-            // PurcahseBooksReport
+            // PurchaseBooksReport
             // 
             this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
             this.TopMargin,
