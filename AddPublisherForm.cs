@@ -1,4 +1,5 @@
-﻿using BookShopApp.Domain.Entities;
+﻿using BookShopApp.Autofac;
+using BookShopApp.Domain.Entities;
 using BookShopApp.Domain.Repositories.Interfaces;
 using BookShopApp.Interfaces;
 using System;
@@ -17,11 +18,11 @@ namespace BookShopApp
     {
         public BookShopForm _bookShopForm;
         IAddPublisherService _addPublisherService;
-        public AddPublisherForm(IAddPublisherService addPublisherService,BookShopForm bookShopForm)
+        public AddPublisherForm(BookShopForm bookShopForm)
         {
             InitializeComponent();
             _bookShopForm= bookShopForm;
-            _addPublisherService= addPublisherService;
+            _addPublisherService= InstanceFactory.GetInstance<IAddPublisherService>();
         }
 
         private void btnOkAddPublisher_Click(object sender, EventArgs e)

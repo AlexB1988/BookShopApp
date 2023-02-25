@@ -11,10 +11,8 @@ namespace BookShopApp.Services
 {
     public class GetSelectedBooksService:IGetSelectedBooksService
     {
-        DataContext _dataContext;
-        public GetSelectedBooksService(DataContext dataContext)
+        public GetSelectedBooksService()
         {
-            _dataContext = dataContext;
         }
         public List<Book> GetSelectedBooks(List<object> list)
         {

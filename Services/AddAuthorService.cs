@@ -11,52 +11,53 @@ namespace BookShopApp.Services
 {
     public class AddAuthorService:IAddAuthorService
     {
-        DataContext _dataContext;
-
-        public AddAuthorService(DataContext dataContext)
+        BookShopForm _bookShopForm;
+        public AddAuthorService()
         {
-            _dataContext = dataContext;
         }
 
         public bool AddAuthor(string name)
         {
-            var existsAuthor = _dataContext.Authors.Where(x => x.Name==name);
-            if (existsAuthor.Count()>0)
+            using (var _dataContext = new DataContext())
             {
-                MessageBox.Show(
-                $"Данный автор уже есть в базе\n",
-                "Ошибка",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly);
-                return false;
 
-            }
-
-            if (name == "" || name is null || name == " ")
-            {
-                MessageBox.Show(
-                $"Некорректные данные\n" +
-                $"Введите имя автора",
-                "Ошибка",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly);
-                return false;
-            }
-            else
-            {
-                var author = new Author
+                var existsAuthor = _dataContext.Authors.Where(x => x.Name == name);
+                if (existsAuthor.Count() > 0)
                 {
-                    Name = name
-                };
-                _dataContext.Add(author);
-                _dataContext.SaveChanges();
-                return true;
-            }
+                    MessageBox.Show(
+                    $"Данный автор уже есть в базе\n",
+                    "Ошибка",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error,
+                    MessageBoxDefaultButton.Button1,
+                    MessageBoxOptions.DefaultDesktopOnly);
+                    return false;
 
+                }
+
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    MessageBox.Show(
+                    $"Некорректные данные\n" +
+                    $"Введите имя автора",
+                    "Ошибка",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error,
+                    MessageBoxDefaultButton.Button1,
+                    MessageBoxOptions.DefaultDesktopOnly);
+                    return false;
+                }
+                else
+                {
+                    var author = new Author
+                    {
+                        Name = name
+                    };
+                    _dataContext.Add(author);
+                    _dataContext.SaveChanges();
+                    return true;
+                }
+            }
         }
     }
 }

@@ -101,6 +101,7 @@
             this.colAuthorsList.Caption = "Авторы";
             this.colAuthorsList.FieldName = "AuthorsList";
             this.colAuthorsList.Name = "colAuthorsList";
+            this.colAuthorsList.OptionsColumn.AllowEdit = false;
             this.colAuthorsList.Visible = true;
             this.colAuthorsList.VisibleIndex = 6;
             // 

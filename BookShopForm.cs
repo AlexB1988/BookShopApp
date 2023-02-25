@@ -21,6 +21,7 @@ using BookShopApp.Services;
 using BookShopApp.Interfaces;
 using DevExpress.Utils.DirectXPaint;
 using BookShopApp.Domain;
+using BookShopApp.Autofac;
 
 namespace BookShopApp
 {
@@ -28,53 +29,32 @@ namespace BookShopApp
     {
         IGetBookService _getBookService;
         IGetPublishersService _getPublishersService;
-        IAddPublisherService _addPublisherService;
-        IAddAuthorService _addAuthorService;
         IGetAuthorsService _getAuthorsService;
         IAddBookService _addBookService;
         IGetSelectedBooksService _getSelectedBooksService;
         ISaleBookService _saleBookService;
         IChangePriceService _changePriceService;
-        DataContext _dataContext;
-        public BookShopForm(IGetBookService getBookService,
-                            IAddPublisherService addPublisherService,
-                            IAddAuthorService addAuthorService,
-                            IGetPublishersService getPublishersService,
-                            IGetAuthorsService getAuthorsService,
-                            IAddBookService addBookService,
-                            IGetSelectedBooksService getSelectedBooksService,
-                            ISaleBookService saleBookService,
-                            IChangePriceService changePriceService,
-                            DataContext dataContext)
+        public BookShopForm()
         {
             InitializeComponent();
-            _getBookService = getBookService;
-            _addPublisherService = addPublisherService;
-            _addAuthorService = addAuthorService;
-            _getPublishersService = getPublishersService;
-            _getAuthorsService = getAuthorsService;
-            _addBookService = addBookService;
-            _getSelectedBooksService = getSelectedBooksService;
-            _saleBookService = saleBookService;
-            _changePriceService= changePriceService;
-            _dataContext= dataContext;
         }
 
         private void BookShop_Load(object sender, EventArgs e)
         {
+            _getBookService=InstanceFactory.GetInstance<IGetBookService>();
             gridControlGetBookList.DataSource = _getBookService.GetBooks();
         }
 
         private void btnBookList_Click(object sender, EventArgs e)
         {
-            var _getBooks = new GetBookService(_dataContext);
-            gridControlGetBookList.DataSource = _getBooks.GetBooks();
+            _getBookService = InstanceFactory.GetInstance<IGetBookService>();
+            gridControlGetBookList.DataSource = _getBookService.GetBooks();
         }
 
         private void btnAddPublisher_Click(object sender, EventArgs e)
         {
             this.Enabled = false;
-            AddPublisherForm addPublisherForm = new AddPublisherForm(_addPublisherService,this);
+            AddPublisherForm addPublisherForm = new AddPublisherForm(this);
             addPublisherForm.Show();
 
         }
@@ -82,16 +62,14 @@ namespace BookShopApp
         private void btnAddAuthor_Click(object sender, EventArgs e)
         {
             this.Enabled = false;
-            AddAuthorForm addAuthorForm = new AddAuthorForm(_addAuthorService,this);
+            AddAuthorForm addAuthorForm = new AddAuthorForm(this);
             addAuthorForm.Show();
         }
 
         private void btnAddBook_Click(object sender, EventArgs e)
         {
             this.Enabled = false;
-            AddBookForm addBookForm = new AddBookForm(_addPublisherService, _addAuthorService, 
-                                                    _getPublishersService,_getAuthorsService,
-                                                    _addBookService,this);
+            AddBookForm addBookForm = new AddBookForm(this);
             addBookForm.Show();
         }
 
@@ -112,7 +90,7 @@ namespace BookShopApp
                 var bookToPurchase = gridViewGetBooks.GetRow(row);
                 listOfPuchaseBooks.Add(bookToPurchase);
             }
-            CreatePurchaseForm createPurchaseForm = new CreatePurchaseForm(listOfPuchaseBooks, _getSelectedBooksService, _saleBookService, this);
+            CreatePurchaseForm createPurchaseForm = new CreatePurchaseForm(listOfPuchaseBooks,this);
             createPurchaseForm.Show();
         }
 
@@ -128,7 +106,7 @@ namespace BookShopApp
                 var bookToPurchase = gridViewGetBooks.GetRow(row);
                 listOfPuchaseBooks.Add(bookToPurchase);
             }
-            ChangePriceForm changePriceForm = new ChangePriceForm(listOfPuchaseBooks, _getSelectedBooksService,_changePriceService,this);
+            ChangePriceForm changePriceForm = new ChangePriceForm(listOfPuchaseBooks,this);
             changePriceForm.Show();
         }
     }

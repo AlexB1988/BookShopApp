@@ -30,21 +30,7 @@ namespace BookShopApp.Domain.Entities
             Prices=new HashSet<BookPrice>();
             Authors=new HashSet<Author>();
             AuthorsBooks=new List<AuthorsBooks>();
-            //AuthorsList = GetAuthorsList();
         }
-
-
-        //private string GetAuthorsList()
-        //{
-        //    string[] authors=new string[Authors.Count];
-        //    int i = 0;
-        //    foreach(Author author in Authors)
-        //    {
-        //        authors[i]=author.Name;
-        //    }
-        //    string stringAuthors=string.Join(", ",authors);
-        //    return stringAuthors;
-        //}
     }
 
     public class BookConfiguration : IEntityTypeConfiguration<Book>

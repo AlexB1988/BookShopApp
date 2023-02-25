@@ -1,4 +1,5 @@
-﻿using BookShopApp.Domain.Repositories.Interfaces;
+﻿using BookShopApp.Autofac;
+using BookShopApp.Domain.Repositories.Interfaces;
 using BookShopApp.Interfaces;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
@@ -21,22 +22,13 @@ namespace BookShopApp
         BookShopForm _bookShopForm;
         IGetAuthorsService _getAuthorsService;
         IGetPublishersService _getPublishersService;
-        IAddPublisherService _addPublisherService;
-        IAddAuthorService _addAuthorService;
         IAddBookService _addBookService;
-        public AddBookForm(IAddPublisherService addPublisherService, 
-                            IAddAuthorService addAuthorService, 
-                            IGetPublishersService getPublishersService,
-                            IGetAuthorsService getAuthorsService,
-                            IAddBookService addBookService,
-                            BookShopForm bookShopForm)
+        public AddBookForm(BookShopForm bookShopForm)
         {
             InitializeComponent();
-            _addPublisherService = addPublisherService;
-            _addAuthorService = addAuthorService;
-            _getPublishersService = getPublishersService;
-            _getAuthorsService= getAuthorsService;
-            _addBookService= addBookService;
+            _getPublishersService = InstanceFactory.GetInstance<IGetPublishersService>();
+            _getAuthorsService= InstanceFactory.GetInstance<IGetAuthorsService>();
+            _addBookService= InstanceFactory.GetInstance<IAddBookService>();
             _bookShopForm = bookShopForm;
         }
 
@@ -87,13 +79,13 @@ namespace BookShopApp
 
         private void btnAddPublisherInBookForm_Click(object sender, EventArgs e)
         {
-            AddPublisherForm addPublisherForm = new AddPublisherForm(_addPublisherService,_bookShopForm);
+            AddPublisherForm addPublisherForm = new AddPublisherForm(_bookShopForm);
             addPublisherForm.Show();
         }
 
         private void btnAddAuthorInBookForm_Click(object sender, EventArgs e)
         {
-            AddAuthorForm addAuthorForm = new AddAuthorForm(_addAuthorService,_bookShopForm);
+            AddAuthorForm addAuthorForm = new AddAuthorForm(_bookShopForm);
             addAuthorForm.Show();
         }
 

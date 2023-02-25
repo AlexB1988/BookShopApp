@@ -15,6 +15,7 @@ using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using BookShopApp.Interfaces;
+using BookShopApp.Autofac;
 
 namespace BookShopApp
 {
@@ -24,13 +25,13 @@ namespace BookShopApp
         IGetSelectedBooksService _getSelectedBooksService;
         ISaleBookService _saleBookService;
         BookShopForm _bookShopForm;
-        public CreatePurchaseForm(List<object> list,IGetSelectedBooksService getSelectedBooksService,ISaleBookService saleBookService,BookShopForm bookShopForm)
+        public CreatePurchaseForm(List<object> list,BookShopForm bookShopForm)
         {
             InitializeComponent();
             _bookShopForm= bookShopForm;
             _selectedBooksList = list;
-            _getSelectedBooksService= getSelectedBooksService;
-            _saleBookService= saleBookService;
+            _getSelectedBooksService= InstanceFactory.GetInstance<IGetSelectedBooksService>();
+            _saleBookService= InstanceFactory.GetInstance<ISaleBookService>();
         }
         private void CreatePurchaseForm_Load(object sender, EventArgs e)
         {

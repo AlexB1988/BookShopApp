@@ -1,4 +1,5 @@
-﻿using BookShopApp.Domain;
+﻿using BookShopApp.Autofac;
+using BookShopApp.Domain;
 using BookShopApp.Domain.Entities;
 using BookShopApp.Interfaces;
 using DevExpress.XtraBars.Alerter;
@@ -12,102 +13,103 @@ namespace BookShopApp.Services
 {
     public class SaleBookService:ISaleBookService
     {
-        DataContext _dataContext;
         IGetSelectedBooksService _getSelectedBooksService;
-        public SaleBookService(DataContext dataContext, IGetSelectedBooksService getPSelectedBooksService)
+        public SaleBookService()
         {
-            _dataContext = dataContext;
-            _getSelectedBooksService = getPSelectedBooksService;
+            _getSelectedBooksService = InstanceFactory.GetInstance<IGetSelectedBooksService>();
         }
         public bool SaleBook(List<object> list)
         {
-            try
+            using (var _dataContext = new DataContext())
             {
-                var bookList = _getSelectedBooksService.GetSelectedBooks(list);
-
-                var checkList = new CheckList
+                try
                 {
-                    Sum = 0
-                };
+                    var bookList = _getSelectedBooksService.GetSelectedBooks(list);
 
-                _dataContext.CheckList.Add(checkList);
-
-                foreach (var book in bookList)
-                {
-
-                    var bookQuantity = _dataContext.BookQuantities.FirstOrDefault(x => x.BookId == book.Id);
-
-                    int quantityToPurchase = int.Parse(book.CountBooksToSell.ToString());
-
-                    if (bookQuantity.Quantity >= quantityToPurchase)
+                    var checkList = new CheckList
                     {
-                        bookQuantity.Quantity -= quantityToPurchase;
+                        Sum = 0
+                    };
 
-                        var currentPrice = _dataContext.CurrentPrice.FirstOrDefault(x => x.BookId == book.Id);
+                    _dataContext.CheckList.Add(checkList);
 
-                        checkList.Sum += (currentPrice.Price * quantityToPurchase);
+                    foreach (var book in bookList)
+                    {
 
-                        for (int i = 0; i < quantityToPurchase; i++)
+                        var bookQuantity = _dataContext.BookQuantities.FirstOrDefault(x => x.BookId == book.Id);
+
+                        int quantityToPurchase = int.Parse(book.CountBooksToSell.ToString());
+
+                        if (bookQuantity.Quantity >= quantityToPurchase)
                         {
-                            var sales = new Sales
+                            bookQuantity.Quantity -= quantityToPurchase;
+
+                            var currentPrice = _dataContext.BookPrice.FirstOrDefault(x => x.BookId == book.Id && x.DateEnd == null);
+
+                            checkList.Sum += (currentPrice.Price * quantityToPurchase);
+
+                            for (int i = 0; i < quantityToPurchase; i++)
                             {
-                                PriceId = currentPrice.Id,
-                                CheckList = checkList
-                            };
-                            _dataContext.Sales.Add(sales);
+                                var sales = new Sales
+                                {
+                                    PriceId = currentPrice.Id,
+                                    CheckList = checkList
+                                };
+                                _dataContext.Sales.Add(sales);
+                            }
                         }
+                        else
+                        {
+                            MessageBox.Show(
+                            $"{book.Name}\n" +
+                            $"Кол-ва экземпляров данной \n" +
+                            $"книги меньше, чем Вы запросили в чеке.\n" +
+                            $"Вернитесь в чек и измените данные.",
+                            "Ошибка",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error,
+                            MessageBoxDefaultButton.Button1,
+                            MessageBoxOptions.DefaultDesktopOnly);
+                            return false;
+                        }
+                    }
+                    if (MessageBox.Show(
+                        $"Сумма покупки:{checkList.Sum} руб.\n" +
+                        $"Продолжить?",
+                        "Уведомление",
+                        MessageBoxButtons.OKCancel,
+                        MessageBoxIcon.Information,
+                        MessageBoxDefaultButton.Button1,
+                        MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
+                    {
+                        _dataContext.SaveChanges();
+                        MessageBox.Show(
+                        $"Покупка ена сумму:{checkList.Sum} руб.\n" +
+                        $"успешно совершена!",
+                        "Уведомление",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information,
+                        MessageBoxDefaultButton.Button1,
+                        MessageBoxOptions.DefaultDesktopOnly);
+                        return true;
                     }
                     else
                     {
-                        MessageBox.Show(
-                        $"{book.Name}\n" +
-                        $"Кол-ва экземпляров данной \n" +
-                        $"книги меньше, чем Вы запросили в чеке.\n" +
-                        $"Вернитесь в чек и измените данные.",
-                        "Ошибка",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error,
-                        MessageBoxDefaultButton.Button1,
-                        MessageBoxOptions.DefaultDesktopOnly);
                         return false;
                     }
                 }
-                if (MessageBox.Show(
-                    $"Сумма покупки:{checkList.Sum} руб.\n" +
-                    $"Продолжить?",
-                    "Уведомление",
-                    MessageBoxButtons.OKCancel,
-                    MessageBoxIcon.Information,
-                    MessageBoxDefaultButton.Button1,
-                    MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
+                catch (Exception ex)
                 {
-                    _dataContext.SaveChanges();
                     MessageBox.Show(
-                    $"Покупка ена сумму:{checkList.Sum} руб.\n" +
-                    $"успешно совершена!",
-                    "Уведомление",
+                    $"{ex.Message}\n" +
+                    $"{ex.InnerException}",
+                    "Ошибка",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Information,
+                    MessageBoxIcon.Error,
                     MessageBoxDefaultButton.Button1,
                     MessageBoxOptions.DefaultDesktopOnly);
-                    return true;
-                }
-                else
-                {
                     return false;
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                $"{ex.Message}\n" +
-                $"{ex.InnerException}",
-                "Ошибка",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly);
-                return false;
             }
         }
     }

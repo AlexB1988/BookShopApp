@@ -10,16 +10,17 @@ namespace BookShopApp.Services
 {
     public class GetAuthorsService:IGetAuthorsService
     {
-        DataContext _dataContext;
-        public GetAuthorsService(DataContext dataContext)
+        public GetAuthorsService()
         {
-            _dataContext = dataContext;
         }
 
         public IEnumerable<Domain.Entities.Author> GetAuthors()
         {
-            var authors = _dataContext.Authors.ToList();
-            return authors;
+            using (var _dataContext = new DataContext())
+            {
+                var authors = _dataContext.Authors.ToList();
+                return authors;
+            }
         }
     }
 }

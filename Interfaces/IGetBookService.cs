@@ -10,6 +10,6 @@ namespace BookShopApp.Interfaces
     public interface IGetBookService
     {
         public IEnumerable<Book> GetBooks();
-        public IEnumerable<Domain.Entities.Author> GetAuthorsOfBooks(int bookId);
+        //public IEnumerable<Domain.Entities.Author> GetAuthorsOfBooks(int bookId);
     }
 }

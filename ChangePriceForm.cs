@@ -1,4 +1,5 @@
-﻿using BookShopApp.Interfaces;
+﻿using BookShopApp.Autofac;
+using BookShopApp.Interfaces;
 using BookShopApp.Services;
 using DevExpress.XtraEditors;
 using DevExpress.XtraRichEdit.API.Native;
@@ -20,12 +21,12 @@ namespace BookShopApp
         IGetSelectedBooksService _getSelectedBooksService;
         IChangePriceService _changePriceService;
         BookShopForm _bookShopForm;
-        public ChangePriceForm(List<object> list, IGetSelectedBooksService getSelectedBooksService,IChangePriceService changePriceService,BookShopForm bookShopForm)
+        public ChangePriceForm(List<object> list,BookShopForm bookShopForm)
         {
             InitializeComponent();
             _selectedBooksList = list;
-            _getSelectedBooksService = getSelectedBooksService;
-            _changePriceService=changePriceService;
+            _getSelectedBooksService = InstanceFactory.GetInstance<IGetSelectedBooksService>();
+            _changePriceService=InstanceFactory.GetInstance<IChangePriceService>();
             _bookShopForm = bookShopForm;
         }
 
