@@ -23,6 +23,7 @@ namespace BookShopApp.Autofac
             builder.RegisterType<GetSelectedBooksService>().As<IGetSelectedBooksService>();
             builder.RegisterType<SaleBookService>().As<ISaleBookService>();
             builder.RegisterType<ChangePriceService>().As<IChangePriceService>();
+            builder.RegisterType<GetPublisherByNameService>().As<IGetPublisherByNameService>();
         }
     }
 }

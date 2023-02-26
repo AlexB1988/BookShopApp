@@ -1,6 +1,5 @@
 ﻿using BookShopApp.Domain;
 using BookShopApp.Domain.Entities;
-using BookShopApp.Domain.Repositories.Interfaces;
 using BookShopApp.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;

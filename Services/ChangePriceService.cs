@@ -14,18 +14,15 @@ namespace BookShopApp.Services
 {
     public class ChangePriceService:IChangePriceService
     {
-        IGetSelectedBooksService _getSelectedBooksService;
         public ChangePriceService(DataContext dataContext)
         {
-            _getSelectedBooksService = InstanceFactory.GetInstance<IGetSelectedBooksService>();
         }
-        public bool ChangePrice(List<object> list)
+        public bool ChangePrice(List<Book> bookList)
         {
             using (var _dataContext = new DataContext())
             {
                 try
-                {
-                    var bookList = _getSelectedBooksService.GetSelectedBooks(list);
+                { 
                     foreach (var book in bookList)
                     {
                         var currentBook = _dataContext.Books.Include(x => x.CurrentPrice).FirstOrDefault(x => x.Id == book.Id);

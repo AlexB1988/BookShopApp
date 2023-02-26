@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookShopApp.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace BookShopApp.Interfaces
 {
     public interface ISaleBookService
     {
-        public bool SaleBook(List<object> list);
+        public bool SaleBook(List<Book> list);
     }
 }

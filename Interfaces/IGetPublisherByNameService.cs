@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace BookShopApp.Interfaces
 {
-    public interface IChangePriceService
+    public interface IGetPublisherByNameService
     {
-        public bool ChangePrice(List<Book>selectedBooks);
+        public Publisher GetPublisherByName(string name);
     }
 }

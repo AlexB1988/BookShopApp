@@ -13,19 +13,15 @@ namespace BookShopApp.Services
 {
     public class SaleBookService:ISaleBookService
     {
-        IGetSelectedBooksService _getSelectedBooksService;
         public SaleBookService()
         {
-            _getSelectedBooksService = InstanceFactory.GetInstance<IGetSelectedBooksService>();
         }
-        public bool SaleBook(List<object> list)
+        public bool SaleBook(List<Book> bookList)
         {
             using (var _dataContext = new DataContext())
             {
                 try
                 {
-                    var bookList = _getSelectedBooksService.GetSelectedBooks(list);
-
                     var checkList = new CheckList
                     {
                         Sum = 0

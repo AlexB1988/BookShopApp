@@ -1,6 +1,5 @@
 ﻿using BookShopApp.Autofac;
 using BookShopApp.Domain.Entities;
-using BookShopApp.Domain.Repositories.Interfaces;
 using BookShopApp.Interfaces;
 using System;
 using System.Collections.Generic;

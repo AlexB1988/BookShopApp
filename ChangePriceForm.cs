@@ -59,12 +59,13 @@ namespace BookShopApp
 
 
                 int rowIndex = 0;
-                List<object> selectedBooks = new List<object>();
+                List<object> selectedObjectBooks = new List<object>();
                 while (gridView1_1.IsValidRowHandle(rowIndex))
                 {
-                    selectedBooks.Add(gridView1_1.GetRow(rowIndex));
+                    selectedObjectBooks.Add(gridView1_1.GetRow(rowIndex));
                     rowIndex++;
                 }
+                var selectedBooks = _getSelectedBooksService.GetSelectedBooks(selectedObjectBooks);
                 bool result = _changePriceService.ChangePrice(selectedBooks);
             }
             this.Close();

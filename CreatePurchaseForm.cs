@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.EntityFrameworkCore;
 using System.Windows.Controls;
-using BookShopApp.Domain.Repositories.Interfaces;
 using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
@@ -52,12 +51,13 @@ namespace BookShopApp
 
 
                 int rowIndex = 0;
-                List<object> purchaseBook = new List<object>();
+                List<object> purchaseObjectBook = new List<object>();
                 while (gridView1.IsValidRowHandle(rowIndex))
                 {
-                    purchaseBook.Add(gridView1.GetRow(rowIndex));
+                    purchaseObjectBook.Add(gridView1.GetRow(rowIndex));
                     rowIndex++;
                 }
+                var purchaseBook = _getSelectedBooksService.GetSelectedBooks(purchaseObjectBook);
                 bool result = _saleBookService.SaleBook(purchaseBook);
             }
             _bookShopForm.Enabled = true;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookShopApp.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace BookShopApp.Interfaces
 {
     public interface IAddBookService
     {
-        public bool AddBook(string name, string year, string isbn, string quantity, string price, string selectedPublisher, List<string> authorList);
+        public bool AddBook(Book book, BookQuantity bookQuantity, BookPrice price,List<string> authorList);
     }
 }

@@ -1,7 +1,5 @@
 using Autofac;
 using BookShopApp.Domain;
-using BookShopApp.Domain.Repositories.DataManager;
-using BookShopApp.Domain.Repositories.Interfaces;
 using BookShopApp.Interfaces;
 using BookShopApp.Services;
 using DevExpress.XtraSpreadsheet.Model;
