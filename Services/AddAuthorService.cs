@@ -11,52 +11,47 @@ namespace BookShopApp.Services
 {
     public class AddAuthorService:IAddAuthorService
     {
-        BookShopForm _bookShopForm;
         public AddAuthorService()
         {
         }
 
-        public bool AddAuthor(string name)
+        public bool AddAuthor(Author author)
         {
-            using (var _dataContext = new DataContext())
+            try
             {
-
-                var existsAuthor = _dataContext.Authors.Where(x => x.Name == name);
-                if (existsAuthor.Count() > 0)
+                using (var _dataContext = new DataContext())
                 {
-                    MessageBox.Show(
-                    $"Данный автор уже есть в базе\n",
-                    "Ошибка",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error,
-                    MessageBoxDefaultButton.Button1,
-                    MessageBoxOptions.DefaultDesktopOnly);
-                    return false;
-
-                }
-
-                if (string.IsNullOrWhiteSpace(name))
-                {
-                    MessageBox.Show(
-                    $"Некорректные данные\n" +
-                    $"Введите имя автора",
-                    "Ошибка",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error,
-                    MessageBoxDefaultButton.Button1,
-                    MessageBoxOptions.DefaultDesktopOnly);
-                    return false;
-                }
-                else
-                {
-                    var author = new Author
+                    var existsAuthor = _dataContext.Authors.Where(x => x.Name == author.Name);
+                    if (existsAuthor.Count() > 0)
                     {
-                        Name = name
-                    };
-                    _dataContext.Add(author);
-                    _dataContext.SaveChanges();
-                    return true;
+                        MessageBox.Show(
+                        $"Данный автор уже есть в базе\n",
+                        "Сообщение",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning,
+                        MessageBoxDefaultButton.Button1,
+                        MessageBoxOptions.DefaultDesktopOnly);
+                        return false;
+
+                    }
+                    else
+                    {
+                        _dataContext.Add(author);
+                        _dataContext.SaveChanges();
+                        return true;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                $"{ex.Message}\n",
+                "Ошибка",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error,
+                MessageBoxDefaultButton.Button1,
+                MessageBoxOptions.DefaultDesktopOnly);
+                return false;
             }
         }
     }

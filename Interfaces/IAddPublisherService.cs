@@ -9,6 +9,6 @@ namespace BookShopApp.Interfaces
 {
     public interface IAddPublisherService
     {
-        public bool AddPublisher(string Name);
+        public bool AddPublisher(Publisher publisher);
     }
 }

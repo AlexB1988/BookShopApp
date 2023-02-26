@@ -14,7 +14,7 @@ namespace BookShopApp.Services
 {
     public class ChangePriceService:IChangePriceService
     {
-        public ChangePriceService(DataContext dataContext)
+        public ChangePriceService()
         {
         }
         public bool ChangePrice(List<Book> bookList)

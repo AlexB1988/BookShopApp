@@ -51,7 +51,7 @@ namespace BookShopApp.Services
             catch(Exception e)
             {
                 MessageBox.Show(
-                $"{e.InnerException}\n",
+                $"{e.Message}\n",
                 "Ошибка",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error,

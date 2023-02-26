@@ -9,6 +9,6 @@ namespace BookShopApp.Interfaces
 {
     public interface IAddAuthorService
     {
-        public bool AddAuthor(string name);
+        public bool AddAuthor(Author author);
     }
 }

@@ -52,9 +52,7 @@ namespace BookShopApp
             {
                 _addBookService = InstanceFactory.GetInstance<IAddBookService>();
                 _getPublisherByNameService = InstanceFactory.GetInstance<IGetPublisherByNameService>();
-                Book book = new Book();
-                BookQuantity bookQuantity = new BookQuantity();
-                BookPrice bookPrice = new BookPrice();
+
                 if (comboBoxAddBookPublisher.SelectedItem is not null)
                 {
                     var publisher = _getPublisherByNameService.GetPublisherByName(comboBoxAddBookPublisher.SelectedItem.ToString());
@@ -76,24 +74,35 @@ namespace BookShopApp
                         {
                             foreach (var failure in failures)
                             {
-                                MessageBox.Show(failure.ErrorMessage, 
-                                    "Сообщение", 
-                                    MessageBoxButtons.OK, 
+                                MessageBox.Show(failure.ErrorMessage,
+                                    "Сообщение",
+                                    MessageBoxButtons.OK,
                                     MessageBoxIcon.Warning);
                                 return;
                             }
                         }
                         else
                         {
-                            book.Name = newBook.Name;
-                            book.Year = int.Parse(newBook.Year);
-                            book.Isbn = newBook.Isbn;
-                            book.PublisherId = publisher.Id;
-                            bookQuantity.Book = book;
-                            bookQuantity.Quantity = int.Parse(newBook.Quantity);
-                            bookPrice.Books = book;
-                            bookPrice.Price = decimal.Parse(newBook.Price);
-                            bookPrice.DateBegin = DateTime.UtcNow;
+                            var book = new Book
+                            {
+                                Name = newBook.Name,
+                                Year = int.Parse(newBook.Year),
+                                Isbn = newBook.Isbn,
+                                PublisherId = publisher.Id
+                            };
+
+                            var bookQuantity = new BookQuantity
+                            {
+                                Book = book,
+                                Quantity = int.Parse(newBook.Quantity)
+                            };
+
+                            var bookPrice = new BookPrice
+                            {
+                                Books = book,
+                                Price = decimal.Parse(newBook.Price),
+                                DateBegin = DateTime.UtcNow
+                            };
                             var authorList = newBook.AuthorListString.ToString().Split(",").ToList();
                             var result = _addBookService.AddBook(book, bookQuantity, bookPrice, authorList);
 
