@@ -1,4 +1,5 @@
 using Autofac;
+using BookShopApp.Autofac;
 using BookShopApp.Domain;
 using BookShopApp.Interfaces;
 using BookShopApp.Services;
@@ -17,7 +18,15 @@ namespace BookShopApp
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new BookShopForm());
+
+
+            var builder = new ContainerBuilder();
+            builder.RegisterModule<ServiceModule>();
+            //builder.RegisterModule<FormModule>();
+
+            using var container=builder.Build();
+            var form=container.Resolve<BookShopForm>();
+            Application.Run(form);
         }
     }
 }

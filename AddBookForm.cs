@@ -21,15 +21,13 @@ namespace BookShopApp
 {
     public partial class AddBookForm : DevExpress.XtraEditors.XtraForm
     {
-        BookShopForm _bookShopForm;
         IGetAuthorsService _getAuthorsService;
         IGetPublishersService _getPublishersService;
         IAddBookService _addBookService;
         IGetPublisherByNameService _getPublisherByNameService;
-        public AddBookForm(BookShopForm bookShopForm)
+        public AddBookForm()
         {
             InitializeComponent();
-            _bookShopForm = bookShopForm;
         }
 
         private void AddBookForm_Load(object sender, EventArgs e)
@@ -107,7 +105,6 @@ namespace BookShopApp
                             var result = _addBookService.AddBook(book, bookQuantity, bookPrice, authorList);
 
                             this.Close();
-                            _bookShopForm.Enabled = true;
                         }
                     }
                     else
@@ -141,25 +138,19 @@ namespace BookShopApp
 
         private void btnAddPublisherInBookForm_Click(object sender, EventArgs e)
         {
-            AddPublisherForm addPublisherForm = new AddPublisherForm(_bookShopForm);
-            addPublisherForm.Show();
+            AddPublisherForm addPublisherForm = new AddPublisherForm();
+            addPublisherForm.ShowDialog();
         }
 
         private void btnAddAuthorInBookForm_Click(object sender, EventArgs e)
         {
-            AddAuthorForm addAuthorForm = new AddAuthorForm(_bookShopForm);
-            addAuthorForm.Show();
+            AddAuthorForm addAuthorForm = new AddAuthorForm();
+            addAuthorForm.ShowDialog();
         }
 
         private void btnCancelAddBook_Click(object sender, EventArgs e)
         {
             this.Close();
-            _bookShopForm.Enabled = true;
-        }
-
-        private void AddBookForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            _bookShopForm.Enabled = true;
         }
     }
 }

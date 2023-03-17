@@ -18,12 +18,10 @@ namespace BookShopApp
 {
     public partial class AddAuthorForm : Form
     {
-        public BookShopForm _bookShopForm;
         IAddAuthorService _addAuthorService;
-        public AddAuthorForm(BookShopForm bookShopForm)
+        public AddAuthorForm()
         {
             InitializeComponent();
-            _bookShopForm = bookShopForm;
             _addAuthorService= InstanceFactory.GetInstance<IAddAuthorService>();
         }
 
@@ -55,7 +53,6 @@ namespace BookShopApp
                     if (result)
                     {
                         this.Close();
-                        _bookShopForm.Enabled = true;
                     }
                 }
             }
@@ -75,7 +72,6 @@ namespace BookShopApp
         private void btnCancelAddAuthor_Click(object sender, EventArgs e)
         {
             this.Close();
-            _bookShopForm.Enabled = true;
         }
 
         private void AddAuthorForm_KeyUp(object sender, KeyEventArgs e)
@@ -86,11 +82,6 @@ namespace BookShopApp
         private void AddAuthorForm_Load(object sender, EventArgs e)
         {
 
-        }
-
-        private void AddAuthorForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            _bookShopForm.Enabled = true;
         }
     }
 }

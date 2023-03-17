@@ -24,6 +24,9 @@ namespace BookShopApp.Autofac
             builder.RegisterType<SaleBookService>().As<ISaleBookService>();
             builder.RegisterType<ChangePriceService>().As<IChangePriceService>();
             builder.RegisterType<GetPublisherByNameService>().As<IGetPublisherByNameService>();
+            builder.RegisterAssemblyTypes(typeof(Program).Assembly)
+                .AssignableTo<DevExpress.XtraEditors.XtraForm>()
+                .AsSelf();
         }
     }
 }

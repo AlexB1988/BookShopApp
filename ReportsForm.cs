@@ -13,10 +13,8 @@ namespace BookShopApp
 {
     public partial class ReportsForm : Form
     {
-        BookShopForm _bookShopForm;
-        public ReportsForm(BookShopForm booksShopForm)
+        public ReportsForm()
         {
-            _bookShopForm = booksShopForm;
             InitializeComponent();
         }
 
@@ -28,7 +26,6 @@ namespace BookShopApp
 
         private void ReportsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _bookShopForm.Enabled=true;
         }
 
         private void btnPurchasesReport_Click(object sender, EventArgs e)
