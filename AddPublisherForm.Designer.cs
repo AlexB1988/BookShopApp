@@ -96,8 +96,6 @@
             this.Name = "AddPublisherForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Добавление издательства";
-            this.Load += new System.EventHandler(this.AddPublisherForm_Load);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.AddPublisherForm_KeyUp);
             this.ResumeLayout(false);
             this.PerformLayout();
 

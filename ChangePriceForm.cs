@@ -1,4 +1,5 @@
 ﻿using BookShopApp.Autofac;
+using BookShopApp.Domain.Entities;
 using BookShopApp.Interfaces;
 using BookShopApp.Services;
 using DevExpress.XtraEditors;
@@ -17,38 +18,31 @@ namespace BookShopApp
 {
     public partial class ChangePriceForm : DevExpress.XtraEditors.XtraForm
     {
-        List<object> _selectedBooksList;
-        IGetSelectedBooksService _getSelectedBooksService;
-        IChangePriceService _changePriceService;
-        BookShopForm _bookShopForm;
-        public ChangePriceForm(List<object> list,BookShopForm bookShopForm)
+        List<Book> _selectedBooksList=new();
+        private readonly IChangePriceService _changePriceService;
+        public ChangePriceForm(IChangePriceService changePriceService)
         {
             InitializeComponent();
-            _selectedBooksList = list;
-            _getSelectedBooksService = InstanceFactory.GetInstance<IGetSelectedBooksService>();
-            _changePriceService=InstanceFactory.GetInstance<IChangePriceService>();
-            _bookShopForm = bookShopForm;
+            _changePriceService = changePriceService;
+        }
+        public void AddBooks(Book book)
+        {
+            _selectedBooksList.Add(book);
         }
 
         private void ChangePriceForm_Load(object sender, EventArgs e)
         {
-            var selectedBooks = _getSelectedBooksService.GetSelectedBooks(_selectedBooksList);
-            foreach (var book in selectedBooks)
+            foreach (var book in _selectedBooksList)
             {
                 book.PriceOfBooksToChange = 0;
             }
-            gridControlChangePrice.DataSource = selectedBooks;
+            gridControlChangePrice.DataSource = _selectedBooksList;
         }
 
-        private void ChangePriceForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            _bookShopForm.Enabled = true;
-        }
 
         private void btnCancelChangePrice_Click(object sender, EventArgs e)
         {
             this.Close();
-            _bookShopForm.Enabled = true;
         }
 
         private void btnOkChangePrice_Click(object sender, EventArgs e)
@@ -59,17 +53,19 @@ namespace BookShopApp
 
 
                 int rowIndex = 0;
-                List<object> selectedObjectBooks = new List<object>();
+                List<Book> selectedBooks = new List<Book>();
                 while (gridView1_1.IsValidRowHandle(rowIndex))
                 {
-                    selectedObjectBooks.Add(gridView1_1.GetRow(rowIndex));
-                    rowIndex++;
+                    if(gridView1_1.GetRow(rowIndex) is not Book ChangePriceBook)
+                    {
+                        continue;
+                    }
+                    selectedBooks.Add(ChangePriceBook);
                 }
-                var selectedBooks = _getSelectedBooksService.GetSelectedBooks(selectedObjectBooks);
+                //var selectedBooks = _getSelectedBooksService.GetSelectedBooks(selectedObjectBooks);
                 bool result = _changePriceService.ChangePrice(selectedBooks);
             }
             this.Close();
-            _bookShopForm.Enabled = true;
         }
         //private void gridView1_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
         //{

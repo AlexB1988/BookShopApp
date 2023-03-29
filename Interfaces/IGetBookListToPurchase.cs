@@ -1,4 +1,5 @@
 ﻿using BookShopApp.Domain.Entities;
+using BookShopApp.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace BookShopApp.Interfaces
 {
-    public interface IGetSelectedBooksService
+    public interface IGetBookListToPurchase
     {
-        public List<Book> GetSelectedBooks(List<object> list);
+        public void AddBooks(Book book);
     }
 }

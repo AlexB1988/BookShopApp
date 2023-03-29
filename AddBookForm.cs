@@ -1,4 +1,6 @@
-﻿using BookShopApp.Autofac;
+﻿using Autofac;
+using Autofac.Features.OwnedInstances;
+using BookShopApp.Autofac;
 using BookShopApp.Domain.Entities;
 using BookShopApp.Interfaces;
 using BookShopApp.Validation;
@@ -21,25 +23,29 @@ namespace BookShopApp
 {
     public partial class AddBookForm : DevExpress.XtraEditors.XtraForm
     {
-        IGetAuthorsService _getAuthorsService;
-        IGetPublishersService _getPublishersService;
-        IAddBookService _addBookService;
-        IGetPublisherByNameService _getPublisherByNameService;
-        public AddBookForm()
+        private readonly IGetAuthorsService _getAuthorsService;
+        private readonly IGetPublishersService _getPublishersService;
+        private readonly IAddBookService _addBookService;
+        private readonly IGetPublisherByNameService _getPublisherByNameService;
+        private readonly ILifetimeScope _lifetimeScope;
+        public AddBookForm(IGetAuthorsService getAuthorsService, IGetPublishersService getPublishersService, IAddBookService addBookService, IGetPublisherByNameService getPublisherByNameService, ILifetimeScope lifetimeScope)
         {
             InitializeComponent();
+            _getAuthorsService = getAuthorsService;
+            _getPublishersService = getPublishersService;
+            _addBookService = addBookService;
+            _getPublisherByNameService = getPublisherByNameService;
+            _lifetimeScope = lifetimeScope;
         }
 
         private void AddBookForm_Load(object sender, EventArgs e)
         {
-            _getPublishersService = InstanceFactory.GetInstance<IGetPublishersService>();
             var publishers = _getPublishersService.GetPublishers();
             foreach (var publisher in publishers)
             {
                 comboBoxAddBookPublisher.Properties.Items.Add(publisher.Name);
             }
 
-            _getAuthorsService = InstanceFactory.GetInstance<IGetAuthorsService>();
             checkedComboBoxAddBookAuthors.Properties.DataSource = _getAuthorsService.GetAuthors();
             checkedComboBoxAddBookAuthors.Properties.ValueMember = "Id";
             checkedComboBoxAddBookAuthors.Properties.DisplayMember = "Name";
@@ -48,9 +54,6 @@ namespace BookShopApp
         {
             try
             {
-                _addBookService = InstanceFactory.GetInstance<IAddBookService>();
-                _getPublisherByNameService = InstanceFactory.GetInstance<IGetPublisherByNameService>();
-
                 if (comboBoxAddBookPublisher.SelectedItem is not null)
                 {
                     var publisher = _getPublisherByNameService.GetPublisherByName(comboBoxAddBookPublisher.SelectedItem.ToString());
@@ -138,14 +141,20 @@ namespace BookShopApp
 
         private void btnAddPublisherInBookForm_Click(object sender, EventArgs e)
         {
-            AddPublisherForm addPublisherForm = new AddPublisherForm();
-            addPublisherForm.ShowDialog();
+            using(var form = _lifetimeScope.Resolve<Owned<AddPublisherForm>>())
+            {
+                form.Value.ShowDialog();
+            }
+            //AddPublisherForm addPublisherForm = new AddPublisherForm();
+            //addPublisherForm.ShowDialog();
         }
 
         private void btnAddAuthorInBookForm_Click(object sender, EventArgs e)
         {
-            AddAuthorForm addAuthorForm = new AddAuthorForm();
-            addAuthorForm.ShowDialog();
+            using(var form =_lifetimeScope.Resolve<Owned<AddAuthorForm>>())
+            {
+                form.Value.ShowDialog();
+            }
         }
 
         private void btnCancelAddBook_Click(object sender, EventArgs e)

@@ -21,16 +21,22 @@ using BookShopApp.Interfaces;
 using DevExpress.Utils.DirectXPaint;
 using BookShopApp.Domain;
 using BookShopApp.Autofac;
+using Autofac;
+using Autofac.Features.OwnedInstances;
+using BookShopApp.Domain.Entities;
 
 namespace BookShopApp
 {
     public partial class BookShopForm : DevExpress.XtraEditors.XtraForm
     {
-        IGetBookService _getBookService;
-        public BookShopForm(IGetBookService getBookService)
+        private readonly ILifetimeScope _lifetimeScope;
+        private readonly IGetBookService _getBookService;
+
+        public BookShopForm(IGetBookService getBookService, ILifetimeScope lifetimeScope)
         {
             InitializeComponent();
-            _getBookService=getBookService;
+            _getBookService = getBookService;
+            _lifetimeScope = lifetimeScope;
         }
 
         private void BookShop_Load(object sender, EventArgs e)
@@ -45,57 +51,77 @@ namespace BookShopApp
 
         private void btnAddPublisher_Click(object sender, EventArgs e)
         {
-            AddPublisherForm addPublisherForm = new AddPublisherForm();
-            addPublisherForm.ShowDialog();
-
+            using(var form = _lifetimeScope.Resolve<Owned<AddPublisherForm>>())
+            {
+                form.Value.ShowDialog();
+            }
         }
 
         private void btnAddAuthor_Click(object sender, EventArgs e)
         {
-            AddAuthorForm addAuthorForm = new AddAuthorForm();
-            addAuthorForm.ShowDialog();
+            using (var form = _lifetimeScope.Resolve<Owned<AddAuthorForm>>())
+            {
+                form.Value.ShowDialog();
+            }
         }
 
         private void btnAddBook_Click(object sender, EventArgs e)
         {
-            AddBookForm addBookForm = new AddBookForm();
-            addBookForm.ShowDialog();
+            using (var form = _lifetimeScope.Resolve<Owned<AddBookForm>>())
+            {
+                form.Value.ShowDialog();
+            }
         }
 
         private void btnGetReports_Click(object sender, EventArgs e)
         {
-            ReportsForm reportsForm = new ReportsForm();
-            reportsForm.ShowDialog();
+            using(var form = _lifetimeScope.Resolve<Owned<ReportsForm>>())
+            {
+                form.Value.ShowDialog();
+            }
         }
         private void btnCreatePurchase_Click(object sender, EventArgs e)
         {
-            this.Enabled = false;
-            GridView gridViewGetBooks = gridControlGetBookList.MainView as GridView;
-            var selectedRows = gridViewGetBooks.GetSelectedRows();
-            List<object> listOfPuchaseBooks = new List<object>();
+            var selectedRows = GetBookListView.GetSelectedRows();
+            var listOfPuchaseBooks = new List<Book>();
             foreach (var row in selectedRows)
             {
-                var bookToPurchase = gridViewGetBooks.GetRow(row);
+                if(GetBookListView.GetRow(row) is not Book bookToPurchase)
+                {
+                    continue;
+                }
                 listOfPuchaseBooks.Add(bookToPurchase);
             }
-            CreatePurchaseForm createPurchaseForm = new CreatePurchaseForm(listOfPuchaseBooks,this);
-            createPurchaseForm.Show();
+            using (var form = _lifetimeScope.Resolve<Owned<CreatePurchaseForm>>())
+            {
+                foreach(var row in listOfPuchaseBooks)
+                {
+                    form.Value.AddBooks(row);
+                }
+                form.Value.ShowDialog();
+            }
         }
-
-
         private void btnChangePrice_Click(object sender, EventArgs e)
         {
-            this.Enabled = false;
-            GridView gridViewGetBooks = gridControlGetBookList.MainView as GridView;
-            var selectedRows = gridViewGetBooks.GetSelectedRows();
-            List<object> listOfPuchaseBooks = new List<object>();
+            var selectedRows = GetBookListView.GetSelectedRows();
+            var listOfPuchaseBooks = new List<Book>();
             foreach (var row in selectedRows)
             {
-                var bookToPurchase = gridViewGetBooks.GetRow(row);
+                if(GetBookListView.GetRow(row) is not Book bookToPurchase)
+                {
+                    continue;
+                }
                 listOfPuchaseBooks.Add(bookToPurchase);
             }
-            ChangePriceForm changePriceForm = new ChangePriceForm(listOfPuchaseBooks,this);
-            changePriceForm.Show();
+
+            using(var form = _lifetimeScope.Resolve<Owned<ChangePriceForm>>())
+            {
+                foreach (var row in listOfPuchaseBooks)
+                {
+                    form.Value.AddBooks(row);
+                }
+                form.Value.ShowDialog();
+            }
         }
     }
 }

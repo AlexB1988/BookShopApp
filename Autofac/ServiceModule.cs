@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Builder;
 using BookShopApp.Domain;
 using BookShopApp.Interfaces;
 using BookShopApp.Services;
@@ -20,10 +21,16 @@ namespace BookShopApp.Autofac
             builder.RegisterType<AddBookService>().As<IAddBookService>();
             builder.RegisterType<GetPublisherService>().As<IGetPublishersService>();
             builder.RegisterType<GetAuthorsService>().As<IGetAuthorsService>();
-            builder.RegisterType<GetSelectedBooksService>().As<IGetSelectedBooksService>();
             builder.RegisterType<SaleBookService>().As<ISaleBookService>();
             builder.RegisterType<ChangePriceService>().As<IChangePriceService>();
             builder.RegisterType<GetPublisherByNameService>().As<IGetPublisherByNameService>();
+            builder.RegisterType<AddPublisherForm>().AsSelf();
+            builder.RegisterType<AddAuthorForm>().AsSelf();
+            builder.RegisterType<AddBookForm>().AsSelf();
+            builder.RegisterType<ChangePriceForm>().AsSelf();
+            builder.RegisterType<CreatePurchaseForm>().AsSelf();
+            builder.RegisterType<BookShopForm>();
+            builder.RegisterType<ReportsForm>().AsSelf();
             builder.RegisterAssemblyTypes(typeof(Program).Assembly)
                 .AssignableTo<DevExpress.XtraEditors.XtraForm>()
                 .AsSelf();

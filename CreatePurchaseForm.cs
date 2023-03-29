@@ -15,91 +15,58 @@ using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using BookShopApp.Interfaces;
 using BookShopApp.Autofac;
+using BookShopApp.Domain.Entities;
 
 namespace BookShopApp
 {
     public partial class CreatePurchaseForm : DevExpress.XtraEditors.XtraForm
     {
-        List<object> _selectedBooksList;
-        IGetSelectedBooksService _getSelectedBooksService;
-        ISaleBookService _saleBookService;
-        BookShopForm _bookShopForm;
-        public CreatePurchaseForm(List<object> list,BookShopForm bookShopForm)
+        private readonly ISaleBookService _saleBookService;
+        public List<Book> _selectedBooksList = new();
+        public CreatePurchaseForm(ISaleBookService saleBookService)
         {
             InitializeComponent();
-            _bookShopForm= bookShopForm;
-            _selectedBooksList = list;
-            _getSelectedBooksService= InstanceFactory.GetInstance<IGetSelectedBooksService>();
-            _saleBookService= InstanceFactory.GetInstance<ISaleBookService>();
+            _saleBookService = saleBookService;
+        }
+
+        public void AddBooks(Book book)
+        {
+            _selectedBooksList.Add(book);
         }
         private void CreatePurchaseForm_Load(object sender, EventArgs e)
         {
-            var selectedBooks=_getSelectedBooksService.GetSelectedBooks(_selectedBooksList);
-            foreach(var book in selectedBooks)
+            var selectedBooks = _selectedBooksList;
+            foreach (var book in selectedBooks)
             {
                 book.CountBooksToSell = 1;
             }
             gridControlPurchaseBook.DataSource = selectedBooks;
-            //BookShopForm form = new BookShopForm(_dataManager);
-            //form.Enabled = false;
         }
         private void btnOkPuchaseBook_Click(object sender, EventArgs e)
         {
             if (gridView1.RowCount > 0)
             {
-                this.Enabled = false;
-
-
                 int rowIndex = 0;
-                List<object> purchaseObjectBook = new List<object>();
+                List<Book> purchaseBook = new List<Book>();
                 while (gridView1.IsValidRowHandle(rowIndex))
                 {
-                    purchaseObjectBook.Add(gridView1.GetRow(rowIndex));
+                    if(gridView1.GetRow(rowIndex) is not Book purchaseObjectBook)
+                    {
+                        continue;
+                    }
+                    purchaseBook.Add(purchaseObjectBook);
+                    //purchaseBook.Add(gridView1.GetRow(rowIndex) as Book);
                     rowIndex++;
                 }
-                var purchaseBook = _getSelectedBooksService.GetSelectedBooks(purchaseObjectBook);
+                //var purchaseBook = _getSelectedBooksService.GetSelectedBooks(purchaseObjectBook);
                 bool result = _saleBookService.SaleBook(purchaseBook);
             }
-            _bookShopForm.Enabled = true;
-
             this.Close();
         }
 
         private void btnCancelPurchaseBook_Click(object sender, EventArgs e)
         {
             this.Close();
-            _bookShopForm.Enabled = true;
         }
-
-        private void CreatePurchaseForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            _bookShopForm.Enabled = true;
-        }
-
-        //private void gridView1_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
-        //{
-        //    if (gridView1.FocusedColumn.FieldName== "CountBooksToSell")
-        //    {
-        //        int count = 0;
-        //        if(!int.TryParse(e.Value as String,out count))
-        //        {
-        //            e.Valid = false;
-        //            e.ErrorText = "Значение колонки должно иметь целое положительное значение";
-        //            this.Close();
-        //        }
-        //        else if (count <= 0)
-        //        {
-        //            e.Valid = false;
-        //            e.ErrorText = "Значение колонки должно иметь целое положительное значение";
-        //            this.Close();
-        //        }
-        //    }
-        //}
-
-        //private void gridView1_InvalidValueException(object sender, DevExpress.XtraEditors.Controls.InvalidValueExceptionEventArgs e)
-        //{
-        //    MessageBox.Show(this,e.ErrorText,"Неверное значение",MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    this.Close();
-        //}
     }
 }

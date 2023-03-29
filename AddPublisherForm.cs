@@ -18,11 +18,11 @@ namespace BookShopApp
 {
     public partial class AddPublisherForm : Form
     {
-        IAddPublisherService _addPublisherService;
-        public AddPublisherForm()
+        private readonly IAddPublisherService _addPublisherService;
+        public AddPublisherForm(IAddPublisherService addPublisherService)
         {
             InitializeComponent();
-            _addPublisherService= InstanceFactory.GetInstance<IAddPublisherService>();
+            _addPublisherService = addPublisherService;
         }
 
         private void btnOkAddPublisher_Click(object sender, EventArgs e)
@@ -68,20 +68,9 @@ namespace BookShopApp
                 return;
             }
         }
-
-        private void AddPublisherForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnCancelAddPublisher_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void AddPublisherForm_KeyUp(object sender, KeyEventArgs e)
-        {
-
         }
     }
 }

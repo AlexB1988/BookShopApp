@@ -188,7 +188,6 @@
             this.Name = "CreatePurchaseForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Оформить покупку";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CreatePurchaseForm_FormClosed);
             this.Load += new System.EventHandler(this.CreatePurchaseForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlPurchaseBook)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();

@@ -156,7 +156,6 @@
             this.Name = "ChangePriceForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Изменение цены";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ChangePriceForm_FormClosed);
             this.Load += new System.EventHandler(this.ChangePriceForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlChangePrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bookBindingSource)).EndInit();

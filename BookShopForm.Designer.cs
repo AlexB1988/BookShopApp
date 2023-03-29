@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
-            DevExpress.XtraGrid.GridLevelNode gridLevelNode2 = new DevExpress.XtraGrid.GridLevelNode();
+            DevExpress.XtraGrid.GridLevelNode gridLevelNode3 = new DevExpress.XtraGrid.GridLevelNode();
+            DevExpress.XtraGrid.GridLevelNode gridLevelNode4 = new DevExpress.XtraGrid.GridLevelNode();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BookShopForm));
             this.gridControlGetBookList = new DevExpress.XtraGrid.GridControl();
-            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.GetBookListView = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.colName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colAuthorsList = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPublisher = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -49,7 +49,7 @@
             this.btnGetReports = new System.Windows.Forms.Button();
             this.btnChangePrice = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlGetBookList)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GetBookListView)).BeginInit();
             this.SuspendLayout();
             // 
             // gridControlGetBookList
@@ -57,23 +57,23 @@
             this.gridControlGetBookList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            gridLevelNode1.RelationName = "Level1";
-            gridLevelNode2.RelationName = "Level2";
+            gridLevelNode3.RelationName = "Level1";
+            gridLevelNode4.RelationName = "Level2";
             this.gridControlGetBookList.LevelTree.Nodes.AddRange(new DevExpress.XtraGrid.GridLevelNode[] {
-            gridLevelNode1,
-            gridLevelNode2});
+            gridLevelNode3,
+            gridLevelNode4});
             this.gridControlGetBookList.Location = new System.Drawing.Point(0, 125);
-            this.gridControlGetBookList.MainView = this.gridView1;
+            this.gridControlGetBookList.MainView = this.GetBookListView;
             this.gridControlGetBookList.MinimumSize = new System.Drawing.Size(1007, 387);
             this.gridControlGetBookList.Name = "gridControlGetBookList";
             this.gridControlGetBookList.Size = new System.Drawing.Size(1007, 387);
             this.gridControlGetBookList.TabIndex = 0;
             this.gridControlGetBookList.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView1});
+            this.GetBookListView});
             // 
-            // gridView1
+            // GetBookListView
             // 
-            this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.GetBookListView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.colName,
             this.colAuthorsList,
             this.colPublisher,
@@ -81,10 +81,10 @@
             this.colCurrentPrice,
             this.colBookQuantity,
             this.colIsbn});
-            this.gridView1.GridControl = this.gridControlGetBookList;
-            this.gridView1.Name = "gridView1";
-            this.gridView1.OptionsSelection.MultiSelect = true;
-            this.gridView1.OptionsSelection.MultiSelectMode = DevExpress.XtraGrid.Views.Grid.GridMultiSelectMode.CheckBoxRowSelect;
+            this.GetBookListView.GridControl = this.gridControlGetBookList;
+            this.GetBookListView.Name = "GetBookListView";
+            this.GetBookListView.OptionsSelection.MultiSelect = true;
+            this.GetBookListView.OptionsSelection.MultiSelectMode = DevExpress.XtraGrid.Views.Grid.GridMultiSelectMode.CheckBoxRowSelect;
             // 
             // colName
             // 
@@ -288,7 +288,7 @@
             this.Text = "Книжный склад";
             this.Load += new System.EventHandler(this.BookShop_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlGetBookList)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GetBookListView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -296,7 +296,7 @@
         #endregion
 
         private DevExpress.XtraGrid.GridControl gridControlGetBookList;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private DevExpress.XtraGrid.Views.Grid.GridView GetBookListView;
         private DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel windowsuiButtonPanel1;
         private DevExpress.XtraGrid.GridControl gridGetBooks;
         private DevExpress.XtraGrid.Columns.GridColumn colName;
