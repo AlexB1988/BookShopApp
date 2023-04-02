@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookShopApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230207172938_AddingToDataBaseTablesQuantityAndSales")]
-    partial class AddingToDataBaseTablesQuantityAndSales
+    [Migration("20230402084602_DataContextProject")]
+    partial class DataContextProject
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -76,12 +76,21 @@ namespace BookShopApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("AuthorsList")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("CountBooksToSell")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Isbn")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal?>("PriceOfBooksToChange")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("PublisherId")
@@ -142,6 +151,84 @@ namespace BookShopApp.Migrations
                     b.ToTable("BookQuantities");
                 });
 
+            modelBuilder.Entity("BookShopApp.Domain.Entities.Cart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateOfCart")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsSold")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("SumOfCheck")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cart");
+                });
+
+            modelBuilder.Entity("BookShopApp.Domain.Entities.CartDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CartId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("CartId");
+
+                    b.ToTable("CartDetails");
+                });
+
+            modelBuilder.Entity("BookShopApp.Domain.Entities.CheckList", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateOfCheck")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Sum")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CheckList");
+                });
+
+            modelBuilder.Entity("BookShopApp.Domain.Entities.CurrentPrice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId")
+                        .IsUnique();
+
+                    b.ToTable("CurrentPrice");
+                });
+
             modelBuilder.Entity("BookShopApp.Domain.Entities.Publisher", b =>
                 {
                     b.Property<int>("Id")
@@ -163,15 +250,17 @@ namespace BookShopApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("PriceId")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CheckListId")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<int>("PricesId")
+                    b.Property<int>("PriceId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PricesId");
+                    b.HasIndex("CheckListId");
+
+                    b.HasIndex("PriceId");
 
                     b.ToTable("Sales");
                 });
@@ -243,15 +332,53 @@ namespace BookShopApp.Migrations
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("BookShopApp.Domain.Entities.Sales", b =>
+            modelBuilder.Entity("BookShopApp.Domain.Entities.CartDetails", b =>
                 {
-                    b.HasOne("BookShopApp.Domain.Entities.BookPrice", "Prices")
-                        .WithMany("Sales")
-                        .HasForeignKey("PricesId")
+                    b.HasOne("BookShopApp.Domain.Entities.Book", "Books")
+                        .WithMany("CartDetails")
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Prices");
+                    b.HasOne("BookShopApp.Domain.Entities.Cart", "Cart")
+                        .WithMany("CartDetails")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Books");
+
+                    b.Navigation("Cart");
+                });
+
+            modelBuilder.Entity("BookShopApp.Domain.Entities.CurrentPrice", b =>
+                {
+                    b.HasOne("BookShopApp.Domain.Entities.Book", "Books")
+                        .WithOne("CurrentPrice")
+                        .HasForeignKey("BookShopApp.Domain.Entities.CurrentPrice", "BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("BookShopApp.Domain.Entities.Sales", b =>
+                {
+                    b.HasOne("BookShopApp.Domain.Entities.CheckList", "CheckList")
+                        .WithMany("Sales")
+                        .HasForeignKey("CheckListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BookShopApp.Domain.Entities.BookPrice", "Price")
+                        .WithMany("Sales")
+                        .HasForeignKey("PriceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CheckList");
+
+                    b.Navigation("Price");
                 });
 
             modelBuilder.Entity("BookShopApp.Domain.Entities.Author", b =>
@@ -265,10 +392,24 @@ namespace BookShopApp.Migrations
 
                     b.Navigation("BookQuantity");
 
+                    b.Navigation("CartDetails");
+
+                    b.Navigation("CurrentPrice");
+
                     b.Navigation("Prices");
                 });
 
             modelBuilder.Entity("BookShopApp.Domain.Entities.BookPrice", b =>
+                {
+                    b.Navigation("Sales");
+                });
+
+            modelBuilder.Entity("BookShopApp.Domain.Entities.Cart", b =>
+                {
+                    b.Navigation("CartDetails");
+                });
+
+            modelBuilder.Entity("BookShopApp.Domain.Entities.CheckList", b =>
                 {
                     b.Navigation("Sales");
                 });

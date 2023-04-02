@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace BookShopApp.Interfaces
 {
-    public interface IGetPublishersService
+    public interface IGetSelectedBooksService
     {
-        public List<Publisher> GetPublishers();
+        public List<Book> GetSelectedBooks(int[] rows, object obj);
     }
 }

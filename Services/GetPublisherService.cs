@@ -1,4 +1,5 @@
-﻿using BookShopApp.Domain;
+﻿using Autofac;
+using BookShopApp.Domain;
 using BookShopApp.Domain.Entities;
 using BookShopApp.Interfaces;
 using System;
@@ -11,16 +12,25 @@ namespace BookShopApp.Services
 {
     public class GetPublisherService:IGetPublishersService
     {
-        public GetPublisherService()
+        ILifetimeScope _lifetimeScope;
+        public GetPublisherService(ILifetimeScope lifetimeScope)
         {
+            _lifetimeScope = lifetimeScope;
         }
 
-        public IEnumerable<Domain.Entities.Publisher> GetPublishers()
+        public List<Publisher> GetPublishers()
         {
-            using (var _dataContext = new DataContext())
+            try
             {
-                var publishers = _dataContext.Publishers.ToList();
-                return publishers;
+                using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
+                {
+                    var publishers = _dataContext.Publishers.ToList();
+                    return publishers;
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

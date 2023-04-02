@@ -19,10 +19,8 @@ namespace BookShopApp
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-
             var builder = new ContainerBuilder();
             builder.RegisterModule<ServiceModule>();
-            //builder.RegisterModule<FormModule>();
 
             using var container=builder.Build();
             var form=container.Resolve<BookShopForm>();

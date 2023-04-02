@@ -15,6 +15,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -131,7 +132,7 @@ namespace BookShopApp
             {
                 MessageBox.Show(
                 $"{ex.Message}\n",
-                "Ошибка",
+                $"{ex.GetType()}",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error,
                 MessageBoxDefaultButton.Button1,
@@ -144,9 +145,12 @@ namespace BookShopApp
             using(var form = _lifetimeScope.Resolve<Owned<AddPublisherForm>>())
             {
                 form.Value.ShowDialog();
+                var publishers = _getPublishersService.GetPublishers();
+                foreach (var publisher in publishers)
+                {
+                    comboBoxAddBookPublisher.Properties.Items.Add(publisher.Name);
+                }
             }
-            //AddPublisherForm addPublisherForm = new AddPublisherForm();
-            //addPublisherForm.ShowDialog();
         }
 
         private void btnAddAuthorInBookForm_Click(object sender, EventArgs e)
@@ -154,6 +158,9 @@ namespace BookShopApp
             using(var form =_lifetimeScope.Resolve<Owned<AddAuthorForm>>())
             {
                 form.Value.ShowDialog();
+                checkedComboBoxAddBookAuthors.Properties.DataSource = _getAuthorsService.GetAuthors();
+                checkedComboBoxAddBookAuthors.Properties.ValueMember = "Id";
+                checkedComboBoxAddBookAuthors.Properties.DisplayMember = "Name";
             }
         }
 

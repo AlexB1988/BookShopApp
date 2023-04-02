@@ -9,6 +9,6 @@ namespace BookShopApp.Interfaces
 {
     public interface IGetAuthorsService
     {
-        public IEnumerable<Author> GetAuthors();
+        public List<Author> GetAuthors();
     }
 }

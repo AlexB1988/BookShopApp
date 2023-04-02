@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using BookShopApp.Domain;
-using BookShopApp.Domain.Entities;
 using BookShopApp.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,22 +9,22 @@ using System.Threading.Tasks;
 
 namespace BookShopApp.Services
 {
-    public class GetPublisherByNameService:IGetPublisherByNameService
+    public class RemoveUnchangedBooksService : IRemoveUnchangedBooksService
     {
         ILifetimeScope _lifetimeScope;
-        public GetPublisherByNameService(ILifetimeScope lifetimeScope)
+        public RemoveUnchangedBooksService(ILifetimeScope lifetimeScope)
         {
             _lifetimeScope = lifetimeScope;
         }
-
-        public Publisher GetPublisherByName(string name)
+        public void RemoveUnchangedBooks()
         {
             try
             {
                 using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
                 {
-                    var publisher = _dataContext.Publishers.FirstOrDefault(x => x.Name == name);
-                    return publisher;
+                    var bookList = _dataContext.BookToChange.Where(x => x.IsGhanged == false);
+                    _dataContext.RemoveRange(bookList);
+                    _dataContext.SaveChanges();
                 }
             }
             catch(Exception ex)

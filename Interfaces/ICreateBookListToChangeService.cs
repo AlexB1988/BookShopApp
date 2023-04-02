@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace BookShopApp.Interfaces
 {
-    public interface IGetPublishersService
+    public interface ICreateBookListToChangeService
     {
-        public List<Publisher> GetPublishers();
+        public void CreateBookListToChange(List<Book> books);
     }
 }

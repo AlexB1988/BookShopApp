@@ -21,15 +21,21 @@ namespace BookShopApp.Domain.Entities
         public Publisher Publisher { get; set; }
         public BookQuantity? BookQuantity { get; set; }
         public CurrentPrice? CurrentPrice { get; set; }
+        public ICollection<CartDetails> CartDetails { get; set; }
         public ICollection<Author> Authors { get; set; }
         public ICollection<BookPrice> Prices { get; set; }
         public ICollection<AuthorsBooks> AuthorsBooks { get; set; }
+        public ICollection<BookCheckCount> BookCheckCounts { get; set; }
+        public ICollection<BookToChange> BookToChange { get; set; }
 
         public Book()
         {
-            Prices=new HashSet<BookPrice>();
-            Authors=new HashSet<Author>();
-            AuthorsBooks=new List<AuthorsBooks>();
+            Prices = new HashSet<BookPrice>();
+            Authors = new HashSet<Author>();
+            AuthorsBooks = new List<AuthorsBooks>();
+            CartDetails = new HashSet<CartDetails>();
+            BookCheckCounts = new HashSet<BookCheckCount>();
+            BookToChange = new HashSet<BookToChange>();
         }
     }
 

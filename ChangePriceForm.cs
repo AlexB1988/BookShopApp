@@ -18,25 +18,25 @@ namespace BookShopApp
 {
     public partial class ChangePriceForm : DevExpress.XtraEditors.XtraForm
     {
-        List<Book> _selectedBooksList=new();
         private readonly IChangePriceService _changePriceService;
-        public ChangePriceForm(IChangePriceService changePriceService)
+        private readonly IGetBooksToChangeService _getBooksToChangeService;
+        private readonly IRemoveUnchangedBooksService _removeUnchangedBooksService;
+        public ChangePriceForm(IChangePriceService changePriceService, IGetBooksToChangeService getBooksToChangeService, IRemoveUnchangedBooksService removeUnchangedBooksService)
         {
             InitializeComponent();
             _changePriceService = changePriceService;
-        }
-        public void AddBooks(Book book)
-        {
-            _selectedBooksList.Add(book);
+            _getBooksToChangeService = getBooksToChangeService;
+            _removeUnchangedBooksService = removeUnchangedBooksService;
         }
 
         private void ChangePriceForm_Load(object sender, EventArgs e)
         {
-            foreach (var book in _selectedBooksList)
+            var selectedBooksList = _getBooksToChangeService.GetBooksToChange();
+            foreach (var book in selectedBooksList)
             {
                 book.PriceOfBooksToChange = 0;
             }
-            gridControlChangePrice.DataSource = _selectedBooksList;
+            gridControlChangePrice.DataSource = selectedBooksList;
         }
 
 
@@ -47,54 +47,40 @@ namespace BookShopApp
 
         private void btnOkChangePrice_Click(object sender, EventArgs e)
         {
-            if (gridView1_1.RowCount > 0)
+            try
             {
-                this.Enabled = false;
-
-
-                int rowIndex = 0;
-                List<Book> selectedBooks = new List<Book>();
-                while (gridView1_1.IsValidRowHandle(rowIndex))
+                if (GetBookListView.RowCount > 0)
                 {
-                    if(gridView1_1.GetRow(rowIndex) is not Book ChangePriceBook)
+                    int rowIndex = 0;
+                    List<Book> selectedBooks = new();
+                    while (GetBookListView.IsValidRowHandle(rowIndex))
                     {
-                        continue;
+                        if (GetBookListView.GetRow(rowIndex) is not Book ChangePriceBook)
+                        {
+                            continue;
+                        }
+                        selectedBooks.Add(ChangePriceBook);
+                        rowIndex++;
                     }
-                    selectedBooks.Add(ChangePriceBook);
+                    _changePriceService.ChangePrice(selectedBooks);
                 }
-                //var selectedBooks = _getSelectedBooksService.GetSelectedBooks(selectedObjectBooks);
-                bool result = _changePriceService.ChangePrice(selectedBooks);
+                this.Close();
             }
-            this.Close();
+            catch(Exception ex)
+            {
+                MessageBox.Show(
+                $"{ex.Message}\n",
+                $"{ex.GetType()}",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error,
+                MessageBoxDefaultButton.Button1,
+                MessageBoxOptions.DefaultDesktopOnly);
+            }
         }
-        //private void gridView1_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
-        //{
-        //    if (gridView1_1.FocusedColumn.FieldName == "PriceOfBooksToChange")
-        //    {
-        //        decimal count = 1.65m;
-        //        if (!decimal.TryParse(e.Value as String, out count))
-        //        {
-        //            e.Valid = false;
-        //            e.ErrorText = "Значение колонки должно иметь численное положительное значение";
-        //            this.Close();
-        //        }
-        //        else if (count <= 0)
-        //        {
-        //            e.Valid = false;
-        //            e.ErrorText = "Значение колонки должно иметь численное положительное значение";
-        //            this.Close();
-        //        }
-        //        else
-        //        {
 
-        //        }
-        //    }
-        //}
-
-        //private void gridView1_InvalidValueException(object sender, DevExpress.XtraEditors.Controls.InvalidValueExceptionEventArgs e)
-        //{
-        //    MessageBox.Show(this, e.ErrorText, "Неверное значение", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    this.Close();
-        //}
+        private void ChangePriceForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _removeUnchangedBooksService.RemoveUnchangedBooks();
+        }
     }
 }

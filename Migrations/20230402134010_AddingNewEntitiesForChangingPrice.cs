@@ -1,27 +1,33 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace BookShopApp.Migrations
 {
-    public partial class AddingModelCurrentPrice : Migration
+    public partial class AddingNewEntitiesForChangingPrice : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "CurrentPrice",
+                name: "BookToChange",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     BookId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Price = table.Column<decimal>(type: "TEXT", nullable: false)
+                    OldQuantiy = table.Column<int>(type: "INTEGER", nullable: true),
+                    Quantity = table.Column<int>(type: "INTEGER", nullable: false),
+                    OldPrice = table.Column<decimal>(type: "TEXT", nullable: true),
+                    Price = table.Column<decimal>(type: "TEXT", nullable: false),
+                    Date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    IsGhanged = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CurrentPrice", x => x.Id);
+                    table.PrimaryKey("PK_BookToChange", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CurrentPrice_Books_BookId",
+                        name: "FK_BookToChange_Books_BookId",
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
@@ -29,16 +35,15 @@ namespace BookShopApp.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CurrentPrice_BookId",
-                table: "CurrentPrice",
-                column: "BookId",
-                unique: true);
+                name: "IX_BookToChange_BookId",
+                table: "BookToChange",
+                column: "BookId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CurrentPrice");
+                name: "BookToChange");
         }
     }
 }

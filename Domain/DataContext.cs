@@ -10,22 +10,26 @@ namespace BookShopApp.Domain
 {
     public  class DataContext:DbContext
     {
-        public DbSet<Author> Authors { get; set; } = null;
-        public DbSet<Book> Books { get; set; } = null;
-        public DbSet<AuthorsBooks> AuthorsBooks { get; set; } = null;
-        public DbSet<Publisher> Publishers { get; set; } = null;
-        public DbSet<BookQuantity> BookQuantities { get; set; } = null;
-        public DbSet<Sales> Sales { get; set; }=null;
-        public DbSet<CurrentPrice> CurrentPrice { get; set; } = null;
-        public DbSet<BookPrice> BookPrice { get; set; } = null;
-        public DbSet<CheckList> CheckList { get; set; } = null;
+        public DbSet<Author> Authors => Set<Author>();
+        public DbSet<Book> Books => Set<Book>();
+        public DbSet<AuthorsBooks> AuthorsBooks => Set<AuthorsBooks>();
+        public DbSet<Publisher> Publishers => Set<Publisher>();
+        public DbSet<BookQuantity> BookQuantities => Set<BookQuantity>();
+        public DbSet<Sales> Sales => Set<Sales>();
+        public DbSet<CurrentPrice> CurrentPrice => Set<CurrentPrice>();
+        public DbSet<BookPrice> BookPrice => Set<BookPrice>();
+        public DbSet<CheckList> CheckList => Set<CheckList>();
+        public DbSet<Cart> Cart => Set<Cart>();
+        public DbSet<CartDetails> CartDetails => Set<CartDetails>();
+        public DbSet<BookCheckCount> BookCheckCounts => Set<BookCheckCount>();
+        public DbSet<BookToChange> BookToChange=>Set<BookToChange>();
         public DataContext()
         {
 
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("DataSource=BookShopDb");
+            optionsBuilder.UseSqlite("DataSource=C:\\Users\\bochi\\source\\repos\\BookShopApp\\BookShopDb");
         }
         //"DataSource=bin\\Debug\\net6.0-windows\\BookShopDb"
     }

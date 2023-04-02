@@ -1,4 +1,5 @@
-﻿using BookShopApp.Domain;
+﻿using Autofac;
+using BookShopApp.Domain;
 using BookShopApp.Domain.Entities;
 using BookShopApp.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -13,57 +14,52 @@ namespace BookShopApp.Services
 {
     public class GetBookService:IGetBookService
     {
-        public GetBookService()
+        ILifetimeScope _lifetimeScope;
+        public GetBookService(ILifetimeScope lifetimeScope)
         {
-
+            _lifetimeScope = lifetimeScope;
         }
         public IEnumerable<Book> GetBooks()
         {
-            using (var _dataContext = new DataContext())
+            try
             {
-                var booksTemp = _dataContext.Books.ToList();
-                foreach (var book in booksTemp)
+                using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
                 {
-                    if (string.IsNullOrWhiteSpace(book.AuthorsList))
+                    var booksTemp = _dataContext.Books.ToList();
+                    foreach (var book in booksTemp)
                     {
-                        var authorByBookId = from author in _dataContext.Authors
-                                             join authorsBooks in _dataContext.AuthorsBooks on author.Id equals authorsBooks.AuthorId
-                                             join booksFromBase in _dataContext.Books on authorsBooks.BookId equals booksFromBase.Id
-                                             where booksFromBase.Id == book.Id
-                                             select (author); ;
-
-                        string[] authors = new string[authorByBookId.Count()];
-                        int i = 0;
-                        foreach (var author in authorByBookId)
+                        if (string.IsNullOrWhiteSpace(book.AuthorsList))
                         {
-                            authors[i] = author.Name;
-                            i++;
-                        }
-                        string stringAuthors = string.Join(", ", authors);
-                        book.AuthorsList = stringAuthors;
+                            var authorByBookId = from author in _dataContext.Authors
+                                                 join authorsBooks in _dataContext.AuthorsBooks on author.Id equals authorsBooks.AuthorId
+                                                 join booksFromBase in _dataContext.Books on authorsBooks.BookId equals booksFromBase.Id
+                                                 where booksFromBase.Id == book.Id
+                                                 select (author);
 
+                            string[] authors = new string[authorByBookId.Count()];
+                            int i = 0;
+                            foreach (var author in authorByBookId)
+                            {
+                                authors[i] = author.Name;
+                                i++;
+                            }
+                            string stringAuthors = string.Join(", ", authors);
+                            book.AuthorsList = stringAuthors;
+
+                        }
                     }
+                    _dataContext.SaveChanges();
+                    var books = _dataContext.Books.Include(x => x.Publisher)
+                                      .Include(x => x.BookQuantity)
+                                      .Include(x => x.CurrentPrice)
+                                      .ToList();
+                    return books;
                 }
-                _dataContext.SaveChanges();
-                var books = _dataContext.Books.Include(x => x.Publisher)
-                                  .Include(x => x.BookQuantity)
-                                  .Include(x => x.CurrentPrice)
-                                  .ToList();
-                return books;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
-
-        //public IEnumerable<Domain.Entities.Author> GetAuthorsOfBooks(int bookId)
-        //{
-        //    using (var _dataContext = new DataContext())
-        //    {
-        //        var authorsList = from authors in _dataContext.Authors
-        //                          join authorsBooks in _dataContext.AuthorsBooks on authors.Id equals authorsBooks.AuthorId
-        //                          join books in _dataContext.Books on authorsBooks.BookId equals books.Id
-        //                          where books.Id == bookId
-        //                          select (authors);
-        //        return authorsList;
-        //    }
-        //}
     }
 }

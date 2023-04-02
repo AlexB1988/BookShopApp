@@ -31,12 +31,16 @@ namespace BookShopApp
     {
         private readonly ILifetimeScope _lifetimeScope;
         private readonly IGetBookService _getBookService;
+        private readonly ICreateCartService _createCartService;
+        private readonly ICreateBookListToChangeService _createBookListToChangeService;
 
-        public BookShopForm(IGetBookService getBookService, ILifetimeScope lifetimeScope)
+        public BookShopForm(IGetBookService getBookService, ILifetimeScope lifetimeScope, ICreateCartService createCartService, ICreateBookListToChangeService createBookListToChangeService)
         {
             InitializeComponent();
             _getBookService = getBookService;
             _lifetimeScope = lifetimeScope;
+            _createCartService = createCartService;
+            _createBookListToChangeService = createBookListToChangeService;
         }
 
         private void BookShop_Load(object sender, EventArgs e)
@@ -92,12 +96,9 @@ namespace BookShopApp
                 }
                 listOfPuchaseBooks.Add(bookToPurchase);
             }
-            using (var form = _lifetimeScope.Resolve<Owned<CreatePurchaseForm>>())
+            _createCartService.CreateCart(listOfPuchaseBooks);
+            using (var form = _lifetimeScope.Resolve<Owned<CreateSaleForm>>())
             {
-                foreach(var row in listOfPuchaseBooks)
-                {
-                    form.Value.AddBooks(row);
-                }
                 form.Value.ShowDialog();
             }
         }
@@ -113,13 +114,9 @@ namespace BookShopApp
                 }
                 listOfPuchaseBooks.Add(bookToPurchase);
             }
-
+            _createBookListToChangeService.CreateBookListToChange(listOfPuchaseBooks);
             using(var form = _lifetimeScope.Resolve<Owned<ChangePriceForm>>())
             {
-                foreach (var row in listOfPuchaseBooks)
-                {
-                    form.Value.AddBooks(row);
-                }
                 form.Value.ShowDialog();
             }
         }

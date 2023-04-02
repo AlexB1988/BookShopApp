@@ -24,11 +24,18 @@ namespace BookShopApp.Autofac
             builder.RegisterType<SaleBookService>().As<ISaleBookService>();
             builder.RegisterType<ChangePriceService>().As<IChangePriceService>();
             builder.RegisterType<GetPublisherByNameService>().As<IGetPublisherByNameService>();
+            builder.RegisterType<CreateCartService>().As<ICreateCartService>();
+            builder.RegisterType<GetLastCartDetails>().As<IGetLastCartDetails>();
+            builder.RegisterType<RemoveUnsoldCartsService>().As<IRemoveUnsoldCartsService>();
+            builder.RegisterType<CreateBookListToChangeService>().As<ICreateBookListToChangeService>();
+            builder.RegisterType<GetBooksToChangeService>().As<IGetBooksToChangeService>();
+            builder.RegisterType<RemoveUnchangedBooksService>().As<IRemoveUnchangedBooksService>();
+            builder.RegisterType<DataContext>().AsSelf();
             builder.RegisterType<AddPublisherForm>().AsSelf();
             builder.RegisterType<AddAuthorForm>().AsSelf();
             builder.RegisterType<AddBookForm>().AsSelf();
             builder.RegisterType<ChangePriceForm>().AsSelf();
-            builder.RegisterType<CreatePurchaseForm>().AsSelf();
+            builder.RegisterType<CreateSaleForm>().AsSelf();
             builder.RegisterType<BookShopForm>();
             builder.RegisterType<ReportsForm>().AsSelf();
             builder.RegisterAssemblyTypes(typeof(Program).Assembly)

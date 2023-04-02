@@ -1,4 +1,6 @@
-﻿using BookShopApp.Domain;
+﻿using Autofac;
+using BookShopApp.Domain;
+using BookShopApp.Domain.Entities;
 using BookShopApp.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,16 +12,25 @@ namespace BookShopApp.Services
 {
     public class GetAuthorsService:IGetAuthorsService
     {
-        public GetAuthorsService()
+        ILifetimeScope _lifetimeScope;
+        public GetAuthorsService(ILifetimeScope lifetimeScope)
         {
+            _lifetimeScope = lifetimeScope;
         }
 
-        public IEnumerable<Domain.Entities.Author> GetAuthors()
+        public List<Author> GetAuthors()
         {
-            using (var _dataContext = new DataContext())
+            try
             {
-                var authors = _dataContext.Authors.ToList();
-                return authors;
+                using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
+                {
+                    var authors = _dataContext.Authors.ToList();
+                    return authors;
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

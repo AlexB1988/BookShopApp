@@ -1,4 +1,5 @@
-﻿using BookShopApp.Autofac;
+﻿using Autofac;
+using BookShopApp.Autofac;
 using BookShopApp.Domain;
 using BookShopApp.Domain.Entities;
 using BookShopApp.Interfaces;
@@ -13,12 +14,14 @@ namespace BookShopApp.Services
 {
     public class SaleBookService:ISaleBookService
     {
-        public SaleBookService()
+        ILifetimeScope _lifetimeScope;
+        public SaleBookService(ILifetimeScope lifetimeScope)
         {
+            _lifetimeScope = lifetimeScope;
         }
         public bool SaleBook(List<Book> bookList)
         {
-            using (var _dataContext = new DataContext())
+            using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
             {
                 try
                 {
@@ -26,7 +29,8 @@ namespace BookShopApp.Services
                     {
                         Sum = 0
                     };
-
+                    var lastCart = _dataContext.Cart.Max(x => x.Id);
+                    var cart =_dataContext.Cart.FirstOrDefault(x=>x.Id==lastCart);
                     _dataContext.CheckList.Add(checkList);
 
                     foreach (var book in bookList)
@@ -56,17 +60,20 @@ namespace BookShopApp.Services
                         }
                         else
                         {
-                            MessageBox.Show(
-                            $"{book.Name}\n" +
-                            $"Кол-ва экземпляров данной \n" +
-                            $"книги меньше, чем Вы запросили в чеке.\n" +
-                            $"Вернитесь в чек и измените данные.",
-                            "Ошибка",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error,
-                            MessageBoxDefaultButton.Button1,
-                            MessageBoxOptions.DefaultDesktopOnly);
-                            return false;
+                            throw new Exception("Кол-во экземпляров данной\n" +
+                                "книги меньше, чем Вы запросили в чекею\n" +
+                                "Вернитесь в чек и измените данные");
+                            //MessageBox.Show(
+                            //$"{book.Name}\n" +
+                            //$"Кол-ва экземпляров данной \n" +
+                            //$"книги меньше, чем Вы запросили в чеке.\n" +
+                            //$"Вернитесь в чек и измените данные.",
+                            //"Ошибка",
+                            //MessageBoxButtons.OK,
+                            //MessageBoxIcon.Error,
+                            //MessageBoxDefaultButton.Button1,
+                            //MessageBoxOptions.DefaultDesktopOnly);
+                            //return false;
                         }
                     }
                     if (MessageBox.Show(
@@ -78,6 +85,8 @@ namespace BookShopApp.Services
                         MessageBoxDefaultButton.Button1,
                         MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
                     {
+                        cart.SumOfCheck = checkList.Sum;
+                        cart.IsSold = true;
                         _dataContext.SaveChanges();
                         MessageBox.Show(
                         $"Покупка ена сумму:{checkList.Sum} руб.\n" +
@@ -96,15 +105,7 @@ namespace BookShopApp.Services
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(
-                    $"{ex.Message}\n" +
-                    $"{ex.InnerException}",
-                    "Ошибка",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error,
-                    MessageBoxDefaultButton.Button1,
-                    MessageBoxOptions.DefaultDesktopOnly);
-                    return false;
+                    throw new Exception(ex.Message);
                 }
             }
         }

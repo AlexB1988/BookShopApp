@@ -30,19 +30,19 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChangePriceForm));
-            DevExpress.XtraGrid.GridLevelNode gridLevelNode2 = new DevExpress.XtraGrid.GridLevelNode();
+            DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
             this.btnCancelChangePrice = new System.Windows.Forms.Button();
             this.btnOkChangePrice = new System.Windows.Forms.Button();
             this.gridControlChangePrice = new DevExpress.XtraGrid.GridControl();
             this.bookBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.gridView1_1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.GetBookListView = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.colName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colBookQuantity = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colCurrentPrice = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPriceOfBooksToChange = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlChangePrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bookBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1_1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GetBookListView)).BeginInit();
             this.SuspendLayout();
             // 
             // btnCancelChangePrice
@@ -83,32 +83,30 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gridControlChangePrice.DataSource = this.bookBindingSource;
-            gridLevelNode2.RelationName = "Level1";
+            gridLevelNode1.RelationName = "Level1";
             this.gridControlChangePrice.LevelTree.Nodes.AddRange(new DevExpress.XtraGrid.GridLevelNode[] {
-            gridLevelNode2});
+            gridLevelNode1});
             this.gridControlChangePrice.Location = new System.Drawing.Point(-2, 57);
-            this.gridControlChangePrice.MainView = this.gridView1_1;
+            this.gridControlChangePrice.MainView = this.GetBookListView;
             this.gridControlChangePrice.Name = "gridControlChangePrice";
             this.gridControlChangePrice.Size = new System.Drawing.Size(864, 336);
             this.gridControlChangePrice.TabIndex = 2;
             this.gridControlChangePrice.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView1_1});
+            this.GetBookListView});
             // 
             // bookBindingSource
             // 
             this.bookBindingSource.DataSource = typeof(BookShopApp.Domain.Entities.Book);
             // 
-            // gridView1_1
+            // GetBookListView
             // 
-            this.gridView1_1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.GetBookListView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.colName,
             this.colBookQuantity,
             this.colCurrentPrice,
             this.colPriceOfBooksToChange});
-            this.gridView1_1.GridControl = this.gridControlChangePrice;
-            this.gridView1_1.Name = "gridView1_1";
-            //this.gridView1_1.ValidatingEditor += new DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventHandler(this.gridView1_ValidatingEditor);
-            //this.gridView1_1.InvalidValueException += new DevExpress.XtraEditors.Controls.InvalidValueExceptionEventHandler(this.gridView1_InvalidValueException);
+            this.GetBookListView.GridControl = this.gridControlChangePrice;
+            this.GetBookListView.Name = "GetBookListView";
             // 
             // colName
             // 
@@ -156,10 +154,11 @@
             this.Name = "ChangePriceForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Изменение цены";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ChangePriceForm_FormClosing);
             this.Load += new System.EventHandler(this.ChangePriceForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlChangePrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bookBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1_1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GetBookListView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -169,7 +168,7 @@
         private Button btnCancelChangePrice;
         private Button btnOkChangePrice;
         private DevExpress.XtraGrid.GridControl gridControlChangePrice;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView1_1;
+        private DevExpress.XtraGrid.Views.Grid.GridView GetBookListView;
         private BindingSource bookBindingSource;
         private DevExpress.XtraGrid.Columns.GridColumn colName;
         private DevExpress.XtraGrid.Columns.GridColumn colBookQuantity;

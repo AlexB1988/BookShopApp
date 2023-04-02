@@ -1,6 +1,6 @@
 ﻿namespace BookShopApp
 {
-    partial class CreatePurchaseForm
+    partial class CreateSaleForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,12 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreatePurchaseForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateSaleForm));
             this.gridControlPurchaseBook = new DevExpress.XtraGrid.GridControl();
-            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.GetBookListView = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.colName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colBookQuantity = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colCurrentPrice = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colCountBooksToSell = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -42,9 +43,8 @@
             this.authorBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnOkPuchaseBook = new System.Windows.Forms.Button();
             this.btnCancelPurchaseBook = new System.Windows.Forms.Button();
-            this.colCountBooksToSell = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlPurchaseBook)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GetBookListView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.authorBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -56,25 +56,23 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gridControlPurchaseBook.DataSource = typeof(BookShopApp.Domain.Entities.Book);
             this.gridControlPurchaseBook.Location = new System.Drawing.Point(0, 56);
-            this.gridControlPurchaseBook.MainView = this.gridView1;
+            this.gridControlPurchaseBook.MainView = this.GetBookListView;
             this.gridControlPurchaseBook.Name = "gridControlPurchaseBook";
             this.gridControlPurchaseBook.Size = new System.Drawing.Size(862, 337);
             this.gridControlPurchaseBook.TabIndex = 0;
             this.gridControlPurchaseBook.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView1,
+            this.GetBookListView,
             this.gridView2});
             // 
-            // gridView1
+            // GetBookListView
             // 
-            this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.GetBookListView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.colName,
             this.colBookQuantity,
             this.colCurrentPrice,
             this.colCountBooksToSell});
-            this.gridView1.GridControl = this.gridControlPurchaseBook;
-            this.gridView1.Name = "gridView1";
-            //this.gridView1.ValidatingEditor += new DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventHandler(this.gridView1_ValidatingEditor);
-            //this.gridView1.InvalidValueException += new DevExpress.XtraEditors.Controls.InvalidValueExceptionEventHandler(this.gridView1_InvalidValueException);
+            this.GetBookListView.GridControl = this.gridControlPurchaseBook;
+            this.GetBookListView.Name = "GetBookListView";
             // 
             // colName
             // 
@@ -102,6 +100,14 @@
             this.colCurrentPrice.OptionsColumn.AllowEdit = false;
             this.colCurrentPrice.Visible = true;
             this.colCurrentPrice.VisibleIndex = 2;
+            // 
+            // colCountBooksToSell
+            // 
+            this.colCountBooksToSell.Caption = "Кол-во книг для покупки";
+            this.colCountBooksToSell.FieldName = "CountBooksToSell";
+            this.colCountBooksToSell.Name = "colCountBooksToSell";
+            this.colCountBooksToSell.Visible = true;
+            this.colCountBooksToSell.VisibleIndex = 3;
             // 
             // gridView2
             // 
@@ -169,15 +175,7 @@
             this.btnCancelPurchaseBook.UseVisualStyleBackColor = true;
             this.btnCancelPurchaseBook.Click += new System.EventHandler(this.btnCancelPurchaseBook_Click);
             // 
-            // colCountBooksToSell
-            // 
-            this.colCountBooksToSell.Caption = "Кол-во книг для покупки";
-            this.colCountBooksToSell.FieldName = "CountBooksToSell";
-            this.colCountBooksToSell.Name = "colCountBooksToSell";
-            this.colCountBooksToSell.Visible = true;
-            this.colCountBooksToSell.VisibleIndex = 3;
-            // 
-            // CreatePurchaseForm
+            // CreateSaleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -185,12 +183,13 @@
             this.Controls.Add(this.btnCancelPurchaseBook);
             this.Controls.Add(this.btnOkPuchaseBook);
             this.Controls.Add(this.gridControlPurchaseBook);
-            this.Name = "CreatePurchaseForm";
+            this.Name = "CreateSaleForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Оформить покупку";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CreateSaleForm_FormClosing);
             this.Load += new System.EventHandler(this.CreatePurchaseForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlPurchaseBook)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GetBookListView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.authorBindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -200,7 +199,7 @@
         #endregion
 
         private DevExpress.XtraGrid.GridControl gridControlPurchaseBook;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private DevExpress.XtraGrid.Views.Grid.GridView GetBookListView;
         private Button btnOkPuchaseBook;
         private Button btnCancelPurchaseBook;
         private BindingSource authorBindingSource;

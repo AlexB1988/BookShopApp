@@ -17,7 +17,7 @@ namespace BookShopApp.Validation
             RuleForEach(x => x.Year).Must(Char.IsDigit).WithMessage("Год должен быть четырехзначным числом");
             RuleFor(x => x.Year).Must(x => int.TryParse(x, out var number)&& number<=DateTime.Now.Year).WithMessage("Год издания не может\n" +
                                                                 "превышать текущий год");
-            RuleFor(x => x.Isbn).Length(17).WithMessage("Поле должно иметь 17 знаков");
+            RuleFor(x => x.Isbn).Length(17).WithMessage("Поле ISBN должно иметь 17 знаков");
             RuleFor(x => x.Quantity).NotEmpty().WithMessage("Поле кол-во экземпляров не должно быть пустым");
             RuleForEach(x => x.Quantity).Must(Char.IsDigit).WithMessage("Кол-во должно быть положительным числом");
             RuleFor(x => x.Price).NotEmpty().WithMessage("Поле стоимость не может быть пустым");

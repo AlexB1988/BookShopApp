@@ -12,5 +12,10 @@ namespace BookShopApp.Domain.Entities
         public decimal Sum { get; set; }
         public DateTime DateOfCheck { get; set; } = DateTime.UtcNow;
         public ICollection<Sales> Sales { get; set; }
+
+        public CheckList()
+        {
+            Sales=new HashSet<Sales>();
+        }
     }
 }

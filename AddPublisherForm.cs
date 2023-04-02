@@ -60,7 +60,7 @@ namespace BookShopApp
             {
                 MessageBox.Show(
                 $"{ex.Message}\n",
-                "Ошибка",
+                $"{ex.GetType()}",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error,
                 MessageBoxDefaultButton.Button1,

@@ -1,4 +1,5 @@
-﻿using BookShopApp.Domain;
+﻿using Autofac;
+using BookShopApp.Domain;
 using BookShopApp.Domain.Entities;
 using BookShopApp.Interfaces;
 using System;
@@ -11,28 +12,22 @@ namespace BookShopApp.Services
 {
     public class AddAuthorService:IAddAuthorService
     {
-        public AddAuthorService()
+        ILifetimeScope _lifetimeScope;
+        public AddAuthorService(ILifetimeScope lifetimeScope)
         {
+            _lifetimeScope = lifetimeScope;
         }
 
         public bool AddAuthor(Author author)
         {
             try
             {
-                using (var _dataContext = new DataContext())
+                using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
                 {
                     var existsAuthor = _dataContext.Authors.Where(x => x.Name == author.Name);
                     if (existsAuthor.Count() > 0)
                     {
-                        MessageBox.Show(
-                        $"Данный автор уже есть в базе\n",
-                        "Сообщение",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning,
-                        MessageBoxDefaultButton.Button1,
-                        MessageBoxOptions.DefaultDesktopOnly);
-                        return false;
-
+                        throw new Exception("Данный автор уже есть в базе");
                     }
                     else
                     {
@@ -44,14 +39,7 @@ namespace BookShopApp.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                $"{ex.Message}\n",
-                "Ошибка",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly);
-                return false;
+                throw new Exception(ex.Message);
             }
         }
     }

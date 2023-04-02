@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace BookShopApp.Interfaces
 {
-    public interface IGetPublishersService
+    public interface ICreateCartService
     {
-        public List<Publisher> GetPublishers();
+        public bool CreateCart(List<Book> listOfPuchaseBooks);
     }
 }
