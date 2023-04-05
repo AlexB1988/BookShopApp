@@ -1,4 +1,6 @@
-﻿using DevExpress.XtraReports.UI;
+﻿using Autofac;
+using Autofac.Features.OwnedInstances;
+using DevExpress.XtraReports.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,25 +15,27 @@ namespace BookShopApp
 {
     public partial class ReportsForm : Form
     {
-        public ReportsForm()
+        ILifetimeScope _lifetimeScope;
+        public ReportsForm(ILifetimeScope lifetimeScope)
         {
             InitializeComponent();
+            _lifetimeScope = lifetimeScope;
         }
 
         private void btnAuthorBooks_Click(object sender, EventArgs e)
         {
-            BooksOfAuthorReport booksOfAuthor = new BooksOfAuthorReport();
-            booksOfAuthor.ShowPreview();
-        }
-
-        private void ReportsForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
+            using (var report = _lifetimeScope.Resolve<Owned<BooksOfAuthorReport>>())
+            {
+                report.Value.ShowPreview();
+            }
         }
 
         private void btnPurchasesReport_Click(object sender, EventArgs e)
         {
-            PurchaseBooksReport purchaseBooksReport = new PurchaseBooksReport();
-            purchaseBooksReport.ShowPreview();
+            using(var report = _lifetimeScope.Resolve<Owned<PurchaseBooksReport>>())
+            {
+                report.Value.ShowPreview();
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ using BookShopApp.Domain;
 using BookShopApp.Interfaces;
 using BookShopApp.Services;
 using DevExpress.XtraSpreadsheet.Model;
+using NLog;
 
 namespace BookShopApp
 {

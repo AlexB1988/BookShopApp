@@ -24,6 +24,7 @@ using BookShopApp.Autofac;
 using Autofac;
 using Autofac.Features.OwnedInstances;
 using BookShopApp.Domain.Entities;
+using NLog;
 
 namespace BookShopApp
 {
@@ -33,6 +34,7 @@ namespace BookShopApp
         private readonly IGetBookService _getBookService;
         private readonly ICreateCartService _createCartService;
         private readonly ICreateBookListToChangeService _createBookListToChangeService;
+        //private readonly ILogger _logger;
 
         public BookShopForm(IGetBookService getBookService, ILifetimeScope lifetimeScope, ICreateCartService createCartService, ICreateBookListToChangeService createBookListToChangeService)
         {
@@ -45,6 +47,9 @@ namespace BookShopApp
 
         private void BookShop_Load(object sender, EventArgs e)
         {
+            Logger _logger = LogManager.GetCurrentClassLogger();
+            _logger.Trace("The app is run!!!");
+
             gridControlGetBookList.DataSource = _getBookService.GetBooks();
         }
 

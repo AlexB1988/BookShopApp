@@ -3,6 +3,7 @@ using Autofac.Builder;
 using BookShopApp.Domain;
 using BookShopApp.Interfaces;
 using BookShopApp.Services;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,10 @@ namespace BookShopApp.Autofac
             builder.RegisterType<CreateBookListToChangeService>().As<ICreateBookListToChangeService>();
             builder.RegisterType<GetBooksToChangeService>().As<IGetBooksToChangeService>();
             builder.RegisterType<RemoveUnchangedBooksService>().As<IRemoveUnchangedBooksService>();
+            //builder.RegisterType<Logger>().As<ILogger>();
             builder.RegisterType<DataContext>().AsSelf();
+            builder.RegisterType<PurchaseBooksReport>().AsSelf();
+            builder.RegisterType<BooksOfAuthorReport>().AsSelf();
             builder.RegisterType<AddPublisherForm>().AsSelf();
             builder.RegisterType<AddAuthorForm>().AsSelf();
             builder.RegisterType<AddBookForm>().AsSelf();
