@@ -22,7 +22,8 @@ namespace BookShopApp.Services
         {
             try
             {
-                using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
+                var scope = _lifetimeScope.BeginLifetimeScope();
+                using (var _dataContext = scope.Resolve<DataContext>())
                 {
                     var existsAuthor = _dataContext.Authors.Where(x => x.Name == author.Name);
                     if (existsAuthor.Count() > 0)
@@ -39,7 +40,7 @@ namespace BookShopApp.Services
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception(ex.Message,ex);
             }
         }
     }

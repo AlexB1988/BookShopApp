@@ -24,16 +24,18 @@ namespace BookShopApp
 
         private void btnAuthorBooks_Click(object sender, EventArgs e)
         {
-            using (var report = _lifetimeScope.Resolve<Owned<BooksOfAuthorReport>>())
+            using (var scope=_lifetimeScope.BeginLifetimeScope())
             {
+                var report = scope.Resolve<Owned<BooksOfAuthorReport>>();
                 report.Value.ShowPreview();
             }
         }
 
         private void btnPurchasesReport_Click(object sender, EventArgs e)
         {
-            using(var report = _lifetimeScope.Resolve<Owned<PurchaseBooksReport>>())
+            using (var scope=_lifetimeScope.BeginLifetimeScope())
             {
+                var report = scope.Resolve<Owned<PurchaseBooksReport>>();
                 report.Value.ShowPreview();
             }
         }
