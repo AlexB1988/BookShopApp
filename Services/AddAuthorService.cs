@@ -20,8 +20,6 @@ namespace BookShopApp.Services
 
         public bool AddAuthor(Author author)
         {
-            try
-            {
                 var scope = _lifetimeScope.BeginLifetimeScope();
                 using (var _dataContext = scope.Resolve<DataContext>())
                 {
@@ -37,11 +35,6 @@ namespace BookShopApp.Services
                         return true;
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message,ex);
-            }
         }
     }
 }

@@ -3,7 +3,9 @@ using Autofac.Features.OwnedInstances;
 using BookShopApp.Autofac;
 using BookShopApp.Domain.Entities;
 using BookShopApp.Interfaces;
+using BookShopApp.Logging;
 using BookShopApp.Validation;
+using DevExpress.Office.Services;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
@@ -29,7 +31,8 @@ namespace BookShopApp
         private readonly IAddBookService _addBookService;
         private readonly IGetPublisherByNameService _getPublisherByNameService;
         private readonly ILifetimeScope _lifetimeScope;
-        public AddBookForm(IGetAuthorsService getAuthorsService, IGetPublishersService getPublishersService, IAddBookService addBookService, IGetPublisherByNameService getPublisherByNameService, ILifetimeScope lifetimeScope)
+        private readonly ILoggerService<AddBookForm> _loggerService;
+        public AddBookForm(IGetAuthorsService getAuthorsService, IGetPublishersService getPublishersService, IAddBookService addBookService, IGetPublisherByNameService getPublisherByNameService, ILifetimeScope lifetimeScope, ILoggerService<AddBookForm> loggerService)
         {
             InitializeComponent();
             _getAuthorsService = getAuthorsService;
@@ -37,6 +40,7 @@ namespace BookShopApp
             _addBookService = addBookService;
             _getPublisherByNameService = getPublisherByNameService;
             _lifetimeScope = lifetimeScope;
+            _loggerService = loggerService;
         }
 
         private void AddBookForm_Load(object sender, EventArgs e)
@@ -130,6 +134,7 @@ namespace BookShopApp
             }
             catch(Exception ex)
             {
+                _loggerService.Error(ex);
                 MessageBox.Show(
                 $"{ex.Message}\n",
                 $"{ex.GetType()}",

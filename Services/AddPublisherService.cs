@@ -20,27 +20,21 @@ namespace BookShopApp.Services
 
         public bool AddPublisher(Publisher publisher)
         {
-            try
+            using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
             {
-                using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
+                var existsPublisher = _dataContext.Publishers.Where(x => x.Name == publisher.Name);
+                if (existsPublisher.Count() > 0)
                 {
-                    var existsPublisher = _dataContext.Publishers.Where(x => x.Name == publisher.Name);
-                    if (existsPublisher.Count() > 0)
-                    {
-                        throw new Exception("Данный издатель уже есть в базе");
-                    }
-                    else
-                    {
-                        _dataContext.Add(publisher);
-                        _dataContext.SaveChanges();
-                        return true;
-                    }
+                    throw new Exception("Данный издатель уже есть в базе");
+                }
+                else
+                {
+                    _dataContext.Add(publisher);
+                    _dataContext.SaveChanges();
+                    return true;
                 }
             }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+
         }
     }
 }

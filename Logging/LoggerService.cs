@@ -11,9 +11,14 @@ namespace BookShopApp.Logging
     {
         private Logger _logger = LogManager.GetLogger(typeof(T).FullName);
 
-        public void Error(string message)
+        public void Debug(string message)
         {
-            _logger.Error(message);
+            _logger.Debug(message);
+        }
+
+        public void Error(Exception ex)
+        {
+            _logger.Error($"{ex.GetType()}=>{ex.Message}");
         }
 
         public void Info(string message)

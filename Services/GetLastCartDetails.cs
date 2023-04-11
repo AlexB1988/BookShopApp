@@ -2,6 +2,7 @@
 using BookShopApp.Domain;
 using BookShopApp.Domain.Entities;
 using BookShopApp.Interfaces;
+using BookShopApp.Logging;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,11 @@ namespace BookShopApp.Services
     public class GetLastCartDetails : IGetLastCartDetails
     {
         ILifetimeScope _lifetimeScope;
-        public GetLastCartDetails(ILifetimeScope lifetimeScope)
+        private readonly ILoggerService<GetLastCartDetails> _loggerService;
+        public GetLastCartDetails(ILifetimeScope lifetimeScope,ILoggerService<GetLastCartDetails> loggerService)
         {
             _lifetimeScope = lifetimeScope;
+            _loggerService = loggerService;
         }
         public List<Book> GetCartDetails()
         {
@@ -36,6 +39,7 @@ namespace BookShopApp.Services
             }
             catch(Exception ex)
             {
+                _loggerService.Error(ex);
                 throw new Exception(ex.Message);
             }
         }

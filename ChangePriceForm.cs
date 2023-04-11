@@ -1,6 +1,7 @@
 ﻿using BookShopApp.Autofac;
 using BookShopApp.Domain.Entities;
 using BookShopApp.Interfaces;
+using BookShopApp.Logging;
 using BookShopApp.Services;
 using DevExpress.XtraEditors;
 using DevExpress.XtraRichEdit.API.Native;
@@ -21,12 +22,14 @@ namespace BookShopApp
         private readonly IChangePriceService _changePriceService;
         private readonly IGetBooksToChangeService _getBooksToChangeService;
         private readonly IRemoveUnchangedBooksService _removeUnchangedBooksService;
-        public ChangePriceForm(IChangePriceService changePriceService, IGetBooksToChangeService getBooksToChangeService, IRemoveUnchangedBooksService removeUnchangedBooksService)
+        private readonly ILoggerService<ChangePriceForm> _loggerService;
+        public ChangePriceForm(IChangePriceService changePriceService, IGetBooksToChangeService getBooksToChangeService, IRemoveUnchangedBooksService removeUnchangedBooksService, ILoggerService<ChangePriceForm> loggerService)
         {
             InitializeComponent();
             _changePriceService = changePriceService;
             _getBooksToChangeService = getBooksToChangeService;
             _removeUnchangedBooksService = removeUnchangedBooksService;
+            _loggerService = loggerService;
         }
 
         private void ChangePriceForm_Load(object sender, EventArgs e)
@@ -68,6 +71,7 @@ namespace BookShopApp
             }
             catch(Exception ex)
             {
+                _loggerService.Error(ex);
                 MessageBox.Show(
                 $"{ex.Message}\n",
                 $"{ex.GetType()}",

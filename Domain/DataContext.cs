@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,8 @@ namespace BookShopApp.Domain
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("DataSource=C:\\Users\\razrabotchik\\source\\repos\\BookShopApp\\BookShopDb");
+            optionsBuilder.UseSqlite($"DataSource={ConfigurationManager.ConnectionStrings["BookShopDb"]}");
+            //optionsBuilder.UseSqlite("DataSource=C:\\Users\\razrabotchik\\source\\repos\\BookShopApp\\BookShopDb");
             //optionsBuilder.UseSqlite("DataSource=C:\\Users\\bochi\\source\\repos\\BookShopApp\\BookShopDb");
         }
         //"DataSource=bin\\Debug\\net6.0-windows\\BookShopDb" 

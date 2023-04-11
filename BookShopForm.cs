@@ -49,16 +49,41 @@ namespace BookShopApp
 
         private void BookShop_Load(object sender, EventArgs e)
         {
-            _loggerService.Trace("The app is run!!!");
-
-            gridControlGetBookList.DataSource = _getBookService.GetBooks();
+            _loggerService.Info("The app is starting!!!");
+            try
+            {
+                gridControlGetBookList.DataSource = _getBookService.GetBooks();
+            }
+            catch(Exception ex)
+            {
+                _loggerService.Error(ex);
+                MessageBox.Show(
+                $"{ex.Message}\n",
+                $"{ex.GetType()}",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error,
+                MessageBoxDefaultButton.Button1,
+                MessageBoxOptions.DefaultDesktopOnly);
+            }
         }
 
         private void btnBookList_Click(object sender, EventArgs e)
         {
-
-            _loggerService.Info("The app is run!!!");
-            gridControlGetBookList.DataSource = _getBookService.GetBooks();
+            try
+            {
+                gridControlGetBookList.DataSource = _getBookService.GetBooks();
+            }
+            catch(Exception ex)
+            {
+                _loggerService.Error(ex);
+                MessageBox.Show(
+                $"{ex.Message}\n",
+                $"{ex.GetType()}",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error,
+                MessageBoxDefaultButton.Button1,
+                MessageBoxOptions.DefaultDesktopOnly);
+            }
         }
 
         private void btnAddPublisher_Click(object sender, EventArgs e)
@@ -127,6 +152,11 @@ namespace BookShopApp
             {
                 form.Value.ShowDialog();
             }
+        }
+
+        private void BookShopForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _loggerService.Info("The app is closing");
         }
     }
 }

@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.XtraGrid.GridLevelNode gridLevelNode3 = new DevExpress.XtraGrid.GridLevelNode();
-            DevExpress.XtraGrid.GridLevelNode gridLevelNode4 = new DevExpress.XtraGrid.GridLevelNode();
+            DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
+            DevExpress.XtraGrid.GridLevelNode gridLevelNode2 = new DevExpress.XtraGrid.GridLevelNode();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BookShopForm));
             this.gridControlGetBookList = new DevExpress.XtraGrid.GridControl();
             this.GetBookListView = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -57,11 +57,11 @@
             this.gridControlGetBookList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            gridLevelNode3.RelationName = "Level1";
-            gridLevelNode4.RelationName = "Level2";
+            gridLevelNode1.RelationName = "Level1";
+            gridLevelNode2.RelationName = "Level2";
             this.gridControlGetBookList.LevelTree.Nodes.AddRange(new DevExpress.XtraGrid.GridLevelNode[] {
-            gridLevelNode3,
-            gridLevelNode4});
+            gridLevelNode1,
+            gridLevelNode2});
             this.gridControlGetBookList.Location = new System.Drawing.Point(0, 125);
             this.gridControlGetBookList.MainView = this.GetBookListView;
             this.gridControlGetBookList.MinimumSize = new System.Drawing.Size(1007, 387);
@@ -286,6 +286,7 @@
             this.Name = "BookShopForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Книжный склад";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BookShopForm_FormClosing);
             this.Load += new System.EventHandler(this.BookShop_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlGetBookList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GetBookListView)).EndInit();

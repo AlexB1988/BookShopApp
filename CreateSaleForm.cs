@@ -16,6 +16,7 @@ using DevExpress.XtraGrid.Views.Grid;
 using BookShopApp.Interfaces;
 using BookShopApp.Autofac;
 using BookShopApp.Domain.Entities;
+using BookShopApp.Logging;
 
 namespace BookShopApp
 {
@@ -24,12 +25,14 @@ namespace BookShopApp
         private readonly ISaleBookService _saleBookService;
         private readonly IGetLastCartDetails _getLastCartDetails;
         private readonly IRemoveUnsoldCartsService _removeUnsoldCartsService;
-        public CreateSaleForm(ISaleBookService saleBookService, IGetLastCartDetails getLastCartDetails, IRemoveUnsoldCartsService removeUnsoldCartsService)
+        private readonly ILoggerService<CreateSaleForm> _loggerService;
+        public CreateSaleForm(ISaleBookService saleBookService, IGetLastCartDetails getLastCartDetails, IRemoveUnsoldCartsService removeUnsoldCartsService, ILoggerService<CreateSaleForm> loggerService)
         {
             InitializeComponent();
             _saleBookService = saleBookService;
             _getLastCartDetails = getLastCartDetails;
             _removeUnsoldCartsService = removeUnsoldCartsService;
+            _loggerService = loggerService;
         }
         private void CreatePurchaseForm_Load(object sender, EventArgs e)
         {
@@ -70,7 +73,6 @@ namespace BookShopApp
                 MessageBoxIcon.Error,
                 MessageBoxDefaultButton.Button1,
                 MessageBoxOptions.DefaultDesktopOnly);
-                return;
             }
         }
 
