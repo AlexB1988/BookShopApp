@@ -50,21 +50,21 @@ namespace BookShopApp
         private void BookShop_Load(object sender, EventArgs e)
         {
             _loggerService.Info("The app is starting!!!");
-            try
-            {
+            //try
+            //{
                 gridControlGetBookList.DataSource = _getBookService.GetBooks();
-            }
-            catch(Exception ex)
-            {
-                _loggerService.Error(ex);
-                MessageBox.Show(
-                $"{ex.Message}\n",
-                $"{ex.GetType()}",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    _loggerService.Error(ex);
+            //    MessageBox.Show(
+            //    $"{ex.Message}\n",
+            //    $"{ex.GetType()}",
+            //    MessageBoxButtons.OK,
+            //    MessageBoxIcon.Error,
+            //    MessageBoxDefaultButton.Button1,
+            //    MessageBoxOptions.DefaultDesktopOnly);
+            //}
         }
 
         private void btnBookList_Click(object sender, EventArgs e)
