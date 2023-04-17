@@ -14,23 +14,19 @@ namespace BookShopApp
         [STAThread]
         static void Main()
         {
-            //Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledExceptionHAndler);
+            Application.ThreadException += Application_ThreadException;
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-
-            throw new Exception("werwer");
+            AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHAndler;
 
             ApplicationConfiguration.Initialize();
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+
             var builder = new ContainerBuilder();
             builder.RegisterModule<ServiceModule>();
 
             using var container = builder.Build();
-            var form = container.Resolve<BookShopForm>();
 
+            var form = container.Resolve<BookShopForm>();
             Application.Run(form);
-            Environment.Exit(-1);
         }
 
         static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
@@ -39,9 +35,9 @@ namespace BookShopApp
             ShowExceptionDetails(e.Exception);
         }
 
-        static void UnhandledExceptionHAndler(object sender, UnhandledExceptionEventArgs args)
+        static void UnhandledExceptionHAndler(object sender, UnhandledExceptionEventArgs e)
         {
-            ShowExceptionDetails(args.ExceptionObject as Exception);
+            ShowExceptionDetails(e.ExceptionObject as Exception);
         }
 
         static void ShowExceptionDetails(Exception Ex)

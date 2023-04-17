@@ -21,6 +21,7 @@ namespace BookShopApp.Services
         }
         public IEnumerable<Book> GetBooks()
         {
+            //throw new Exception("werwer");
             using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
             {
                 var booksTemp = _dataContext.Books.ToList();

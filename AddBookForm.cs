@@ -50,7 +50,6 @@ namespace BookShopApp
             {
                 comboBoxAddBookPublisher.Properties.Items.Add(publisher.Name);
             }
-
             checkedComboBoxAddBookAuthors.Properties.DataSource = _getAuthorsService.GetAuthors();
             checkedComboBoxAddBookAuthors.Properties.ValueMember = "Id";
             checkedComboBoxAddBookAuthors.Properties.DisplayMember = "Name";
