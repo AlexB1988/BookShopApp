@@ -65,9 +65,21 @@ namespace BookShopApp
                         selectedBooks.Add(ChangePriceBook);
                         rowIndex++;
                     }
-                    _changePriceService.ChangePrice(selectedBooks);
+                    var result = _changePriceService.ChangePrice(selectedBooks);
+                    if (result)
+                    {
+                        MessageBox.Show(
+                        $"Цены успешно изменены\n",
+                        $"Уведомление",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information,
+                        MessageBoxDefaultButton.Button1,
+                        MessageBoxOptions.DefaultDesktopOnly);
+                    }
+
                 }
                 this.Close();
+
             }
             catch(Exception ex)
             {
@@ -79,6 +91,7 @@ namespace BookShopApp
                 MessageBoxIcon.Error,
                 MessageBoxDefaultButton.Button1,
                 MessageBoxOptions.DefaultDesktopOnly);
+                this.Close();
             }
         }
 

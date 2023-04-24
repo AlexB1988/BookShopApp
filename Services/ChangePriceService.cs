@@ -49,30 +49,10 @@ namespace BookShopApp.Services
                     bookToChange.Price = newPrice.Price;
                     bookToChange.IsGhanged = true;
                 }
-                if (MessageBox.Show(
-                   $"Применить изменения?",
-                   "Уведомление",
-                   MessageBoxButtons.OKCancel,
-                   MessageBoxIcon.Information,
-                   MessageBoxDefaultButton.Button1,
-                   MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
-                {
-                    _dataContext.SaveChanges();
-                    MessageBox.Show(
-                    $"Цены успешно изменены",
-                    "Уведомление",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information,
-                    MessageBoxDefaultButton.Button1,
-                    MessageBoxOptions.DefaultDesktopOnly);
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-                
+                _dataContext.SaveChanges();
             }
+
+            return true;
         }
     }
 }
