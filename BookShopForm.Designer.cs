@@ -235,7 +235,7 @@
             this.btnCreatePurchase.Text = "Оформить покупку";
             this.btnCreatePurchase.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             this.btnCreatePurchase.UseVisualStyleBackColor = true;
-            this.btnCreatePurchase.Click += new System.EventHandler(this.btnCreatePurchase_Click);
+            this.btnCreatePurchase.Click += new System.EventHandler(this.btnCreateSale_Click);
             // 
             // btnGetReports
             // 

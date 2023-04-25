@@ -32,9 +32,9 @@ namespace BookShopApp.Autofac
             builder.RegisterType<CreateBookListToChangeService>().As<ICreateBookListToChangeService>();
             builder.RegisterType<GetBooksToChangeService>().As<IGetBooksToChangeService>();
             builder.RegisterType<RemoveUnchangedBooksService>().As<IRemoveUnchangedBooksService>();
-            builder.RegisterGeneric(typeof(LoggerService<>)).As(typeof(ILoggerService<>)).InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(LoggerService<>)).As(typeof(ILoggerService<>)).SingleInstance();
+            //builder.RegisterInstance<ILogger>(new LogFactory().GetCurrentClassLogger());
             builder.RegisterType<DataContext>().AsSelf();
-            builder.RegisterType<PurchaseBooksReport>().AsSelf();
             builder.RegisterType<BooksOfAuthorReport>().AsSelf();
             builder.RegisterType<AddPublisherForm>().AsSelf();
             builder.RegisterType<AddAuthorForm>().AsSelf();

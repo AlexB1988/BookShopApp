@@ -50,7 +50,7 @@ namespace BookShopApp
         private void BookShop_Load(object sender, EventArgs e)
         {
             gridControlGetBookList.DataSource = _getBookService.GetBooks();
-            _loggerService.Info("The app is starting!!!");
+            _loggerService.Info("The first logger");
 
         }
 
@@ -90,19 +90,10 @@ namespace BookShopApp
                 form.Value.ShowDialog();
             }
         }
-        private void btnCreatePurchase_Click(object sender, EventArgs e)
+
+        private void btnCreateSale_Click(object sender, EventArgs e)
         {
-            var selectedRows = GetBookListView.GetSelectedRows();
-            var listOfPuchaseBooks = new List<Book>();
-            foreach (var row in selectedRows)
-            {
-                if(GetBookListView.GetRow(row) is not Book bookToPurchase)
-                {
-                    continue;
-                }
-                listOfPuchaseBooks.Add(bookToPurchase);
-            }
-            _createCartService.CreateCart(listOfPuchaseBooks);
+            _createCartService.CreateCart(GetSelectedBooks());
             using (var form = _lifetimeScope.Resolve<Owned<CreateSaleForm>>())
             {
                 form.Value.ShowDialog();
@@ -110,26 +101,32 @@ namespace BookShopApp
         }
         private void btnChangePrice_Click(object sender, EventArgs e)
         {
-            var selectedRows = GetBookListView.GetSelectedRows();
-            var listOfPuchaseBooks = new List<Book>();
-            foreach (var row in selectedRows)
-            {
-                if(GetBookListView.GetRow(row) is not Book bookToPurchase)
-                {
-                    continue;
-                }
-                listOfPuchaseBooks.Add(bookToPurchase);
-            }
-            _createBookListToChangeService.CreateBookListToChange(listOfPuchaseBooks);
+            _createBookListToChangeService.CreateBookListToChange(GetSelectedBooks());
             using(var form = _lifetimeScope.Resolve<Owned<ChangePriceForm>>())
             {
                 form.Value.ShowDialog();
             }
         }
-
         private void BookShopForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             _loggerService.Info("The app is closing");
         }
+
+        //Приватный метод для выбора помеченных строк
+        private List<Book> GetSelectedBooks()
+        {
+            var selectedRows = GetBookListView.GetSelectedRows();
+            var listOfPuchaseBooks = new List<Book>();
+            foreach (var row in selectedRows)
+            {
+                if (GetBookListView.GetRow(row) is not Book bookToPurchase)
+                {
+                    continue;
+                }
+                listOfPuchaseBooks.Add(bookToPurchase);
+            }
+            return listOfPuchaseBooks;
+        }
     }
 }
+
