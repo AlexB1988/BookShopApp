@@ -112,7 +112,7 @@
   <data name="btnCreatePurchase.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vgAADr4B6kKxwAAAApFJREFUOE+NkF1Ik2EUxx+3nJubH83pagq50k1pfeimztRsOZl75zCyVPIDMbyY
+        vQAADr0BR/uQrQAAApFJREFUOE+NkF1Ik2EUxx+3nJubH83pagq50k1pfeimztRsOZl75zCyVPIDMbyY
         K2+iUFIx0CIdhhY1kEoG3YQfIYYQEUKQBGEXFgQREZQUQt4lafP0/B81kIQ68N97OOf3O+/L2GYpEvfi
         sYMnhieFp4PnMU8fz1ke7LavCJkcD6Nqj/XuziP1z3TO1vkkqe1HzIGyVzIZ80ZpIib4vpJHyyPgrSWP
         xK9F7+1czOz7SJkDX8gc+Exaqf2rUs2mc6uj18q7YpbyG1RzCanybs4qIPwptUqBs95E5/nv5t53ZK4O
@@ -193,7 +193,22 @@
   <data name="btnChangePrice.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vgAADr4B6kKxwAAAAhxJREFUOE+NkU1rE1EUhg/SdLTgxl0Lii5cCfoD/GiwKlWTYlKrTjSx7aQLManB
+        vQAADr0BR/uQrQAAAhxJREFUOE+NkU1rE1EUhg/SdLTgxl0Lii5cCfoD/GiwKlWTYlKrTjSx7aQLManB
+        VGJTbDIWBElB0W7dVGjsQgQXQpRqkdqstCBYRESLYlpFcOFHNVpe3zsz1gkJ4oGHWcx93nPuufK/FTCS
+        Eoz2iR4b1HzhWG5n8PirHX79tvP73/VHDsUz9b5IfHB3hzFOOUxeO0f+FkrZKhaeZUTWZDz7jsXO72rv
+        fEvxjOpOLjqaXS6pnugkTc7ivZmauZe81tnTVdjq069QHCPdzW0hzVEr5DrSTxYJMG8Cb9L4VTyKz9nN
+        eezRGqQlu2KbXxcGVMkeksZ89jsWKL5jwFw/MBMB7vuA1Maf6GpMIS7y1VgriYP7q+QBS345QCEGXI8C
+        ozowfQB44FcBgNH4CdEmPxFFpVyirEa+aQBXO4CeQ0A+CBQZMLkcAIrD7gC1MFueOwdM9bJzN5A7DFxg
+        wJ2AHZBvBk6uU7Ii6Q7IkUWODjznfYcpmrzzKX4nKT4iN7xA73p2t+QlcsQdcJn8sJY2we6nOXofO4+1
+        252XZWt0xTfitWTnBVaiZJp8qjKmwkCBI6uutWXFB7LJHSD4MqLhSWSI2y5bG1eMe5dqyIoXpIm4AmZP
+        CCZaNHYeImU8bLuLxIanNWRFkawmTsBsVDAdcAiuQjEQwuj2LZTVwVoBt0gdsQNUVYQU9gpaGzw80EoS
+        5BJR0mPykYwQ+wVE5Dd1Lwtb8H0zLgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="btnChangeQuantity.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        vAAADrwBlbxySQAAAhxJREFUOE+NkU1rE1EUhg/SdLTgxl0Lii5cCfoD/GiwKlWTYlKrTjSx7aQLManB
         VGJTbDIWBElB0W7dVGjsQgQXQpRqkdqstCBYRESLYlpFcOFHNVpe3zsz1gkJ4oGHWcx93nPuufK/FTCS
         Eoz2iR4b1HzhWG5n8PirHX79tvP73/VHDsUz9b5IfHB3hzFOOUxeO0f+FkrZKhaeZUTWZDz7jsXO72rv
         fEvxjOpOLjqaXS6pnugkTc7ivZmauZe81tnTVdjq069QHCPdzW0hzVEr5DrSTxYJMG8Cb9L4VTyKz9nN

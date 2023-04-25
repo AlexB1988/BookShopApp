@@ -54,19 +54,7 @@ namespace BookShopApp
             {
                 if (GetBookListView.RowCount > 0)
                 {
-                    int rowIndex = 0;
-                    List<Book> selectedBooks = new();
-                    while (GetBookListView.IsValidRowHandle(rowIndex))
-                    {
-                        if (GetBookListView.GetRow(rowIndex) is not Book ChangePriceBook)
-                        {
-                            continue;
-                        }
-                        selectedBooks.Add(ChangePriceBook);
-                        rowIndex++;
-                    }
-                    var result = _changePriceService.ChangePrice(selectedBooks);
-                    if (result)
+                    if (_changePriceService.ChangePrice(GetAllBooks()))
                     {
                         MessageBox.Show(
                         $"Цены успешно изменены\n",
@@ -98,6 +86,22 @@ namespace BookShopApp
         private void ChangePriceForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             _removeUnchangedBooksService.RemoveUnchangedBooks();
+        }
+
+        private List<Book> GetAllBooks()
+        {
+            int rowIndex = 0;
+            List<Book> selectedBooks = new();
+            while (GetBookListView.IsValidRowHandle(rowIndex))
+            {
+                if (GetBookListView.GetRow(rowIndex) is not Book ChangePriceBook)
+                {
+                    continue;
+                }
+                selectedBooks.Add(ChangePriceBook);
+                rowIndex++;
+            }
+            return selectedBooks;
         }
     }
 }

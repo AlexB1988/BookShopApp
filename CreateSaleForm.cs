@@ -49,18 +49,7 @@ namespace BookShopApp
             {
                 if (GetBookListView.RowCount > 0)
                 {
-                    int rowIndex = 0;
-                    List<Book> saleBook = new();
-                    while (GetBookListView.IsValidRowHandle(rowIndex))
-                    {
-                        if (GetBookListView.GetRow(rowIndex) is not Book saleObjectBook)
-                        {
-                            continue;
-                        }
-                        saleBook.Add(saleObjectBook);
-                        rowIndex++;
-                    }
-                    _saleBookService.SaleBook(saleBook);
+                    _saleBookService.SaleBook(GetAllBooks());
                 }
                 this.Close();
             }
@@ -84,6 +73,22 @@ namespace BookShopApp
         private void CreateSaleForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             _removeUnsoldCartsService.RemoveUnsoldCarts();
+        }
+
+        private List<Book> GetAllBooks()
+        {
+            int rowIndex = 0;
+            List<Book> selectedBooks = new();
+            while (GetBookListView.IsValidRowHandle(rowIndex))
+            {
+                if (GetBookListView.GetRow(rowIndex) is not Book ChangePriceBook)
+                {
+                    continue;
+                }
+                selectedBooks.Add(ChangePriceBook);
+                rowIndex++;
+            }
+            return selectedBooks;
         }
     }
 }
