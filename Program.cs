@@ -4,6 +4,7 @@ using BookShopApp.Domain;
 using BookShopApp.Interfaces;
 using BookShopApp.Services;
 using DevExpress.XtraSpreadsheet.Model;
+using NLog;
 using System.CodeDom;
 using System.Diagnostics;
 
@@ -40,10 +41,11 @@ namespace BookShopApp
             ShowExceptionDetails(e.ExceptionObject as Exception);
         }
 
-        static void ShowExceptionDetails(Exception Ex)
+        static void ShowExceptionDetails(Exception e)
         {
-            // Do logging of exception details
-            MessageBox.Show(Ex.Message, Ex.TargetSite.ToString(),
+            var logger = LogManager.GetCurrentClassLogger();
+            logger.Error(e);
+            MessageBox.Show(e.Message, e.GetType().ToString(),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }

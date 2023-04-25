@@ -50,7 +50,7 @@ namespace BookShopApp
         private void BookShop_Load(object sender, EventArgs e)
         {
             gridControlGetBookList.DataSource = _getBookService.GetBooks();
-            _loggerService.Info("The first logger");
+            _loggerService.Info("The app is started");
 
         }
 
@@ -103,6 +103,14 @@ namespace BookShopApp
         {
             _createBookListToChangeService.CreateBookListToChange(GetSelectedBooks());
             using(var form = _lifetimeScope.Resolve<Owned<ChangePriceForm>>())
+            {
+                form.Value.ShowDialog();
+            }
+        }
+        private void btnChangeQuantity_Click(object sender, EventArgs e)
+        {
+            _createBookListToChangeService.CreateBookListToChange(GetSelectedBooks());
+            using (var form = _lifetimeScope.Resolve<Owned<AddCountBooksForm>>())
             {
                 form.Value.ShowDialog();
             }

@@ -19,28 +19,22 @@ namespace BookShopApp.Services
         }
         public void CreateBookListToChange(List<Book> books)
         {
-            try
+            using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
             {
-                using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
+                foreach (var book in books)
                 {
-                    foreach (var book in books)
+                    var bookTemp = _dataContext.Books.FirstOrDefault(x => x.Id == book.Id);
+                    var bookToChange = new BookToChange()
                     {
-                        var bookTemp = _dataContext.Books.FirstOrDefault(x => x.Id == book.Id);
-                        var bookToChange = new BookToChange()
-                        {
-                            Book = bookTemp,
-                            OldQuantiy = book.BookQuantity.Quantity,
-                            OldPrice = book.CurrentPrice.Price
-                        };
-                        _dataContext.BookToChange.Add(bookToChange);
-                    }
-                    _dataContext.SaveChanges();
+                        Book = bookTemp,
+                        OldQuantiy = book.BookQuantity.Quantity,
+                        OldPrice = book.CurrentPrice.Price
+                    };
+                    _dataContext.BookToChange.Add(bookToChange);
                 }
+                _dataContext.SaveChanges();
             }
-            catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            
         }
     }
 }

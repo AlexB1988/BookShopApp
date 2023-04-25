@@ -282,6 +282,7 @@
             this.btnChangeQuantity.Text = "Изм. кол-во на складе";
             this.btnChangeQuantity.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             this.btnChangeQuantity.UseVisualStyleBackColor = true;
+            this.btnChangeQuantity.Click += new System.EventHandler(this.btnChangeQuantity_Click);
             // 
             // BookShopForm
             // 

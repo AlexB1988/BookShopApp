@@ -41,6 +41,7 @@ namespace BookShopApp.Autofac
             builder.RegisterType<AddBookForm>().AsSelf();
             builder.RegisterType<ChangePriceForm>().AsSelf();
             builder.RegisterType<CreateSaleForm>().AsSelf();
+            builder.RegisterType<AddCountBooksForm>().AsSelf();
             builder.RegisterType<BookShopForm>();
             builder.RegisterType<ReportsForm>().AsSelf();
             builder.RegisterAssemblyTypes(typeof(Program).Assembly)
