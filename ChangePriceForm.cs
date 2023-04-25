@@ -23,7 +23,8 @@ namespace BookShopApp
         private readonly IGetBooksToChangeService _getBooksToChangeService;
         private readonly IRemoveUnchangedBooksService _removeUnchangedBooksService;
         private readonly ILoggerService<ChangePriceForm> _loggerService;
-        public ChangePriceForm(IChangePriceService changePriceService, IGetBooksToChangeService getBooksToChangeService, IRemoveUnchangedBooksService removeUnchangedBooksService, ILoggerService<ChangePriceForm> loggerService)
+        public ChangePriceForm(IChangePriceService changePriceService, IGetBooksToChangeService getBooksToChangeService, 
+                                IRemoveUnchangedBooksService removeUnchangedBooksService, ILoggerService<ChangePriceForm> loggerService)
         {
             InitializeComponent();
             _changePriceService = changePriceService;
@@ -34,12 +35,7 @@ namespace BookShopApp
 
         private void ChangePriceForm_Load(object sender, EventArgs e)
         {
-            var selectedBooksList = _getBooksToChangeService.GetBooksToChange();
-            foreach (var book in selectedBooksList)
-            {
-                book.PriceOfBooksToChange = 0;
-            }
-            gridControlChangePrice.DataSource = selectedBooksList;
+            gridControlChangePrice.DataSource = _getBooksToChangeService.GetBooksToChange();
         }
 
 
