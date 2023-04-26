@@ -41,7 +41,7 @@ namespace BookShopApp.Services
                     };
                     _dataContext.BookCheckCounts.Add(bookCheckCounts);
                     var bookToChange = _dataContext.BookToChange.FirstOrDefault(x => x.IsGhanged == false && x.BookId == currentBook.Id);
-                    bookToChange.Price = bookCheckCounts.BookCount;
+                    bookToChange.Quantity = bookCheckCounts.BookCount;
                     bookToChange.IsGhanged = true;
                     _dataContext.SaveChanges();
                 }
