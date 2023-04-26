@@ -18,18 +18,11 @@ namespace BookShopApp.Services
         }
         public void RemoveUnchangedBooks()
         {
-            try
+            using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
             {
-                using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
-                {
-                    var bookList = _dataContext.BookToChange.Where(x => x.IsGhanged == false);
-                    _dataContext.RemoveRange(bookList);
-                    _dataContext.SaveChanges();
-                }
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
+                var bookList = _dataContext.BookToChange.Where(x => x.IsGhanged == false);
+                _dataContext.RemoveRange(bookList);
+                _dataContext.SaveChanges();
             }
         }
     }

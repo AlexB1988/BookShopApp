@@ -19,36 +19,30 @@ namespace BookShopApp.Services
         }
         public bool CreateCart(List<Book> books)
         {
-            try
+            using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
             {
-                using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
+                var cart = new Cart()
                 {
-                    var cart = new Cart()
+                    SumOfCheck = 0
+                };
+                _dataContext.Cart.Add(cart);
+                var cartDetailList = new List<CartDetails>();
+                foreach (var book in books)
+                {
+                    var bookTemp = _dataContext.Books.FirstOrDefault(x => x.Id == book.Id);
+                    var cartDetail = new CartDetails()
                     {
-                        SumOfCheck = 0
+                        Cart = cart,
+                        Book = bookTemp
                     };
-                    _dataContext.Cart.Add(cart);
-                    var cartDetailList = new List<CartDetails>();
-                    foreach (var book in books)
-                    {
-                        var bookTemp = _dataContext.Books.FirstOrDefault(x => x.Id == book.Id);
-                        var cartDetail = new CartDetails()
-                        {
-                            Cart = cart,
-                            Book = bookTemp
-                        };
-                        cartDetailList.Add(cartDetail);
-                    }
-
-                    _dataContext.CartDetails.AddRange(cartDetailList);
-                    _dataContext.SaveChanges();
+                    cartDetailList.Add(cartDetail);
                 }
-                return true;
+
+                _dataContext.CartDetails.AddRange(cartDetailList);
+                _dataContext.SaveChanges();
             }
-            catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return true;
+         
         }
     }
 }

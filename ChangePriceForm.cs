@@ -46,37 +46,20 @@ namespace BookShopApp
 
         private void btnOkChangePrice_Click(object sender, EventArgs e)
         {
-            try
+            if (GetBookListView.RowCount > 0)
             {
-                if (GetBookListView.RowCount > 0)
+                if (_changePriceService.ChangePrice(GetAllBooks()))
                 {
-                    if (_changePriceService.ChangePrice(GetAllBooks()))
-                    {
-                        MessageBox.Show(
-                        $"Цены успешно изменены\n",
-                        $"Уведомление",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information,
-                        MessageBoxDefaultButton.Button1,
-                        MessageBoxOptions.DefaultDesktopOnly);
-                    }
-
+                    MessageBox.Show(
+                    $"Цены успешно изменены\n",
+                    $"Уведомление",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1,
+                    MessageBoxOptions.DefaultDesktopOnly);
                 }
-                this.Close();
-
             }
-            catch(Exception ex)
-            {
-                _loggerService.Error(ex);
-                MessageBox.Show(
-                $"{ex.Message}\n",
-                $"{ex.GetType()}",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly);
-                this.Close();
-            }
+            this.Close();
         }
 
         private void ChangePriceForm_FormClosing(object sender, FormClosingEventArgs e)

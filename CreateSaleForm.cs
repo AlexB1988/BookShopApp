@@ -26,14 +26,17 @@ namespace BookShopApp
         private readonly IGetLastCartDetails _getLastCartDetails;
         private readonly IRemoveUnsoldCartsService _removeUnsoldCartsService;
         private readonly ILoggerService<CreateSaleForm> _loggerService;
-        public CreateSaleForm(ISaleBookService saleBookService, IGetLastCartDetails getLastCartDetails, 
-            IRemoveUnsoldCartsService removeUnsoldCartsService, ILoggerService<CreateSaleForm> loggerService)
+        private readonly ICheckSaleSumService _checkSaleSumService;
+        public CreateSaleForm(ISaleBookService saleBookService, IGetLastCartDetails getLastCartDetails,
+            IRemoveUnsoldCartsService removeUnsoldCartsService, ILoggerService<CreateSaleForm> loggerService, 
+            ICheckSaleSumService checkSaleSumService)
         {
             InitializeComponent();
             _saleBookService = saleBookService;
             _getLastCartDetails = getLastCartDetails;
             _removeUnsoldCartsService = removeUnsoldCartsService;
             _loggerService = loggerService;
+            _checkSaleSumService = checkSaleSumService;
         }
         private void CreatePurchaseForm_Load(object sender, EventArgs e)
         {
@@ -45,7 +48,25 @@ namespace BookShopApp
             {
                 if (GetBookListView.RowCount > 0)
                 {
-                    _saleBookService.SaleBook(GetAllBooks());
+                    if (MessageBox.Show(
+                        $"Сумма покупки:{_checkSaleSumService.CheckSaleSum(GetAllBooks())} руб.\n" +
+                        $"Продолжить?",
+                        "Уведомление",
+                        MessageBoxButtons.OKCancel,
+                        MessageBoxIcon.Information,
+                        MessageBoxDefaultButton.Button1,
+                        MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
+                    {
+                        if(_saleBookService.SaleBook(GetAllBooks()))
+                        MessageBox.Show(
+                        $"Покупка ена сумму:{_checkSaleSumService.CheckSaleSum(GetAllBooks())} руб.\n" +
+                        $"успешно совершена!",
+                        "Уведомление",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information,
+                        MessageBoxDefaultButton.Button1,
+                        MessageBoxOptions.DefaultDesktopOnly);
+                    }
                 }
                 this.Close();
             }
@@ -63,6 +84,7 @@ namespace BookShopApp
 
         private void btnCancelPurchaseBook_Click(object sender, EventArgs e)
         {
+            _removeUnsoldCartsService.RemoveUnsoldCarts();
             this.Close();
         }
 

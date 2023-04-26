@@ -23,24 +23,16 @@ namespace BookShopApp.Services
         }
         public List<Book> GetCartDetails()
         {
-            try
+            using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
             {
-                using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
+                var books = new List<Book>();
+                var lastCart = _dataContext.Cart.Max(x => x.Id);
+                var cartDetails = _dataContext.CartDetails.Where(x => x.CartId == lastCart);
+                foreach (var detail in cartDetails)
                 {
-                    var books = new List<Book>();
-                    var lastCart = _dataContext.Cart.Max(x => x.Id);
-                    var cartDetails = _dataContext.CartDetails.Where(x => x.CartId == lastCart);
-                    foreach (var detail in cartDetails)
-                    {
-                        books.Add(_dataContext.Books.Include(x => x.BookQuantity).Include(x => x.CurrentPrice).FirstOrDefault(x => x.Id == detail.BookId));
-                    }
-                    return books;
+                    books.Add(_dataContext.Books.Include(x => x.BookQuantity).Include(x => x.CurrentPrice).FirstOrDefault(x => x.Id == detail.BookId));
                 }
-            }
-            catch(Exception ex)
-            {
-                _loggerService.Error(ex);
-                throw new Exception(ex.Message);
+                return books;
             }
         }
     }

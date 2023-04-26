@@ -20,18 +20,12 @@ namespace BookShopApp.Services
 
         public Publisher GetPublisherByName(string name)
         {
-            try
+            using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
             {
-                using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
-                {
-                    var publisher = _dataContext.Publishers.FirstOrDefault(x => x.Name == name);
-                    return publisher;
-                }
+                var publisher = _dataContext.Publishers.FirstOrDefault(x => x.Name == name);
+                return publisher;
             }
-            catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+
         }
     }
 }

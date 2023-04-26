@@ -18,23 +18,16 @@ namespace BookShopApp.Services
         }
         public void RemoveUnsoldCarts()
         {
-            try
+            using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
             {
-                using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
+                var carts = _dataContext.Cart.Where(x => x.IsSold == false);
+                foreach (var cart in carts)
                 {
-                    var carts = _dataContext.Cart.Where(x => x.IsSold == false);
-                    foreach (var cart in carts)
-                    {
-                        ;            var cartDetails = _dataContext.CartDetails.Where(x => x.CartId == cart.Id);
-                        _dataContext.CartDetails.RemoveRange(cartDetails);
-                    }
-                    _dataContext.Cart.RemoveRange(carts);
-                    _dataContext.SaveChanges();
+                    ;            var cartDetails = _dataContext.CartDetails.Where(x => x.CartId == cart.Id);
+                    _dataContext.CartDetails.RemoveRange(cartDetails);
                 }
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
+                _dataContext.Cart.RemoveRange(carts);
+                _dataContext.SaveChanges();
             }
         }
     }

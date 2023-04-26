@@ -20,17 +20,10 @@ namespace BookShopApp.Services
 
         public List<Author> GetAuthors()
         {
-            try
+            using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
             {
-                using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
-                {
-                    var authors = _dataContext.Authors.ToList();
-                    return authors;
-                }
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
+                var authors = _dataContext.Authors.ToList();
+                return authors;
             }
         }
     }
