@@ -26,7 +26,8 @@ namespace BookShopApp
         private readonly IGetLastCartDetails _getLastCartDetails;
         private readonly IRemoveUnsoldCartsService _removeUnsoldCartsService;
         private readonly ILoggerService<CreateSaleForm> _loggerService;
-        public CreateSaleForm(ISaleBookService saleBookService, IGetLastCartDetails getLastCartDetails, IRemoveUnsoldCartsService removeUnsoldCartsService, ILoggerService<CreateSaleForm> loggerService)
+        public CreateSaleForm(ISaleBookService saleBookService, IGetLastCartDetails getLastCartDetails, 
+            IRemoveUnsoldCartsService removeUnsoldCartsService, ILoggerService<CreateSaleForm> loggerService)
         {
             InitializeComponent();
             _saleBookService = saleBookService;

@@ -68,8 +68,8 @@
             // 
             this.GetBookListView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.colName,
-            this.colBookQuantity,
             this.colCurrentPrice,
+            this.colBookQuantity,
             this.colCountBooksToSell});
             this.GetBookListView.GridControl = this.gridControlPurchaseBook;
             this.GetBookListView.Name = "GetBookListView";

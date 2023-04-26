@@ -121,6 +121,7 @@
             this.btnOkChangeCountBooks.Text = "Изменить";
             this.btnOkChangeCountBooks.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnOkChangeCountBooks.UseVisualStyleBackColor = true;
+            this.btnOkChangeCountBooks.Click += new System.EventHandler(this.btnOkChangeCountBooks_Click);
             // 
             // btnCancelChangeCountBooks
             // 
