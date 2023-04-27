@@ -41,6 +41,7 @@ namespace BookShopApp
 
         private void btnCancelChangePrice_Click(object sender, EventArgs e)
         {
+            _removeUnchangedBooksService.RemoveUnchangedBooks();
             this.Close();
         }
 
