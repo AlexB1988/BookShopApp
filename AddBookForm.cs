@@ -150,6 +150,7 @@ namespace BookShopApp
             {
                 form.Value.ShowDialog();
                 var publishers = _getPublishersService.GetPublishers();
+                comboBoxAddBookPublisher.Properties.Items.Clear();
                 foreach (var publisher in publishers)
                 {
                     comboBoxAddBookPublisher.Properties.Items.Add(publisher.Name);
