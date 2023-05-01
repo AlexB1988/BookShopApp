@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BookShopApp.Interfaces
 {
-    public interface IGetLastCartDetails
+    public interface IGetLastCartDetailsSrvice
     {
         public List<Book> GetCartDetails();
     }

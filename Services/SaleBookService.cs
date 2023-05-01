@@ -58,7 +58,7 @@ namespace BookShopApp.Services
                     }
                     else
                     {
-                        throw new Exception("Кол-во экземпляров книги \n" +
+                        throw new Exception("Кол-во экземпляров книги\n" +
                             "меньше, чем Вы запросили в чекею\n" +
                             "Вернитесь в чек и измените данные");
                     }

@@ -21,9 +21,9 @@ namespace BookShopApp.Services
             using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
             {
                 var carts = _dataContext.Cart.Where(x => x.IsSold == false);
-                foreach (var cart in carts)
+                foreach (var cart in carts.ToList())
                 {
-                    ;            var cartDetails = _dataContext.CartDetails.Where(x => x.CartId == cart.Id);
+                    var cartDetails = _dataContext.CartDetails.Where(x => x.CartId == cart.Id);
                     _dataContext.CartDetails.RemoveRange(cartDetails);
                 }
                 _dataContext.Cart.RemoveRange(carts);

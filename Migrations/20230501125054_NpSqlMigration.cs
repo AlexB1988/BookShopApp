@@ -1,21 +1,24 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace BookShopApp.Migrations
 {
-    public partial class DataContextProject : Migration
+    /// <inheritdoc />
+    public partial class NpSqlMigration : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
                 name: "Authors",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -26,11 +29,11 @@ namespace BookShopApp.Migrations
                 name: "Cart",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    SumOfCheck = table.Column<decimal>(type: "TEXT", nullable: false),
-                    DateOfCart = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    IsSold = table.Column<bool>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    SumOfCheck = table.Column<decimal>(type: "numeric", nullable: false),
+                    DateOfCart = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    IsSold = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,10 +44,10 @@ namespace BookShopApp.Migrations
                 name: "CheckList",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Sum = table.Column<decimal>(type: "TEXT", nullable: false),
-                    DateOfCheck = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Sum = table.Column<decimal>(type: "numeric", nullable: false),
+                    DateOfCheck = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,9 +58,9 @@ namespace BookShopApp.Migrations
                 name: "Publishers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -68,15 +71,15 @@ namespace BookShopApp.Migrations
                 name: "Books",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Year = table.Column<int>(type: "INTEGER", nullable: false),
-                    Isbn = table.Column<string>(type: "TEXT", nullable: false),
-                    PublisherId = table.Column<int>(type: "INTEGER", nullable: false),
-                    CountBooksToSell = table.Column<int>(type: "INTEGER", nullable: true),
-                    PriceOfBooksToChange = table.Column<decimal>(type: "TEXT", nullable: true),
-                    AuthorsList = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Year = table.Column<int>(type: "integer", nullable: false),
+                    Isbn = table.Column<string>(type: "text", nullable: false),
+                    PublisherId = table.Column<int>(type: "integer", nullable: false),
+                    CountBooksToSell = table.Column<int>(type: "integer", nullable: true),
+                    PriceOfBooksToChange = table.Column<decimal>(type: "numeric", nullable: true),
+                    AuthorsList = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -93,8 +96,8 @@ namespace BookShopApp.Migrations
                 name: "AuthorBook",
                 columns: table => new
                 {
-                    AuthorsId = table.Column<int>(type: "INTEGER", nullable: false),
-                    BooksId = table.Column<int>(type: "INTEGER", nullable: false)
+                    AuthorsId = table.Column<int>(type: "integer", nullable: false),
+                    BooksId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -117,10 +120,10 @@ namespace BookShopApp.Migrations
                 name: "AuthorsBooks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    BookId = table.Column<int>(type: "INTEGER", nullable: false),
-                    AuthorId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    BookId = table.Column<int>(type: "integer", nullable: false),
+                    AuthorId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -140,15 +143,36 @@ namespace BookShopApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BookCheckCounts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    BookId = table.Column<int>(type: "integer", nullable: false),
+                    BookCount = table.Column<int>(type: "integer", nullable: false),
+                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookCheckCounts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BookCheckCounts_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BookPrice",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    BookId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Price = table.Column<decimal>(type: "TEXT", nullable: false),
-                    DateBegin = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    DateEnd = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    BookId = table.Column<int>(type: "integer", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
+                    DateBegin = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DateEnd = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -165,10 +189,10 @@ namespace BookShopApp.Migrations
                 name: "BookQuantities",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    BookId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Quantity = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    BookId = table.Column<int>(type: "integer", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -182,13 +206,38 @@ namespace BookShopApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BookToChange",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    BookId = table.Column<int>(type: "integer", nullable: false),
+                    OldQuantiy = table.Column<int>(type: "integer", nullable: true),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    OldPrice = table.Column<decimal>(type: "numeric", nullable: true),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
+                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    IsGhanged = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookToChange", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BookToChange_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CartDetails",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    CartId = table.Column<int>(type: "INTEGER", nullable: false),
-                    BookId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CartId = table.Column<int>(type: "integer", nullable: false),
+                    BookId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -211,10 +260,10 @@ namespace BookShopApp.Migrations
                 name: "CurrentPrice",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    BookId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Price = table.Column<decimal>(type: "TEXT", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    BookId = table.Column<int>(type: "integer", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -231,10 +280,10 @@ namespace BookShopApp.Migrations
                 name: "Sales",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    PriceId = table.Column<int>(type: "INTEGER", nullable: false),
-                    CheckListId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    PriceId = table.Column<int>(type: "integer", nullable: false),
+                    CheckListId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -269,6 +318,11 @@ namespace BookShopApp.Migrations
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BookCheckCounts_BookId",
+                table: "BookCheckCounts",
+                column: "BookId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BookPrice_BookId",
                 table: "BookPrice",
                 column: "BookId");
@@ -283,6 +337,11 @@ namespace BookShopApp.Migrations
                 name: "IX_Books_PublisherId",
                 table: "Books",
                 column: "PublisherId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookToChange_BookId",
+                table: "BookToChange",
+                column: "BookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CartDetails_BookId",
@@ -311,6 +370,7 @@ namespace BookShopApp.Migrations
                 column: "PriceId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
@@ -320,7 +380,13 @@ namespace BookShopApp.Migrations
                 name: "AuthorsBooks");
 
             migrationBuilder.DropTable(
+                name: "BookCheckCounts");
+
+            migrationBuilder.DropTable(
                 name: "BookQuantities");
+
+            migrationBuilder.DropTable(
+                name: "BookToChange");
 
             migrationBuilder.DropTable(
                 name: "CartDetails");

@@ -23,11 +23,11 @@ namespace BookShopApp
     public partial class CreateSaleForm : DevExpress.XtraEditors.XtraForm
     {
         private readonly ISaleBookService _saleBookService;
-        private readonly IGetLastCartDetails _getLastCartDetails;
+        private readonly IGetLastCartDetailsSrvice _getLastCartDetails;
         private readonly IRemoveUnsoldCartsService _removeUnsoldCartsService;
         private readonly ILoggerService<CreateSaleForm> _loggerService;
         private readonly ICheckSaleSumService _checkSaleSumService;
-        public CreateSaleForm(ISaleBookService saleBookService, IGetLastCartDetails getLastCartDetails,
+        public CreateSaleForm(ISaleBookService saleBookService, IGetLastCartDetailsSrvice getLastCartDetails,
             IRemoveUnsoldCartsService removeUnsoldCartsService, ILoggerService<CreateSaleForm> loggerService, 
             ICheckSaleSumService checkSaleSumService)
         {
