@@ -25,12 +25,11 @@ namespace BookShopApp.Services
             {
                 var books = new List<Book>();
                 var lastCart = _dataContext.Cart.Max(x => x.Id);
+                var booksToSell = _dataContext.Books.Include(x => x.CartDetails.Where(y=>y.CartId==lastCart))
+                    .Include(x => x.BookQuantity)
+                    .Include(x => x.CurrentPrice);
                 var cartDetails = _dataContext.CartDetails.Where(x => x.CartId == lastCart);
-
-                foreach (var detail in cartDetails.ToList())
-                {
-                    books.Add(_dataContext.Books.Include(x => x.BookQuantity).Include(x => x.CurrentPrice).FirstOrDefault(x => x.Id == detail.BookId));
-                }
+                books.AddRange(booksToSell);
                 return books;
             }
         }

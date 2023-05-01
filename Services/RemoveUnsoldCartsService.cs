@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using BookShopApp.Domain;
+using BookShopApp.Domain.Entities;
 using BookShopApp.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,13 +22,10 @@ namespace BookShopApp.Services
         {
             using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
             {
-                var carts = _dataContext.Cart.Where(x => x.IsSold == false);
-                foreach (var cart in carts.ToList())
-                {
-                    var cartDetails = _dataContext.CartDetails.Where(x => x.CartId == cart.Id);
-                    _dataContext.CartDetails.RemoveRange(cartDetails);
-                }
-                _dataContext.Cart.RemoveRange(carts);
+                var cartsToRemove = _dataContext.Cart.Where(x => x.IsSold == false)
+                        .Include(x=>x.CartDetails);
+
+                _dataContext.Cart.RemoveRange(cartsToRemove);
                 _dataContext.SaveChanges();
             }
         }
