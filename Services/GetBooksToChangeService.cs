@@ -23,13 +23,9 @@ namespace BookShopApp.Services
         {
             using (var _dataContext = _lifetimeScope.Resolve<DataContext>())
             {
-                var books = new List<Book>();
-                var booksToChange = _dataContext.BookToChange.Where(x => x.IsGhanged == false).ToList();
-
-                foreach (var bookToChange in booksToChange)
-                {
-                    books.Add(_dataContext.Books.Include(x => x.BookQuantity).Include(x => x.CurrentPrice).FirstOrDefault(x => x.Id == bookToChange.BookId));
-                }
+                var books= _dataContext.Books.Include(x => x.BookToChange.Where(y => y.IsGhanged == false))
+                      .Include(x => x.BookQuantity)
+                      .Include(x => x.CurrentPrice).ToList();
                 return books;
             }
         }

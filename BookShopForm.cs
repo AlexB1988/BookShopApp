@@ -120,7 +120,7 @@ namespace BookShopApp
             _loggerService.Info("The app is closing");
         }
 
-        //Приватный метод для выбора помеченных строк
+        //Приватный метод для выбора помеченных строк 
         private List<Book> GetSelectedBooks()
         {
             var selectedRows = GetBookListView.GetSelectedRows();

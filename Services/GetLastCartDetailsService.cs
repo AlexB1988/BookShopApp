@@ -28,7 +28,6 @@ namespace BookShopApp.Services
                 var booksToSell = _dataContext.Books.Include(x => x.CartDetails.Where(y=>y.CartId==lastCart))
                     .Include(x => x.BookQuantity)
                     .Include(x => x.CurrentPrice);
-                var cartDetails = _dataContext.CartDetails.Where(x => x.CartId == lastCart);
                 books.AddRange(booksToSell);
                 return books;
             }

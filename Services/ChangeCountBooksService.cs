@@ -27,7 +27,7 @@ namespace BookShopApp.Services
                 foreach(var book in books)
                 {
                     var currentBook = _dataContext.Books.Include(c => c.BookQuantity).FirstOrDefault(x => x.Id == book.Id);
-                    if (currentBook.BookQuantity.Quantity-book.CountBooksToSell <0)
+                    if (currentBook.BookQuantity.Quantity + book.CountBooksToSell <0)
                     {
                         throw new Exception("Невозможно списать больше книг, чем имеется на складе");
                         return false;

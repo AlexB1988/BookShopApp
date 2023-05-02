@@ -18,7 +18,7 @@ namespace BookShopApp.Logging
 
         public void Error(Exception ex)
         {
-            _logger.Error($"{ex.GetType()}=>{ex.Message}");
+            _logger.Error(ex);
         }
 
         public void Info(string message)
